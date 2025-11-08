@@ -3,7 +3,8 @@ using { db.taskflow as db } from '../db/schema.cds';
 
 service TaskService {
 
-    entity Task as projection on db.Task;
-    
+    entity Tasks as projection on db.Task;
+    entity Projects as projection on db.Project;
+    entity Users as projection on db.User;
 
 }

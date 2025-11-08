@@ -1,2 +1,21 @@
-ID,title
-Task-23921881,title-23921881
+ID,title,description,priority,dueDate,assignedTo_ID,status,project_ID,createdAt,createdBy,modifiedAt,modifiedBy
+T001,Setup CAP project structure,Initialize CDS models and define database schema for e-commerce entities,high,2024-02-15,U003,completed,P001,2024-01-15T10:00:00Z,U001,2024-02-10T15:30:00Z,U003
+T002,Design product catalog UI,Create Fiori elements app for product browsing with filters and search,high,2024-03-20,U004,completed,P001,2024-01-20T11:00:00Z,U001,2024-03-18T16:45:00Z,U004
+T003,Implement shopping cart service,Build OData service for cart operations with persistence,medium,2024-04-10,U003,completed,P001,2024-02-20T09:30:00Z,U001,2024-04-08T14:20:00Z,U003
+T004,Payment gateway integration,Integrate Razorpay API for checkout and payment processing,high,2025-02-28,U003,inProgress,P001,2024-10-15T10:00:00Z,U001,2025-01-08T11:30:00Z,U003
+T005,Order management module,Complete CRUD operations for order lifecycle management,high,2025-03-15,U005,open,P001,2024-11-01T09:00:00Z,U001,2024-11-01T09:00:00Z,U001
+T006,Mobile responsiveness testing,Test and fix UI issues across devices and screen sizes,medium,2025-02-20,U006,onReview,P001,2024-12-10T10:30:00Z,U001,2025-01-07T17:00:00Z,U006
+T007,Performance optimization,Optimize OData queries and implement caching strategies,high,2025-01-25,U003,overdue,P001,2024-12-01T09:00:00Z,U001,2025-01-08T10:00:00Z,U003
+T008,User authentication setup,Configure XSUAA and implement role-based access control,high,2024-03-10,U007,completed,P002,2024-02-05T11:00:00Z,U002,2024-03-08T15:00:00Z,U007
+T009,Leave request form,Build UI5 form for leave application with approval workflow,medium,2024-04-30,U005,completed,P002,2024-02-20T10:00:00Z,U002,2024-04-28T16:30:00Z,U005
+T010,Manager dashboard,Create overview dashboard showing team metrics and pending approvals,medium,2025-03-01,U005,inProgress,P002,2024-10-05T09:30:00Z,U002,2025-01-06T14:15:00Z,U005
+T011,Performance review module,Implement annual review cycle with goal setting and feedback,low,2025-04-10,U007,open,P002,2024-11-15T10:00:00Z,U002,2024-11-15T10:00:00Z,U002
+T012,Email notification service,Setup automated email alerts for leave approvals and deadlines,medium,2025-02-15,U007,hold,P002,2024-12-01T11:00:00Z,U002,2024-12-20T09:00:00Z,U002
+T013,Requirements gathering,Conduct stakeholder interviews and document functional requirements,high,2024-04-30,U010,completed,P003,2024-03-12T09:00:00Z,U008,2024-04-25T17:00:00Z,U010
+T014,Data model design,Design entity relationships for warehouse and shipment tracking,high,2024-05-15,U009,completed,P003,2024-04-10T10:00:00Z,U008,2024-05-12T16:00:00Z,U009
+T015,Real-time tracking API,Integrate third-party logistics APIs for shipment status updates,high,2025-04-30,U007,open,P003,2024-12-01T09:00:00Z,U008,2024-12-01T09:00:00Z,U008
+T016,Analytics dashboard prototype,Create initial mockups and wireframes for dashboard layout,medium,2025-02-28,U004,inProgress,P003,2024-11-20T10:30:00Z,U008,2025-01-05T15:20:00Z,U004
+T017,Inventory forecasting module,Implement ML-based demand prediction for stock optimization,low,2025-06-30,U009,open,P003,2025-01-02T09:00:00Z,U008,2025-01-02T09:00:00Z,U008
+T018,Mobile app UI design,Design responsive mobile interface for feedback submission,medium,2024-08-15,U004,completed,P004,2024-07-05T10:00:00Z,U001,2024-08-12T16:00:00Z,U004
+T019,Sentiment analysis integration,Integrate NLP service for automated feedback categorization,high,2024-10-30,U003,completed,P004,2024-08-20T09:30:00Z,U001,2024-10-28T15:45:00Z,U003
+T020,Admin reporting dashboard,Build comprehensive reports for feedback trends and insights,medium,2024-11-30,U005,completed,P004,2024-09-15T10:00:00Z,U001,2024-11-28T17:30:00Z,U005

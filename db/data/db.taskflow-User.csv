@@ -1,0 +1,13 @@
+ID,name,type,role,project_ID,createdAt,createdBy,modifiedAt,modifiedBy
+U001,Rajesh Kumar,manager,Project Manager,P001,2024-01-15T09:00:00Z,system,2024-01-15T09:00:00Z,system
+U002,Priya Sharma,manager,Technical Lead,P002,2024-02-01T10:30:00Z,system,2024-02-01T10:30:00Z,system
+U003,Amit Patel,member,Senior Developer,P001,2024-01-15T09:15:00Z,U001,2024-01-15T09:15:00Z,U001
+U004,Sneha Reddy,member,UI/UX Designer,P001,2024-01-15T09:20:00Z,U001,2024-01-15T09:20:00Z,U001
+U005,Vikram Singh,member,Full Stack Developer,P002,2024-02-01T11:00:00Z,U002,2024-02-01T11:00:00Z,U002
+U006,Ananya Iyer,member,QA Engineer,P001,2024-01-16T08:30:00Z,U001,2024-01-16T08:30:00Z,U001
+U007,Karthik Menon,member,Backend Developer,P002,2024-02-02T09:00:00Z,U002,2024-02-02T09:00:00Z,U002
+U008,Neha Gupta,manager,Delivery Manager,P003,2024-03-10T10:00:00Z,system,2024-03-10T10:00:00Z,system
+U009,Rohit Desai,member,DevOps Engineer,P003,2024-03-10T11:00:00Z,U008,2024-03-10T11:00:00Z,U008
+U010,Divya Nair,member,Business Analyst,P001,2024-01-17T09:00:00Z,U001,2024-01-17T09:00:00Z,U001
+U011,Arjun Mehta,clientUser,Client Stakeholder,P001,2024-01-15T14:00:00Z,system,2024-01-15T14:00:00Z,system
+U012,Sanjay Verma,clientUser,Product Owner,P002,2024-02-01T15:00:00Z,system,2024-02-01T15:00:00Z,system

@@ -1,0 +1,5 @@
+ID,name,description,manager_ID,deadline,startDate,clientName,budget,progress,priority,status,createdAt,createdBy,modifiedAt,modifiedBy
+P001,E-Commerce Platform Revamp,Complete redesign and migration of legacy e-commerce system to modern SAP BTP architecture with Fiori UI,U001,2025-06-30,2024-01-15,TechRetail Solutions Pvt Ltd,8500000.00,65,high,inProgress,2024-01-15T09:00:00Z,system,2025-01-05T16:30:00Z,U001
+P002,Internal HR Portal,Development of employee self-service portal with leave management and performance tracking modules,U002,2025-04-15,2024-02-01,Wipro Internal,3200000.00,45,medium,inProgress,2024-02-01T10:30:00Z,system,2025-01-08T14:20:00Z,U002
+P003,Supply Chain Analytics Dashboard,Real-time analytics dashboard for inventory and logistics tracking using CAP and UI5,U008,2025-08-31,2024-03-10,LogiFlow Enterprises,6750000.00,25,high,planning,2024-03-10T10:00:00Z,system,2025-01-02T11:15:00Z,U008
+P004,Customer Feedback System,Mobile-first feedback collection and analysis platform with sentiment tracking,U001,2024-12-20,2024-07-01,ServiceMax India,2100000.00,100,low,completed,2024-07-01T09:00:00Z,system,2024-12-20T17:00:00Z,U001
