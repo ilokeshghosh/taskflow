@@ -1,0 +1,28 @@
+<core:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:form="sap.ui.layout.form"
+    xmlns:core="sap.ui.core"
+>
+   
+    <Panel height="100%">
+        <headerToolbar >
+            <OverflowToolbar height="3rem">
+                <HBox width="100%" justifyContent="SpaceBetween" alignItems="Center">
+                <Title  text="{fragmentModel>/key}" level="H1"/>
+
+                <HBox alignItems="Center" width="90%" justifyContent="End" gap="6px">
+                <core:Icon src="sap-icon://bell" ></core:Icon>
+                <Button class="sapUi-Std-PaddingS" icon="sap-icon://add" type="Emphasized" text="Create Project"></Button>
+                <Avatar class="userAvatar" imageFitType="Cover"  displaySize="XS" src="https://ik.imagekit.io/8fgpvoiai/profile/profile-image-black-white_81gzUNk43.png?updatedAt=1703005079604"></Avatar>
+               
+                </HBox>
+                    
+                </HBox>
+            </OverflowToolbar>
+        </headerToolbar>
+        <!-- <Title text="{fragmentModel>/key}" /> -->
+        <content>
+        
+        </content>
+    </Panel>
+</core:FragmentDefinition>
