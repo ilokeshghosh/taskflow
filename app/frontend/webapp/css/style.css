@@ -3,3 +3,36 @@
 .homeView .userAvatar{
     border: 1px solid #758CA4;
 }
+
+body .give-freely-root{
+    display: none;
+}
+
+.homeView .tileLayout{
+    float: left;
+}
+
+.homeView .border1{
+    border:2px solid red;
+}
+
+.homeView .border2{
+    border:2px solid green;
+}
+
+.homeView .sideHighlight{
+    
+    border-left: 4px solid #FFC933;
+    border-radius: 1%;
+    padding-left: 3px;
+    /* height: 100%; */
+}
+
+.homeView .projectCard .cardHeader{
+    border-left: 4px solid #FFD700;
+    padding-left: 4px;
+}
+
+.homeView .projectCard .cardContent{
+    padding: 1.0rem;
+}

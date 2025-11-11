@@ -2,27 +2,487 @@
     xmlns="sap.m"
     xmlns:form="sap.ui.layout.form"
     xmlns:core="sap.ui.core"
+    xmlns:f="sap.f"
+    xmlns:card="sap.f.cards"
 >
-   
     <Panel height="100%">
-        <headerToolbar >
+        <headerToolbar>
             <OverflowToolbar height="3rem">
-                <HBox width="100%" justifyContent="SpaceBetween" alignItems="Center">
-                <Title  text="{fragmentModel>/key}" level="H1"/>
+                <HBox
+                    width="100%"
+                    justifyContent="SpaceBetween"
+                    alignItems="Center"
+                >
+                    <Title
+                        text="{i18n>home}"
+                        level="H1"
+                    />
 
-                <HBox alignItems="Center" width="90%" justifyContent="End" gap="6px">
-                <core:Icon src="sap-icon://bell" ></core:Icon>
-                <Button class="sapUi-Std-PaddingS" icon="sap-icon://add" type="Emphasized" text="Create Project"></Button>
-                <Avatar class="userAvatar" imageFitType="Cover"  displaySize="XS" src="https://ik.imagekit.io/8fgpvoiai/profile/profile-image-black-white_81gzUNk43.png?updatedAt=1703005079604"></Avatar>
-               
-                </HBox>
-                    
+                    <HBox
+                        alignItems="Center"
+                        width="90%"
+                        justifyContent="End"
+                        gap="6px"
+                    >
+                        <core:Icon src="sap-icon://bell" />
+                        <Button
+                            class="sapUi-Std-PaddingS"
+                            icon="sap-icon://add"
+                            type="Emphasized"
+                            text="Create Project"
+                        />
+                        <Avatar
+                            class="userAvatar"
+                            imageFitType="Cover"
+                            displaySize="XS"
+                            src="https://ik.imagekit.io/8fgpvoiai/profile/profile-image-black-white_81gzUNk43.png?updatedAt=1703005079604"
+                        />
+                    </HBox>
                 </HBox>
             </OverflowToolbar>
         </headerToolbar>
         <!-- <Title text="{fragmentModel>/key}" /> -->
         <content>
-        
+            <FlexBox
+                direction="Column"
+                gap="2rem"
+            >
+                <!-- KPI TILES -->
+                <HBox
+                    class=""
+                    wrap="Wrap"
+                    justifyContent="SpaceAround"
+                    width="100%"
+                >
+                    <GenericTile
+                        mode="ContentMode"
+                        header="Total Projects"
+                        class="sapUiTinyMarginBegin sapUiTinyMarginTop tileLayout "
+                    >
+                        <TileContent
+                            footer="from last month"
+                            class=""
+                        >
+                            <NumericContent
+                                valueColor="Good"
+                                value="6"
+                                indicator="Up"
+                                scale="C"
+                                icon="sap-icon://document-text"
+                            />
+                        </TileContent>
+                    </GenericTile>
+
+                    <GenericTile
+                        mode="ContentMode"
+                        header="Total Tasks"
+                        class="sapUiTinyMarginBegin sapUiTinyMarginTop tileLayout "
+                    >
+                        <TileContent
+                            footer="from last month"
+                            class=""
+                        >
+                            <NumericContent
+                                valueColor="Good"
+                                value="40"
+                                indicator="Up"
+                                scale="C"
+                                icon="sap-icon://activity-items"
+                            />
+                        </TileContent>
+                    </GenericTile>
+
+                    <GenericTile
+                        mode="ContentMode"
+                        header="In Progress"
+                        class="sapUiTinyMargin sapUiTinyMarginTop tileLayout"
+                    >
+                        <TileContent footer="from last month">
+                            <NumericContent
+                                valueColor="Error"
+                                value="20"
+                                indicator="Down"
+                                scale="C"
+                                icon="sap-icon://pending"
+                            />
+                        </TileContent>
+                    </GenericTile>
+
+                    <GenericTile
+                        mode="ContentMode"
+                        header="Completed"
+                        class="sapUiTinyMarginBegin sapUiTinyMarginTop tileLayout"
+                    >
+                        <TileContent footer="from last month">
+                            <NumericContent
+                                valueColor="Good"
+                                value="10"
+                                indicator="Up"
+                                scale="C"
+                                icon="sap-icon://task"
+                            />
+                        </TileContent>
+                    </GenericTile>
+
+                    <GenericTile
+                        mode="ContentMode"
+                        header="Overdue"
+                        class="sapUiTinyMarginBegin sapUiTinyMarginTop tileLayout"
+                    >
+                        <TileContent footer="from last month">
+                            <NumericContent
+                                valueColor="Critical"
+                                value="10"
+                                indicator="Up"
+                                scale="C"
+                                icon="sap-icon://message-warning"
+                            />
+                        </TileContent>
+                    </GenericTile>
+                </HBox>
+
+                <!-- Project Overview panel -->
+                <Panel>
+                    <headerToolbar>
+                        <OverflowToolbar style="Clear">
+                            <Title
+                                text="Project Overview"
+                                level="H1"
+                            />
+                        </OverflowToolbar>
+                    </headerToolbar>
+
+                    <content>
+                        <HBox justifyContent="SpaceAround" class="" width="100%" wrap="Wrap">
+                        <!-- Card 1 -->
+                        <f:Card
+                            class="projectCard sapUiSmallMargin sapUiTinyMarginBegin"
+                            width="400px"
+                        >
+                            <f:content>
+                                <VBox
+                                    class="cardContent"
+                                    width="100%"
+                                >
+                                    <!-- header section -->
+                                    <HBox
+                                        justifyContent="SpaceBetween"
+                                        alignItems="Start"
+                                        class="cardHeader"
+                                    >
+                                        <!-- LEFT : Badge + Title -->
+                                        <VBox class="titleSection">
+                                            <Title
+                                                text="Figma Design System"
+                                                level="H5"
+                                                class="cardTitle"
+                                            />
+                                            <Text
+                                                text="UI component library for design system"
+                                                class="cardSubtitle sapUiTinyMarginTop"
+                                            />
+                                        </VBox>
+
+                                        <!-- RIGHT : Status Badge -->
+                                        <ObjectStatus
+                                            text="In Progress"
+                                            state="Warning"
+                                            class="statusBadge"
+                                            inverted="true"
+                                        />
+                                    </HBox>
+
+                                    <VBox
+                                        class=""
+                                        justifyContent="End"
+                                    >
+                                        <!-- deadline section -->
+                                        <HBox
+                                            alignItems="Center"
+                                            class="deadlineSection sapUiSmallMarginTop"
+                                            width="100%"
+                                            justifyContent="SpaceBetween"
+                                        >
+                                            <HBox gap="2px">
+                                                <core:Icon
+                                                    src="sap-icon://appointment-2"
+                                                    size="1rem"
+                                                    color="#666"
+                                                    class=""
+                                                />
+
+                                                <Text
+                                                    text="Deadline: Nov 15, 2023"
+                                                    class="deadlineText"
+                                                />
+                                            </HBox>
+
+                                            <!-- Three dots menu -->
+
+                                            <Button
+                                                icon="sap-icon://overflow"
+                                                type="Transparent"
+                                                press=".onMenuPress"
+                                            />
+                                        </HBox>
+
+                                        <!-- progress section -->
+                                        <VBox
+                                            class="progressSection "
+                                            justifyContent="End"
+                                        >
+                                            <HBox
+                                                justifyContent="SpaceBetween"
+                                                alignItems="Center"
+                                                class=""
+                                            >
+                                                <Text
+                                                    text="Progress"
+                                                    class="progressLabel"
+                                                />
+                                                <Text
+                                                    text="65%"
+                                                    class="progressValue"
+                                                />
+                                            </HBox>
+
+                                            <ProgressIndicator
+                                                percentValue="65"
+                                                class="progressBar"
+                                                width="100%"
+                                                displayAnimation="true"
+                                                displayOnly="true"
+                                            />
+                                        </VBox>
+
+                                        <!-- footer section -->
+                                        <HBox />
+                                    </VBox>
+                                </VBox>
+                            </f:content>
+                        </f:Card>
+
+
+                        <!-- Card 2 -->
+                        <f:Card
+                            class="projectCard sapUiSmallMargin"
+                            width="400px"
+                        >
+                            <f:content>
+                                <VBox
+                                    class="cardContent"
+                                    width="100%"
+                                >
+                                    <!-- header section -->
+                                    <HBox
+                                        justifyContent="SpaceBetween"
+                                        alignItems="Start"
+                                        class="cardHeader"
+                                    >
+                                        <!-- LEFT : Badge + Title -->
+                                        <VBox class="titleSection">
+                                            <Title
+                                                text="Figma Design System"
+                                                level="H5"
+                                                class="cardTitle"
+                                            />
+                                            <Text
+                                                text="UI component library for design system"
+                                                class="cardSubtitle sapUiTinyMarginTop"
+                                            />
+                                        </VBox>
+
+                                        <!-- RIGHT : Status Badge -->
+                                        <ObjectStatus
+                                            text="In Progress"
+                                            state="Warning"
+                                            class="statusBadge"
+                                            inverted="true"
+                                        />
+                                    </HBox>
+
+                                    <VBox
+                                        class=""
+                                        justifyContent="End"
+                                    >
+                                        <!-- deadline section -->
+                                        <HBox
+                                            alignItems="Center"
+                                            class="deadlineSection sapUiSmallMarginTop"
+                                            width="100%"
+                                            justifyContent="SpaceBetween"
+                                        >
+                                            <HBox gap="2px">
+                                                <core:Icon
+                                                    src="sap-icon://appointment-2"
+                                                    size="1rem"
+                                                    color="#666"
+                                                    class=""
+                                                />
+
+                                                <Text
+                                                    text="Deadline: Nov 15, 2023"
+                                                    class="deadlineText"
+                                                />
+                                            </HBox>
+
+                                            <!-- Three dots menu -->
+
+                                            <Button
+                                                icon="sap-icon://overflow"
+                                                type="Transparent"
+                                                press=".onMenuPress"
+                                            />
+                                        </HBox>
+
+                                        <!-- progress section -->
+                                        <VBox
+                                            class="progressSection "
+                                            justifyContent="End"
+                                        >
+                                            <HBox
+                                                justifyContent="SpaceBetween"
+                                                alignItems="Center"
+                                                class=""
+                                            >
+                                                <Text
+                                                    text="Progress"
+                                                    class="progressLabel"
+                                                />
+                                                <Text
+                                                    text="65%"
+                                                    class="progressValue"
+                                                />
+                                            </HBox>
+
+                                            <ProgressIndicator
+                                                percentValue="65"
+                                                class="progressBar"
+                                                width="100%"
+                                                displayAnimation="true"
+                                                displayOnly="true"
+                                            />
+                                        </VBox>
+
+                                        <!-- footer section -->
+                                        <HBox />
+                                    </VBox>
+                                </VBox>
+                            </f:content>
+                        </f:Card>
+
+                         <!-- Card 3 -->
+                        <f:Card
+                            class="projectCard sapUiSmallMargin"
+                            width="400px"
+                        >
+                            <f:content>
+                                <VBox
+                                    class="cardContent"
+                                    width="100%"
+                                >
+                                    <!-- header section -->
+                                    <HBox
+                                        justifyContent="SpaceBetween"
+                                        alignItems="Start"
+                                        class="cardHeader"
+                                    >
+                                        <!-- LEFT : Badge + Title -->
+                                        <VBox class="titleSection">
+                                            <Title
+                                                text="Figma Design System"
+                                                level="H5"
+                                                class="cardTitle"
+                                            />
+                                            <Text
+                                                text="UI component library for design system"
+                                                class="cardSubtitle sapUiTinyMarginTop"
+                                            />
+                                        </VBox>
+
+                                        <!-- RIGHT : Status Badge -->
+                                        <ObjectStatus
+                                            text="In Progress"
+                                            state="Warning"
+                                            class="statusBadge"
+                                            inverted="true"
+                                        />
+                                    </HBox>
+
+                                    <VBox
+                                        class=""
+                                        justifyContent="End"
+                                    >
+                                        <!-- deadline section -->
+                                        <HBox
+                                            alignItems="Center"
+                                            class="deadlineSection sapUiSmallMarginTop"
+                                            width="100%"
+                                            justifyContent="SpaceBetween"
+                                        >
+                                            <HBox gap="2px">
+                                                <core:Icon
+                                                    src="sap-icon://appointment-2"
+                                                    size="1rem"
+                                                    color="#666"
+                                                    class=""
+                                                />
+
+                                                <Text
+                                                    text="Deadline: Nov 15, 2023"
+                                                    class="deadlineText"
+                                                />
+                                            </HBox>
+
+                                            <!-- Three dots menu -->
+
+                                            <Button
+                                                icon="sap-icon://overflow"
+                                                type="Transparent"
+                                                press=".onMenuPress"
+                                            />
+                                        </HBox>
+
+                                        <!-- progress section -->
+                                        <VBox
+                                            class="progressSection "
+                                            justifyContent="End"
+                                        >
+                                            <HBox
+                                                justifyContent="SpaceBetween"
+                                                alignItems="Center"
+                                                class=""
+                                            >
+                                                <Text
+                                                    text="Progress"
+                                                    class="progressLabel"
+                                                />
+                                                <Text
+                                                    text="65%"
+                                                    class="progressValue"
+                                                />
+                                            </HBox>
+
+                                            <ProgressIndicator
+                                                percentValue="65"
+                                                class="progressBar"
+                                                width="100%"
+                                                displayAnimation="true"
+                                                displayOnly="true"
+                                            />
+                                        </VBox>
+
+                                        <!-- footer section -->
+                                        <HBox />
+                                    </VBox>
+                                </VBox>
+                            </f:content>
+                        </f:Card>
+
+                        </HBox>
+                    </content>
+                </Panel>
+            </FlexBox>
         </content>
     </Panel>
 </core:FragmentDefinition>

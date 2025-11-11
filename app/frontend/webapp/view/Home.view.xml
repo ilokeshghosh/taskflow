@@ -23,17 +23,17 @@
         alignItems="Center"
         justifyContent="Start"
         width="100%"
-        class="sapUiTinyMarginStart"
+        class="sapUiTinyMarginLeft"
         backgroundDesign="Solid"
         height="3rem"
        
         >
         
         <Image
-            src="https://cap.cloud.sap/docs/cap-logo.svg"
-            width="32px"
-            height="32px"
-            class="sapUiTinyMarginEnd"
+            src="https://ik.imagekit.io/8fgpvoiai/taskFlow/croppedTaskFlow-removebg-preview_0FgIITQmd.png?updatedAt=1762799794592"
+            width="40px"
+            height="40px"
+            class=""
             alt="Logo" />
         
         <Title

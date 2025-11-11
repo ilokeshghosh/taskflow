@@ -8,7 +8,7 @@
         <headerToolbar >
             <OverflowToolbar height="3rem">
                 <HBox width="100%" justifyContent="SpaceBetween" alignItems="Center">
-                <Title  text="{fragmentModel>/key}" level="H1"/>
+                <Title  text="{i18n>kanbanDesk}" level="H1"/>
 
                 <HBox alignItems="Center" width="90%" justifyContent="End" gap="6px">
                 <core:Icon src="sap-icon://bell" ></core:Icon>
