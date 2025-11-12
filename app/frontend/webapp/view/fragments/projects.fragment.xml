@@ -1,28 +1,596 @@
 <core:FragmentDefinition
+    xmlns:f="sap.f"
     xmlns="sap.m"
     xmlns:form="sap.ui.layout.form"
     xmlns:core="sap.ui.core"
 >
-   
     <Panel height="100%">
-        <headerToolbar >
+        <headerToolbar>
             <OverflowToolbar height="3rem">
-                <HBox width="100%" justifyContent="SpaceBetween" alignItems="Center">
-                <Title  text="{i18n>projects}" level="H1"/>
+                <HBox
+                    width="100%"
+                    justifyContent="SpaceBetween"
+                    alignItems="Center"
+                >
+                    <Title
+                        text="{i18n>projects}"
+                        level="H1"
+                    />
 
-                <HBox alignItems="Center" width="90%" justifyContent="End" gap="6px">
-                <core:Icon src="sap-icon://bell" ></core:Icon>
-                <Button class="sapUi-Std-PaddingS" icon="sap-icon://add" type="Emphasized" text="Create Project"></Button>
-                <Avatar class="userAvatar" imageFitType="Cover"  displaySize="XS" src="https://ik.imagekit.io/8fgpvoiai/profile/profile-image-black-white_81gzUNk43.png?updatedAt=1703005079604"></Avatar>
-               
-                </HBox>
-                    
+                    <HBox
+                        alignItems="Center"
+                        width="90%"
+                        justifyContent="End"
+                        gap="6px"
+                    >
+                        <core:Icon src="sap-icon://bell" />
+                        <Button
+                            class="sapUi-Std-PaddingS"
+                            icon="sap-icon://add"
+                            type="Emphasized"
+                            text="Create Project"
+                        />
+                        <Avatar
+                            class="userAvatar"
+                            imageFitType="Cover"
+                            displaySize="XS"
+                            src="https://ik.imagekit.io/8fgpvoiai/profile/profile-image-black-white_81gzUNk43.png?updatedAt=1703005079604"
+                        />
+                    </HBox>
                 </HBox>
             </OverflowToolbar>
         </headerToolbar>
         <!-- <Title text="{fragmentModel>/key}" /> -->
         <content>
-        
+            <Panel>
+                <headerToolbar>
+                    <OverflowToolbar>
+                        <HBox
+                            justifyContent="SpaceBetween"
+                            width="100%"
+                        >
+                            <HBox gap="1rem">
+                                <SearchField placeholder="Search Project.." />
+                                <Button
+                                    type="Emphasized"
+                                    icon="sap-icon://filter"
+                                    text="All Projects"
+                                />
+                            </HBox>
+                            <HBox>
+                                <Button text="Layout Button" />
+                            </HBox>
+                        </HBox>
+                    </OverflowToolbar>
+                </headerToolbar>
+
+                <content>
+                    <FlexBox
+                        wrap="Wrap"
+                        justifyContent="SpaceAround"
+                        width="100%"
+                    >
+                        <!-- Card 1 -->
+                        <f:Card
+                            class="projectCard sapUiSmallMargin sapUiTinyMarginBegin"
+                            width="400px"
+                        >
+                            <f:content>
+                                <VBox
+                                    class="cardContent"
+                                    width="100%"
+                                >
+                                    <!-- header section -->
+                                    <HBox
+                                        justifyContent="SpaceBetween"
+                                        alignItems="Start"
+                                        class="cardHeader"
+                                    >
+                                        <!-- LEFT : Badge + Title -->
+                                        <VBox class="titleSection">
+                                            <Title
+                                                text="Figma Design System"
+                                                level="H5"
+                                                class="cardTitle"
+                                            />
+                                            <Text
+                                                text="UI component library for design system"
+                                                class="cardSubtitle sapUiTinyMarginTop"
+                                            />
+                                        </VBox>
+
+                                        <!-- RIGHT : Status Badge -->
+                                        <ObjectStatus
+                                            text="In Progress"
+                                            state="Warning"
+                                            class="statusBadge"
+                                            inverted="true"
+                                        />
+                                    </HBox>
+
+                                    <VBox
+                                        class=""
+                                        justifyContent="End"
+                                    >
+                                        <!-- deadline section -->
+                                        <HBox
+                                            alignItems="Center"
+                                            class="deadlineSection sapUiSmallMarginTop"
+                                            width="100%"
+                                            justifyContent="SpaceBetween"
+                                        >
+                                            <HBox gap="2px">
+                                                <core:Icon
+                                                    src="sap-icon://appointment-2"
+                                                    size="1rem"
+                                                    color="#666"
+                                                    class=""
+                                                />
+
+                                                <Text
+                                                    text="Deadline: Nov 15, 2023"
+                                                    class="deadlineText"
+                                                />
+                                            </HBox>
+
+                                            <!-- Three dots menu -->
+
+                                            <Button
+                                                icon="sap-icon://overflow"
+                                                type="Transparent"
+                                                press=".onMenuPress"
+                                            />
+                                        </HBox>
+
+                                        <!-- progress section -->
+                                        <VBox
+                                            class="progressSection "
+                                            justifyContent="End"
+                                        >
+                                            <HBox
+                                                justifyContent="SpaceBetween"
+                                                alignItems="Center"
+                                                class=""
+                                            >
+                                                <Text
+                                                    text="Progress"
+                                                    class="progressLabel"
+                                                />
+                                                <Text
+                                                    text="65%"
+                                                    class="progressValue"
+                                                />
+                                            </HBox>
+
+                                            <ProgressIndicator
+                                                percentValue="65"
+                                                class="progressBar"
+                                                width="100%"
+                                                displayAnimation="true"
+                                                displayOnly="true"
+                                            />
+                                        </VBox>
+
+                                        <!-- footer section -->
+                                        <HBox />
+                                    </VBox>
+
+                                    <VBox
+                                        class="sapUiMediumMarginTop"
+                                        gap="1rem"
+                                    >
+                                        <!-- client / Budget -->
+                                        <HBox justifyContent="SpaceBetween">
+                                            <!-- client -->
+                                            <VBox
+                                                width="70%"
+                                                class=""
+                                                gap="5px"
+                                            >
+                                                <Text text="Client" />
+                                                <Title
+                                                    text="Kao USA"
+                                                    level="H4"
+                                                />
+                                            </VBox>
+
+                                            <!-- Budget -->
+                                            <VBox
+                                                class=""
+                                                width="30%"
+                                                gap="5px"
+                                            >
+                                                <Text text="Budget" />
+                                                <Title
+                                                    text="$12,500"
+                                                    level="H4"
+                                                />
+                                            </VBox>
+                                        </HBox>
+                                        <!-- start date / priority -->
+
+                                        <HBox justifyContent="SpaceBetween">
+                                            <!-- start date -->
+                                            <VBox
+                                                width="70%"
+                                                class=""
+                                                gap="5px"
+                                            >
+                                                <Text text="Start Date" />
+                                                <Title
+                                                    text="Nov 12, 2025"
+                                                    level="H4"
+                                                />
+                                            </VBox>
+
+                                            <!-- priority -->
+                                            <VBox
+                                                class=""
+                                                width="30%"
+                                                gap="5px"
+                                            >
+                                                <Text text="Priority" />
+
+                                                <ObjectStatus
+                                                    state="Error"
+                                                    text="High"
+                                                    inverted="true"
+                                                />
+                                            </VBox>
+                                        </HBox>
+                                    </VBox>
+                                </VBox>
+                            </f:content>
+                        </f:Card>
+
+                        <!-- Card 2 -->
+                        <f:Card
+                            class="projectCard sapUiSmallMargin sapUiTinyMarginBegin"
+                            width="400px"
+                        >
+                            <f:content>
+                                <VBox
+                                    class="cardContent"
+                                    width="100%"
+                                >
+                                    <!-- header section -->
+                                    <HBox
+                                        justifyContent="SpaceBetween"
+                                        alignItems="Start"
+                                        class="cardHeader"
+                                    >
+                                        <!-- LEFT : Badge + Title -->
+                                        <VBox class="titleSection">
+                                            <Title
+                                                text="Figma Design System"
+                                                level="H5"
+                                                class="cardTitle"
+                                            />
+                                            <Text
+                                                text="UI component library for design system"
+                                                class="cardSubtitle sapUiTinyMarginTop"
+                                            />
+                                        </VBox>
+
+                                        <!-- RIGHT : Status Badge -->
+                                        <ObjectStatus
+                                            text="In Progress"
+                                            state="Warning"
+                                            class="statusBadge"
+                                            inverted="true"
+                                        />
+                                    </HBox>
+
+                                    <VBox
+                                        class=""
+                                        justifyContent="End"
+                                    >
+                                        <!-- deadline section -->
+                                        <HBox
+                                            alignItems="Center"
+                                            class="deadlineSection sapUiSmallMarginTop"
+                                            width="100%"
+                                            justifyContent="SpaceBetween"
+                                        >
+                                            <HBox gap="2px">
+                                                <core:Icon
+                                                    src="sap-icon://appointment-2"
+                                                    size="1rem"
+                                                    color="#666"
+                                                    class=""
+                                                />
+
+                                                <Text
+                                                    text="Deadline: Nov 15, 2023"
+                                                    class="deadlineText"
+                                                />
+                                            </HBox>
+
+                                            <!-- Three dots menu -->
+
+                                            <Button
+                                                icon="sap-icon://overflow"
+                                                type="Transparent"
+                                                press=".onMenuPress"
+                                            />
+                                        </HBox>
+
+                                        <!-- progress section -->
+                                        <VBox
+                                            class="progressSection "
+                                            justifyContent="End"
+                                        >
+                                            <HBox
+                                                justifyContent="SpaceBetween"
+                                                alignItems="Center"
+                                                class=""
+                                            >
+                                                <Text
+                                                    text="Progress"
+                                                    class="progressLabel"
+                                                />
+                                                <Text
+                                                    text="65%"
+                                                    class="progressValue"
+                                                />
+                                            </HBox>
+
+                                            <ProgressIndicator
+                                                percentValue="65"
+                                                class="progressBar"
+                                                width="100%"
+                                                displayAnimation="true"
+                                                displayOnly="true"
+                                            />
+                                        </VBox>
+
+                                        <!-- footer section -->
+                                        <HBox />
+                                    </VBox>
+
+                                    <VBox
+                                        class="sapUiMediumMarginTop"
+                                        gap="1rem"
+                                    >
+                                        <!-- client / Budget -->
+                                        <HBox justifyContent="SpaceBetween">
+                                            <!-- client -->
+                                            <VBox
+                                                width="70%"
+                                                class=""
+                                                gap="5px"
+                                            >
+                                                <Text text="Client" />
+                                                <Title
+                                                    text="Kao USA"
+                                                    level="H4"
+                                                />
+                                            </VBox>
+
+                                            <!-- Budget -->
+                                            <VBox
+                                                class=""
+                                                width="30%"
+                                                gap="5px"
+                                            >
+                                                <Text text="Budget" />
+                                                <Title
+                                                    text="$12,500"
+                                                    level="H4"
+                                                />
+                                            </VBox>
+                                        </HBox>
+                                        <!-- start date / priority -->
+
+                                        <HBox justifyContent="SpaceBetween">
+                                            <!-- start date -->
+                                            <VBox
+                                                width="70%"
+                                                class=""
+                                                gap="5px"
+                                            >
+                                                <Text text="Start Date" />
+                                                <Title
+                                                    text="Nov 12, 2025"
+                                                    level="H4"
+                                                />
+                                            </VBox>
+
+                                            <!-- priority -->
+                                            <VBox
+                                                class=""
+                                                width="30%"
+                                                gap="5px"
+                                            >
+                                                <Text text="Priority" />
+
+                                                <ObjectStatus
+                                                    state="Error"
+                                                    text="High"
+                                                    inverted="true"
+                                                />
+                                            </VBox>
+                                        </HBox>
+                                    </VBox>
+                                </VBox>
+                            </f:content>
+                        </f:Card>
+
+                        <!-- card 3 -->
+                         <f:Card
+                            class="projectCard sapUiSmallMargin sapUiTinyMarginBegin"
+                            width="400px"
+                        >
+                            <f:content>
+                                <VBox
+                                    class="cardContent"
+                                    width="100%"
+                                >
+                                    <!-- header section -->
+                                    <HBox
+                                        justifyContent="SpaceBetween"
+                                        alignItems="Start"
+                                        class="cardHeader"
+                                    >
+                                        <!-- LEFT : Badge + Title -->
+                                        <VBox class="titleSection">
+                                            <Title
+                                                text="Figma Design System"
+                                                level="H5"
+                                                class="cardTitle"
+                                            />
+                                            <Text
+                                                text="UI component library for design system"
+                                                class="cardSubtitle sapUiTinyMarginTop"
+                                            />
+                                        </VBox>
+
+                                        <!-- RIGHT : Status Badge -->
+                                        <ObjectStatus
+                                            text="In Progress"
+                                            state="Warning"
+                                            class="statusBadge"
+                                            inverted="true"
+                                        />
+                                    </HBox>
+
+                                    <VBox
+                                        class=""
+                                        justifyContent="End"
+                                    >
+                                        <!-- deadline section -->
+                                        <HBox
+                                            alignItems="Center"
+                                            class="deadlineSection sapUiSmallMarginTop"
+                                            width="100%"
+                                            justifyContent="SpaceBetween"
+                                        >
+                                            <HBox gap="2px">
+                                                <core:Icon
+                                                    src="sap-icon://appointment-2"
+                                                    size="1rem"
+                                                    color="#666"
+                                                    class=""
+                                                />
+
+                                                <Text
+                                                    text="Deadline: Nov 15, 2023"
+                                                    class="deadlineText"
+                                                />
+                                            </HBox>
+
+                                            <!-- Three dots menu -->
+
+                                            <Button
+                                                icon="sap-icon://overflow"
+                                                type="Transparent"
+                                                press=".onMenuPress"
+                                            />
+                                        </HBox>
+
+                                        <!-- progress section -->
+                                        <VBox
+                                            class="progressSection "
+                                            justifyContent="End"
+                                        >
+                                            <HBox
+                                                justifyContent="SpaceBetween"
+                                                alignItems="Center"
+                                                class=""
+                                            >
+                                                <Text
+                                                    text="Progress"
+                                                    class="progressLabel"
+                                                />
+                                                <Text
+                                                    text="65%"
+                                                    class="progressValue"
+                                                />
+                                            </HBox>
+
+                                            <ProgressIndicator
+                                                percentValue="65"
+                                                class="progressBar"
+                                                width="100%"
+                                                displayAnimation="true"
+                                                displayOnly="true"
+                                            />
+                                        </VBox>
+
+                                        <!-- footer section -->
+                                        <HBox />
+                                    </VBox>
+
+                                    <VBox
+                                        class="sapUiMediumMarginTop"
+                                        gap="1rem"
+                                    >
+                                        <!-- client / Budget -->
+                                        <HBox justifyContent="SpaceBetween">
+                                            <!-- client -->
+                                            <VBox
+                                                width="70%"
+                                                class=""
+                                                gap="5px"
+                                            >
+                                                <Text text="Client" />
+                                                <Title
+                                                    text="Kao USA"
+                                                    level="H4"
+                                                />
+                                            </VBox>
+
+                                            <!-- Budget -->
+                                            <VBox
+                                                class=""
+                                                width="30%"
+                                                gap="5px"
+                                            >
+                                                <Text text="Budget" />
+                                                <Title
+                                                    text="$12,500"
+                                                    level="H4"
+                                                />
+                                            </VBox>
+                                        </HBox>
+                                        <!-- start date / priority -->
+
+                                        <HBox justifyContent="SpaceBetween">
+                                            <!-- start date -->
+                                            <VBox
+                                                width="70%"
+                                                class=""
+                                                gap="5px"
+                                            >
+                                                <Text text="Start Date" />
+                                                <Title
+                                                    text="Nov 12, 2025"
+                                                    level="H4"
+                                                />
+                                            </VBox>
+
+                                            <!-- priority -->
+                                            <VBox
+                                                class=""
+                                                width="30%"
+                                                gap="5px"
+                                            >
+                                                <Text text="Priority" />
+
+                                                <ObjectStatus
+                                                    state="Error"
+                                                    text="High"
+                                                    inverted="true"
+                                                />
+                                            </VBox>
+                                        </HBox>
+                                    </VBox>
+                                </VBox>
+                            </f:content>
+                        </f:Card>
+                    </FlexBox>
+                </content>
+            </Panel>
         </content>
     </Panel>
 </core:FragmentDefinition>

@@ -36,3 +36,7 @@ body .give-freely-root{
 .homeView .projectCard .cardContent{
     padding: 1.0rem;
 }
+
+.homeView .taskPanel{
+    border:1px solid;
+}

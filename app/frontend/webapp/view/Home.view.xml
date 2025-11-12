@@ -16,38 +16,38 @@
             renderType="Bare"
             alignItems="Start"
             height="100%"
+            
         >
+            <!-- Brand Header with Logo -->
+            <HBox
+                alignItems="Center"
+                justifyContent="Start"
+                width="100%"
+                class="sapUiTinyMarginLeft"
+                backgroundDesign="Solid"
+                height="3rem"
+            >
+                <Image
+                    src="https://ik.imagekit.io/8fgpvoiai/taskFlow/croppedTaskFlow-removebg-preview_0FgIITQmd.png?updatedAt=1762799794592"
+                    width="40px"
+                    height="40px"
+                    class=""
+                    alt="Logo"
+                />
 
-         <!-- Brand Header with Logo -->
-    <HBox
-        alignItems="Center"
-        justifyContent="Start"
-        width="100%"
-        class="sapUiTinyMarginLeft"
-        backgroundDesign="Solid"
-        height="3rem"
-       
-        >
-        
-        <Image
-            src="https://ik.imagekit.io/8fgpvoiai/taskFlow/croppedTaskFlow-removebg-preview_0FgIITQmd.png?updatedAt=1762799794592"
-            width="40px"
-            height="40px"
-            class=""
-            alt="Logo" />
-        
-        <Title
-            text="Task Flow"
-            level="H2"
-            class="brandTitle" />
-    </HBox>
+                <Title
+                    text="Task Flow"
+                    level="H2"
+                    class="brandTitle"
+                />
+            </HBox>
 
             <tnt:SideNavigation
                 id="sideNavigation"
                 expanded="true"
+                
             >
                 <tnt:NavigationList>
-                    
                     <!-- general navigation -->
 
                     <tnt:NavigationListItem

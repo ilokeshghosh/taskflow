@@ -1,28 +1,643 @@
 <core:FragmentDefinition
+    xmlns:cards="sap.f.cards"
+    xmlns:f="sap.f"
     xmlns="sap.m"
     xmlns:form="sap.ui.layout.form"
     xmlns:core="sap.ui.core"
 >
-   
     <Panel height="100%">
-        <headerToolbar >
+        <headerToolbar>
             <OverflowToolbar height="3rem">
-                <HBox width="100%" justifyContent="SpaceBetween" alignItems="Center">
-                <Title  text="{i18n>tasks}" level="H1"/>
+                <HBox
+                    width="100%"
+                    justifyContent="SpaceBetween"
+                    alignItems="Center"
+                >
+                    <Title
+                        text="{i18n>tasks}"
+                        level="H1"
+                    />
 
-                <HBox alignItems="Center" width="90%" justifyContent="End" gap="6px">
-                <core:Icon src="sap-icon://bell" ></core:Icon>
-                <Button class="sapUi-Std-PaddingS" icon="sap-icon://add" type="Emphasized" text="Create Project"></Button>
-                <Avatar class="userAvatar" imageFitType="Cover"  displaySize="XS" src="https://ik.imagekit.io/8fgpvoiai/profile/profile-image-black-white_81gzUNk43.png?updatedAt=1703005079604"></Avatar>
-               
-                </HBox>
-                    
+                    <HBox
+                        alignItems="Center"
+                        width="90%"
+                        justifyContent="End"
+                        gap="6px"
+                    >
+                        <core:Icon src="sap-icon://bell" />
+                        <Button
+                            class="sapUi-Std-PaddingS"
+                            icon="sap-icon://add"
+                            type="Emphasized"
+                            text="Create Project"
+                        />
+                        <Avatar
+                            class="userAvatar"
+                            imageFitType="Cover"
+                            displaySize="XS"
+                            src="https://ik.imagekit.io/8fgpvoiai/profile/profile-image-black-white_81gzUNk43.png?updatedAt=1703005079604"
+                        />
+                    </HBox>
                 </HBox>
             </OverflowToolbar>
         </headerToolbar>
         <!-- <Title text="{fragmentModel>/key}" /> -->
         <content>
-        
+            <Panel class="">
+                <!-- header / filter / view type section  -->
+                <headerToolbar>
+                    <OverflowToolbar class="">
+                        <Button
+                            icon="sap-icon://grid"
+                            text="Place Button here"
+                        />
+                    </OverflowToolbar>
+                </headerToolbar>
+
+                <content>
+                    <FlexBox gap="1rem" justifyContent="SpaceAround" wrap="Wrap">
+                        <!-- Todo Panel -->
+                        <Panel
+                            class="sapUiMediumMarginTop taskPanel"
+                            width="100%"
+                        >
+                            <headerToolbar>
+                                <OverflowToolbar class="sapUiSmallMarginTop">
+                                    <HBox
+                                        width="100%"
+                                        justifyContent="SpaceBetween"
+                                    >
+                                        <Title
+                                            text="To Do"
+                                            level="H2"
+                                        />
+
+                                        <Button
+                                            icon="sap-icon://overflow"
+                                            type="Transparent"
+                                        />
+                                    </HBox>
+                                </OverflowToolbar>
+                            </headerToolbar>
+
+                            <content>
+                                <f:Card>
+                                    <f:content>
+                                        <VBox
+                                            class=" sapUiSmallMargin"
+                                            width="100%"
+                                            gap="1rem"
+                                        >
+                                            <!-- title / priority section -->
+                                            <HBox
+                                                width="100%"
+                                                justifyContent="SpaceBetween"
+                                            >
+                                                <VBox gap="0.5rem">
+                                                    <Text
+                                                        text="Website Redesign"
+                                                    />
+                                                    <Title
+                                                        text="Redesign Landing Page"
+                                                        level="H5"
+                                                    />
+                                                </VBox>
+
+                                                <!-- RIGHT : Status Badge -->
+                                                <ObjectStatus
+                                                    text="In Progress"
+                                                    state="Warning"
+                                                    class="statusBadge"
+                                                    inverted="true"
+                                                />
+                                            </HBox>
+
+                                            <!-- progress  -->
+                                            <VBox
+                                                class="progressSection "
+                                                justifyContent="End"
+                                            >
+                                                <HBox
+                                                    justifyContent="SpaceBetween"
+                                                    alignItems="Center"
+                                                    class=""
+                                                >
+                                                    <Text
+                                                        text="Progress"
+                                                        class="progressLabel"
+                                                    />
+                                                    <Text
+                                                        text="65%"
+                                                        class="progressValue"
+                                                    />
+                                                </HBox>
+
+                                                <ProgressIndicator
+                                                    percentValue="65"
+                                                    class="progressBar"
+                                                    width="100%"
+                                                    displayAnimation="true"
+                                                    displayOnly="true"
+                                                />
+                                            </VBox>
+
+                                            <!-- date / other details -->
+                                            <HBox>
+                                                <Button
+                                                    enabled="false"
+                                                    type="Transparent"
+                                                    icon="sap-icon://calendar"
+                                                    text="Nov 12"
+                                                />
+
+                                                <Button
+                                                    enabled="false"
+                                                    type="Transparent"
+                                                    icon="sap-icon://attachment"
+                                                    text="2"
+                                                />
+
+                                                <Button
+                                                    enabled="false"
+                                                    type="Transparent"
+                                                    icon="sap-icon://jam"
+                                                    text="5"
+                                                />
+
+                                                <Button
+                                                    enabled="false"
+                                                    type="Transparent"
+                                                    icon="sap-icon://activity-2"
+                                                    text="5"
+                                                />
+                                            </HBox>
+
+                                            <!-- team member / overflow button -->
+                                            <HBox
+                                                justifyContent="SpaceBetween"
+                                                width="100%"
+                                            >
+                                                <Avatar
+                                                    src="https://ik.imagekit.io/8fgpvoiai/profile/profile-image-black-white_81gzUNk43.png?updatedAt=1703005079604"
+                                                    displaySize="XS"
+                                                />
+
+                                                <Button
+                                                    icon="sap-icon://overflow"
+                                                />
+                                            </HBox>
+                                        </VBox>
+                                    </f:content>
+                                </f:Card>
+
+                                <!-- footer -->
+                                <Toolbar style="Clear">
+                                    <Button
+                                        icon="sap-icon://add"
+                                        text="Add Task"
+                                        type="Transparent"
+                                    />
+                                </Toolbar>
+                            </content>
+                        </Panel>
+
+                        <!-- In progress -->
+                         <Panel
+                            class="sapUiMediumMarginTop taskPanel"
+                            width="100%"
+                        >
+                            <headerToolbar>
+                                <OverflowToolbar class="sapUiSmallMarginTop">
+                                    <HBox
+                                        width="100%"
+                                        justifyContent="SpaceBetween"
+                                    >
+                                        <Title
+                                            text="In Progress"
+                                            level="H2"
+                                        />
+
+                                        <Button
+                                            icon="sap-icon://overflow"
+                                            type="Transparent"
+                                        />
+                                    </HBox>
+                                </OverflowToolbar>
+                            </headerToolbar>
+
+                            <content>
+                                <f:Card>
+                                    <f:content>
+                                        <VBox
+                                            class=" sapUiSmallMargin"
+                                            width="100%"
+                                            gap="1rem"
+                                        >
+                                            <!-- title / priority section -->
+                                            <HBox
+                                                width="100%"
+                                                justifyContent="SpaceBetween"
+                                            >
+                                                <VBox gap="0.5rem">
+                                                    <Text
+                                                        text="Website Redesign"
+                                                    />
+                                                    <Title
+                                                        text="Redesign Landing Page"
+                                                        level="H5"
+                                                    />
+                                                </VBox>
+
+                                                <!-- RIGHT : Status Badge -->
+                                                <ObjectStatus
+                                                    text="In Progress"
+                                                    state="Warning"
+                                                    class="statusBadge"
+                                                    inverted="true"
+                                                />
+                                            </HBox>
+
+                                            <!-- progress  -->
+                                            <VBox
+                                                class="progressSection "
+                                                justifyContent="End"
+                                            >
+                                                <HBox
+                                                    justifyContent="SpaceBetween"
+                                                    alignItems="Center"
+                                                    class=""
+                                                >
+                                                    <Text
+                                                        text="Progress"
+                                                        class="progressLabel"
+                                                    />
+                                                    <Text
+                                                        text="65%"
+                                                        class="progressValue"
+                                                    />
+                                                </HBox>
+
+                                                <ProgressIndicator
+                                                    percentValue="65"
+                                                    class="progressBar"
+                                                    width="100%"
+                                                    displayAnimation="true"
+                                                    displayOnly="true"
+                                                />
+                                            </VBox>
+
+                                            <!-- date / other details -->
+                                            <HBox>
+                                                <Button
+                                                    enabled="false"
+                                                    type="Transparent"
+                                                    icon="sap-icon://calendar"
+                                                    text="Nov 12"
+                                                />
+
+                                                <Button
+                                                    enabled="false"
+                                                    type="Transparent"
+                                                    icon="sap-icon://attachment"
+                                                    text="2"
+                                                />
+
+                                                <Button
+                                                    enabled="false"
+                                                    type="Transparent"
+                                                    icon="sap-icon://jam"
+                                                    text="5"
+                                                />
+
+                                                <Button
+                                                    enabled="false"
+                                                    type="Transparent"
+                                                    icon="sap-icon://activity-2"
+                                                    text="5"
+                                                />
+                                            </HBox>
+
+                                            <!-- team member / overflow button -->
+                                            <HBox
+                                                justifyContent="SpaceBetween"
+                                                width="100%"
+                                            >
+                                                <Avatar
+                                                    src="https://ik.imagekit.io/8fgpvoiai/profile/profile-image-black-white_81gzUNk43.png?updatedAt=1703005079604"
+                                                    displaySize="XS"
+                                                />
+
+                                                <Button
+                                                    icon="sap-icon://overflow"
+                                                />
+                                            </HBox>
+                                        </VBox>
+                                    </f:content>
+                                </f:Card>
+
+                                <!-- footer -->
+                                <Toolbar style="Clear">
+                                    <Button
+                                        icon="sap-icon://add"
+                                        text="Add Task"
+                                        type="Transparent"
+                                    />
+                                </Toolbar>
+                            </content>
+                        </Panel>
+
+                        <!-- in review -->
+                         <Panel
+                            class="sapUiMediumMarginTop taskPanel"
+                            width="100%"
+                        >
+                            <headerToolbar>
+                                <OverflowToolbar class="sapUiSmallMarginTop">
+                                    <HBox
+                                        width="100%"
+                                        justifyContent="SpaceBetween"
+                                    >
+                                        <Title
+                                            text="In Review"
+                                            level="H2"
+                                        />
+
+                                        <Button
+                                            icon="sap-icon://overflow"
+                                            type="Transparent"
+                                        />
+                                    </HBox>
+                                </OverflowToolbar>
+                            </headerToolbar>
+
+                            <content>
+                                <f:Card>
+                                    <f:content>
+                                        <VBox
+                                            class=" sapUiSmallMargin"
+                                            width="100%"
+                                            gap="1rem"
+                                        >
+                                            <!-- title / priority section -->
+                                            <HBox
+                                                width="100%"
+                                                justifyContent="SpaceBetween"
+                                            >
+                                                <VBox gap="0.5rem">
+                                                    <Text
+                                                        text="Website Redesign"
+                                                    />
+                                                    <Title
+                                                        text="Redesign Landing Page"
+                                                        level="H5"
+                                                    />
+                                                </VBox>
+
+                                                <!-- RIGHT : Status Badge -->
+                                                <ObjectStatus
+                                                    text="In Progress"
+                                                    state="Warning"
+                                                    class="statusBadge"
+                                                    inverted="true"
+                                                />
+                                            </HBox>
+
+                                            <!-- progress  -->
+                                            <VBox
+                                                class="progressSection "
+                                                justifyContent="End"
+                                            >
+                                                <HBox
+                                                    justifyContent="SpaceBetween"
+                                                    alignItems="Center"
+                                                    class=""
+                                                >
+                                                    <Text
+                                                        text="Progress"
+                                                        class="progressLabel"
+                                                    />
+                                                    <Text
+                                                        text="65%"
+                                                        class="progressValue"
+                                                    />
+                                                </HBox>
+
+                                                <ProgressIndicator
+                                                    percentValue="65"
+                                                    class="progressBar"
+                                                    width="100%"
+                                                    displayAnimation="true"
+                                                    displayOnly="true"
+                                                />
+                                            </VBox>
+
+                                            <!-- date / other details -->
+                                            <HBox>
+                                                <Button
+                                                    enabled="false"
+                                                    type="Transparent"
+                                                    icon="sap-icon://calendar"
+                                                    text="Nov 12"
+                                                />
+
+                                                <Button
+                                                    enabled="false"
+                                                    type="Transparent"
+                                                    icon="sap-icon://attachment"
+                                                    text="2"
+                                                />
+
+                                                <Button
+                                                    enabled="false"
+                                                    type="Transparent"
+                                                    icon="sap-icon://jam"
+                                                    text="5"
+                                                />
+
+                                                <Button
+                                                    enabled="false"
+                                                    type="Transparent"
+                                                    icon="sap-icon://activity-2"
+                                                    text="5"
+                                                />
+                                            </HBox>
+
+                                            <!-- team member / overflow button -->
+                                            <HBox
+                                                justifyContent="SpaceBetween"
+                                                width="100%"
+                                            >
+                                                <Avatar
+                                                    src="https://ik.imagekit.io/8fgpvoiai/profile/profile-image-black-white_81gzUNk43.png?updatedAt=1703005079604"
+                                                    displaySize="XS"
+                                                />
+
+                                                <Button
+                                                    icon="sap-icon://overflow"
+                                                />
+                                            </HBox>
+                                        </VBox>
+                                    </f:content>
+                                </f:Card>
+
+                                <!-- footer -->
+                                <Toolbar style="Clear">
+                                    <Button
+                                        icon="sap-icon://add"
+                                        text="Add Task"
+                                        type="Transparent"
+                                    />
+                                </Toolbar>
+                            </content>
+                        </Panel>
+
+                        <!-- Done -->
+                         <Panel
+                            class="sapUiMediumMarginTop taskPanel"
+                            width="100%"
+                        >
+                            <headerToolbar>
+                                <OverflowToolbar class="sapUiSmallMarginTop">
+                                    <HBox
+                                        width="100%"
+                                        justifyContent="SpaceBetween"
+                                    >
+                                        <Title
+                                            text="Done"
+                                            level="H2"
+                                        />
+
+                                        <Button
+                                            icon="sap-icon://overflow"
+                                            type="Transparent"
+                                        />
+                                    </HBox>
+                                </OverflowToolbar>
+                            </headerToolbar>
+
+                            <content>
+                                <f:Card>
+                                    <f:content>
+                                        <VBox
+                                            class=" sapUiSmallMargin"
+                                            width="100%"
+                                            gap="1rem"
+                                        >
+                                            <!-- title / priority section -->
+                                            <HBox
+                                                width="100%"
+                                                justifyContent="SpaceBetween"
+                                            >
+                                                <VBox gap="0.5rem">
+                                                    <Text
+                                                        text="Website Redesign"
+                                                    />
+                                                    <Title
+                                                        text="Redesign Landing Page"
+                                                        level="H5"
+                                                    />
+                                                </VBox>
+
+                                                <!-- RIGHT : Status Badge -->
+                                                <ObjectStatus
+                                                    text="In Progress"
+                                                    state="Warning"
+                                                    class="statusBadge"
+                                                    inverted="true"
+                                                />
+                                            </HBox>
+
+                                            <!-- progress  -->
+                                            <VBox
+                                                class="progressSection "
+                                                justifyContent="End"
+                                            >
+                                                <HBox
+                                                    justifyContent="SpaceBetween"
+                                                    alignItems="Center"
+                                                    class=""
+                                                >
+                                                    <Text
+                                                        text="Progress"
+                                                        class="progressLabel"
+                                                    />
+                                                    <Text
+                                                        text="65%"
+                                                        class="progressValue"
+                                                    />
+                                                </HBox>
+
+                                                <ProgressIndicator
+                                                    percentValue="65"
+                                                    class="progressBar"
+                                                    width="100%"
+                                                    displayAnimation="true"
+                                                    displayOnly="true"
+                                                />
+                                            </VBox>
+
+                                            <!-- date / other details -->
+                                            <HBox>
+                                                <Button
+                                                    enabled="false"
+                                                    type="Transparent"
+                                                    icon="sap-icon://calendar"
+                                                    text="Nov 12"
+                                                />
+
+                                                <Button
+                                                    enabled="false"
+                                                    type="Transparent"
+                                                    icon="sap-icon://attachment"
+                                                    text="2"
+                                                />
+
+                                                <Button
+                                                    enabled="false"
+                                                    type="Transparent"
+                                                    icon="sap-icon://jam"
+                                                    text="5"
+                                                />
+
+                                                <Button
+                                                    enabled="false"
+                                                    type="Transparent"
+                                                    icon="sap-icon://activity-2"
+                                                    text="5"
+                                                />
+                                            </HBox>
+
+                                            <!-- team member / overflow button -->
+                                            <HBox
+                                                justifyContent="SpaceBetween"
+                                                width="100%"
+                                            >
+                                                <Avatar
+                                                    src="https://ik.imagekit.io/8fgpvoiai/profile/profile-image-black-white_81gzUNk43.png?updatedAt=1703005079604"
+                                                    displaySize="XS"
+                                                />
+
+                                                <Button
+                                                    icon="sap-icon://overflow"
+                                                />
+                                            </HBox>
+                                        </VBox>
+                                    </f:content>
+                                </f:Card>
+
+                                <!-- footer -->
+                                <Toolbar style="Clear">
+                                    <Button
+                                        icon="sap-icon://add"
+                                        text="Add Task"
+                                        type="Transparent"
+                                    />
+                                </Toolbar>
+                            </content>
+                        </Panel>
+                    </FlexBox>
+                </content>
+            </Panel>
         </content>
     </Panel>
 </core:FragmentDefinition>
