@@ -1,0 +1,183 @@
+<core:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:f="sap.f"
+    xmlns:form="sap.ui.layout.form"
+    xmlns:u="sap.ui.unified"
+    xmlns:layout="sap.ui.layout"
+>
+    <Dialog
+        id="createProjectDialog"
+        showHeader="true"
+        verticalScrolling="true"
+        contentHeight="80%"
+        contentWidth="40%"
+        title="Create Project"
+    >
+        <content>
+            <form:SimpleForm
+                layout="ResponsiveGridLayout"
+                id="createProjectForm"
+                editable="true"
+                class="border1"
+                backgroundDesign="Translucent"
+                labelSpanXL="3"
+                labelSpanL="3"
+                labelSpanM="3"
+                labelSpanS="12"
+                emptySpanXL="4"
+                emptySpanL="4"
+                emptySpanM="4"
+                emptySpanS="0"
+                columnsXL="2"
+                columnsL="2"
+                columnsM="1"
+                
+                
+            >
+                <form:content>
+                    <core:Title text="Project Details" />
+                    <Label
+                        text="Name"
+                        required="true"
+                    />
+                    <Input
+                        type="Text"
+                        required="true"
+                        placeholder="Enter Project Name"
+                        value="{createProjectModel>/name}"
+                        
+                    />
+
+                    <Label text="Description" />
+                    <TextArea
+                        placeholder="Enter Description"
+                        rows="3"
+                        cols="4"
+                        value="{createProjectModel>/description}"
+                       
+                    />
+
+                    <Label text="Members" />
+                    <MultiComboBox selectedKeys="{createProjectModel>/members}" width="350px">
+                        <core:Item
+                            key="1"
+                            text="Member1"
+                        />
+                        <core:Item
+                            key="2"
+                            text="Member2"
+                        />
+                    </MultiComboBox>
+                    
+
+                    <Label
+                        text="Manager"
+                        required="true"
+                    />
+                    <Input
+                        type="Text"
+                        value="Your Name"
+                        editable="false"
+                        enabled="false"
+                        
+                    
+                    />
+
+                    <Label text="Start Date" />
+                    <DatePicker displayFormat="MM/dd/yyyy" 
+    valueFormat="yyyy-MM-dd" value="{createProjectModel>/startDate}" id="startDateInput"/>
+
+                    <Label text="Deadline" />
+                    <DatePicker displayFormat="MM/dd/yyyy" 
+    valueFormat="yyyy-MM-dd" value="{createProjectModel>/deadline}"  />
+
+                    <Label text="Client" />
+                    <Select id="projectCreateClientInput" selectedKey="{createProjectModel>/clientName}">
+                        <core:Item
+                            key="client1"
+                            text="Client1"
+                        />
+                        <core:Item
+                            key="client2"
+                            text="Client2"
+                        />
+                    </Select>
+
+                    <Label text="Budget" />
+                    <Input value="{createProjectModel>/budget}"  type="Number" />
+
+                    <core:Title text="Project Progress and Status" />
+                    <Label
+                        class=""
+                        text="Progress"
+                        
+                    />
+                    <Slider
+                        value="{createProjectModel>/progress}" 
+                        min="0"
+                        max="100"
+                        inputsAsTooltips="true"
+                        showAdvancedTooltip="true"
+                        
+                    />
+
+                    <Label text="Priority" />
+                    <Select selectedKey="{createProjectModel>/priority}"  >
+                        <core:Item
+                            key="low"
+                            text="Low"
+                        />
+                        <core:Item
+                            key="medium"
+                            text="Medium"
+                        />
+                        <core:Item
+                            key="high"
+                            text="High"
+                        />
+                    </Select>
+
+                    <Label text="Status" />
+                    <Select selectedKey="{createProjectModel>/status}"  >
+                        <core:Item
+                            key="hold"
+                            text="Hold"
+                        />
+                        <core:Item
+                            key="open"
+                            text="Open"
+                        />
+                        <core:Item
+                            key="completed"
+                            text="Completed"
+                        />
+                        <core:Item
+                            key="overdue"
+                            text="OverDue"
+                        />
+                        <core:Item
+                            key="onReview"
+                            text="On Review"
+                        />
+                    </Select>
+                </form:content>
+            </form:SimpleForm>
+        </content>
+
+        <beginButton>
+            <Button
+                text="Create Project"
+                type="Emphasized"
+                press="onCreateProjectSubmit"
+            />
+        </beginButton>
+        <endButton>
+            <Button
+                text="Cancel"
+                type="Transparent"
+                press="onCancelCreateProject"
+            />
+        </endButton>
+    </Dialog>
+</core:FragmentDefinition>
