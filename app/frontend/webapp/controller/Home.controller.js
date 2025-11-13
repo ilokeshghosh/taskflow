@@ -2,16 +2,29 @@ sap.ui.define([
     "sap/ui/core/mvc/Controller",
     "sap/ui/core/Fragment",
     "sap/ui/model/json/JSONModel",
-], (Controller, Fragment, JSONModel) => {
+    "app/frontend/webapp/model/formatter",
+    // "com/taskflow/dev/frontend/util/projectHelper.js",
+    "com/taskflow/dev/frontend/util/projectHelper",
+    "com/taskflow/dev/frontend/model/formatter"
+], (Controller, Fragment, JSONModel,projectHelper,formatter) => {
     "use strict";
 
+	
     return Controller.extend("com.taskflow.dev.frontend.controller.Home", {
+        formatter:formatter,
         onInit() {
             this.oFragmentModel = new JSONModel({
                 key: "home"
             })
             this.getView().setModel(this.oFragmentModel, "fragmentModel");
             this._openHomeFragment({ key: "home" });
+
+            
+        },
+        
+        onAfterRendering(){
+            projectHelper.init(this);
+            // console.log("model data",this.getView().getModel().bindList("/Projects"));
         },
         onNavSelect(oEvent) {
             var sNavItemKey = oEvent.getParameters("items")['item'].getKey()
@@ -58,7 +71,12 @@ sap.ui.define([
                     oView.addDependent(oFragment);
                     return oFragment;
                 })
-        }
+        },
+        handleOpenCreateProjectDialog(){
+            console.log("hey there");
+            projectHelper.handleCreateProject();
+        },
+       
 
     });
 });
