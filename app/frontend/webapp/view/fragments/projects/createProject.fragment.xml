@@ -86,11 +86,11 @@
 
                     <Label text="Start Date" />
                     <DatePicker displayFormat="MM/dd/yyyy" 
-    valueFormat="yyyy-MM-dd" value="{createProjectModel>/startDate}" id="startDateInput"/>
+                    valueFormat="yyyy-MM-dd" value="{createProjectModel>/startDate}" id="startDateInput"/>
 
                     <Label text="Deadline" />
                     <DatePicker displayFormat="MM/dd/yyyy" 
-    valueFormat="yyyy-MM-dd" value="{createProjectModel>/deadline}"  />
+                        valueFormat="yyyy-MM-dd" value="{createProjectModel>/deadline}"  />
 
                     <Label text="Client" />
                     <Select id="projectCreateClientInput" selectedKey="{createProjectModel>/clientName}">

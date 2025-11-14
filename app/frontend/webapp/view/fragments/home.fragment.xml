@@ -30,7 +30,7 @@
                             icon="sap-icon://add-activity"
                             type="Success"
                             text="Create Task"
-                            press=""
+                            press="handleOpenCreateTaskDialog"
                         />
                         <Button
                             class=""
@@ -74,7 +74,7 @@
                         >
                             <NumericContent
                                 valueColor="Good"
-                                value="6"
+                                value="{/Projects/$count}"
                                 indicator="Up"
                                 scale="C"
                                 icon="sap-icon://document-text"
@@ -93,7 +93,7 @@
                         >
                             <NumericContent
                                 valueColor="Good"
-                                value="40"
+                                value="{/Tasks/$count}"
                                 indicator="Up"
                                 scale="C"
                                 icon="sap-icon://activity-items"
@@ -108,8 +108,9 @@
                     >
                         <TileContent footer="from last month">
                             <NumericContent
+                                id="openCount"
                                 valueColor="Error"
-                                value="20"
+                                value="0"
                                 indicator="Down"
                                 scale="C"
                                 icon="sap-icon://pending"
@@ -124,8 +125,9 @@
                     >
                         <TileContent footer="from last month">
                             <NumericContent
+                                id="completedCount"
                                 valueColor="Good"
-                                value="10"
+                                value=""
                                 indicator="Up"
                                 scale="C"
                                 icon="sap-icon://task"
@@ -140,8 +142,9 @@
                     >
                         <TileContent footer="from last month">
                             <NumericContent
+                                id="overdueCount"
                                 valueColor="Critical"
-                                value="10"
+                                value=""
                                 indicator="Up"
                                 scale="C"
                                 icon="sap-icon://message-warning"
@@ -205,7 +208,6 @@
                                                     state="{path:'status',formatter:'.formatter.formatStatus'}"
                                                     class="statusBadge"
                                                     inverted="true"
-                                                    
                                                 />
                                             </HBox>
 
@@ -229,7 +231,7 @@
                                                         />
 
                                                         <Text
-                                                            text="Deadline: Nov 15, 2023"
+                                                            text="{deadline}"
                                                             class="deadlineText"
                                                         />
                                                     </HBox>
@@ -258,13 +260,13 @@
                                                             class="progressLabel"
                                                         />
                                                         <Text
-                                                            text="65%"
+                                                            text="{progress}%"
                                                             class="progressValue"
                                                         />
                                                     </HBox>
 
                                                     <ProgressIndicator
-                                                        percentValue="65"
+                                                        percentValue="{progress}"
                                                         class="progressBar"
                                                         width="100%"
                                                         displayAnimation="true"
@@ -279,8 +281,6 @@
                                     </f:content>
                                 </f:Card>
                             </items>
-
-                           
                         </HBox>
                     </content>
                 </Panel>

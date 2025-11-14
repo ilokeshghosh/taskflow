@@ -1,0 +1,152 @@
+<core:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:f="sap.f"
+    xmlns:form="sap.ui.layout.form"
+    xmlns:u="sap.ui.unified"
+    xmlns:layout="sap.ui.layout"
+>
+    <Dialog
+        id="createTaskDialog"
+        showHeader="true"
+        verticalScrolling="true"
+        contentHeight="80%"
+        contentWidth="40%"
+        title="Create Task"
+    >
+        <content>
+            <form:SimpleForm
+                layout="ResponsiveGridLayout"
+                id="createTaskForm"
+                editable="true"
+                class="border1"
+                backgroundDesign="Translucent"
+                labelSpanXL="3"
+                labelSpanL="3"
+                labelSpanM="3"
+                labelSpanS="12"
+                emptySpanXL="4"
+                emptySpanL="4"
+                emptySpanM="4"
+                emptySpanS="0"
+                columnsXL="2"
+                columnsL="2"
+                columnsM="1"
+            >
+                <form:content>
+                    <Label
+                        text="Title"
+                        required="true"
+                    />
+
+                    <Input
+                        type="Text"
+                        required="true"
+                        placeholder="Enter Task Name"
+                        value="{createTaskModel>/title}"
+                    />
+
+                    <Label text="Description" />
+
+                    <TextArea
+                        rows="2"
+                        cols="5"
+                        value="{createTaskModel>/description}"
+                    />
+
+                    <Label text="Priority" />
+                    <Select
+                        id="taskCreateClientInputPriority"
+                        selectedKey="{createTaskModel>/priority}"
+                    >
+                        <core:Item
+                            key="low"
+                            text="Low"
+                        />
+                        <core:Item
+                            key="medium"
+                            text="Medium"
+                        />
+                        <core:Item
+                            key="high"
+                            text="High"
+                        />
+                    </Select>
+
+                    <Label text="Due Date" />
+                    <DatePicker
+                        displayFormat="MM/dd/yyyy"
+                        valueFormat="yyyy-MM-dd"
+                        value="{createTaskModel>/dueDate}"
+                    />
+
+                    <Label text="Assign To" />
+                    <Select
+                        id="taskCreateClientInputAssigne"
+                        selectedKey="{createTaskModel>/assignedTo}"
+                        items="{/Users}"
+                    >
+                        <core:Item
+                            key="{ID}"
+                            text="{name}"
+                        />
+                    </Select>
+
+                    <Label text="Status" />
+                    <Select
+                        id="taskCreateClientInputStatus"
+                        selectedKey="{createTaskModel>/status}"
+                    >
+                        <core:Item
+                            key="hold"
+                            text="Hold"
+                        />
+                        <core:Item
+                            key="open"
+                            text="Open"
+                        />
+                        <core:Item
+                            key="completed"
+                            text="Completed"
+                        />
+                        <core:Item
+                            key="overdue"
+                            text="Overdue"
+                        />
+                        <core:Item
+                            key="onReview"
+                            text="On Review"
+                        />
+                    </Select>
+
+                    <Label text="Projects" />
+                    <Select
+                        id="taskCreateClientInputProject"
+                        items="{/Projects}"
+                        selectedKey="{createTaskModel>/project}"
+                    >
+                        <core:Item
+                            key="{ID}"
+                            text="{name}"
+                        />
+                    </Select>
+                </form:content>
+            </form:SimpleForm>
+        </content>
+
+        <beginButton>
+            <Button
+                text="Create Task"
+                type="Emphasized"
+                press="onCreateTaskSubmit"
+            />
+        </beginButton>
+        <endButton>
+            <Button
+                text="Cancel"
+                type="Transparent"
+                press="onCancelTaskProject"
+            />
+        </endButton>
+    </Dialog>
+</core:FragmentDefinition>

@@ -9,11 +9,21 @@ sap.ui.define([], function () {
                 "hold": "Warning",
                 "inProgress": "Warning",
                 "completed": "Success",
-                "open": "Information"
+                "open": "Information",
             };
 
             return mStatusMap[sValue] || "None";
 
         },
+        formatPriority: function (sValue) {
+            var mPriorityMap = {
+                "high": "Error",
+                "medium": "Warning",
+                "low": "Success"
+            }
+
+            return mPriorityMap[sValue] || "None";
+        }
+        
     };
 });
