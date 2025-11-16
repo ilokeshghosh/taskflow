@@ -7,7 +7,7 @@
 >
     <Panel height="100%">
         <headerToolbar>
-            <OverflowToolbar height="3rem">
+            <OverflowToolbar visible="false" height="3rem">
                 <HBox
                     width="100%"
                     justifyContent="SpaceBetween"
@@ -175,12 +175,12 @@
                             <!-- Card 1 -->
                             <items>
                                 <f:Card
-                                    class="projectCard sapUiSmallMargin sapUiTinyMarginBegin"
-                                    width="400px"
+                                    class="projectCard sapUiContentPadding sapUiSmallMargin sapUiTinyMarginBegin"
+                                    width="500px"
                                 >
                                     <f:content>
                                         <VBox
-                                            class="cardContent"
+                                            class="cardContent border2 sapUiTinyMargin"
                                             width="100%"
                                         >
                                             <!-- header section -->

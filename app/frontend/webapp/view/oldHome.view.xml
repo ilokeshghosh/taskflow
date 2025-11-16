@@ -1,0 +1,167 @@
+<mvc:XMLView xmlns:mvc="sap.ui.core.mvc">
+    <HBox
+        height="100%"
+        justifyContent="SpaceBetween"
+        class="homeView"
+    >
+        <VBox
+            renderType="Bare"
+            alignItems="Start"
+            height="100%"
+        >
+            <!-- Brand Header with Logo -->
+            <HBox
+                alignItems="Center"
+                justifyContent="Start"
+                width="100%"
+                class="sapUiTinyMarginLeft"
+                backgroundDesign="Solid"
+                height="3rem"
+            >
+                <Image
+                    src="https://ik.imagekit.io/8fgpvoiai/taskFlow/croppedTaskFlow-removebg-preview_0FgIITQmd.png?updatedAt=1762799794592"
+                    width="40px"
+                    height="40px"
+                    class=""
+                    alt="Logo"
+                />
+
+                <Title
+                    text="Task Flow"
+                    level="H2"
+                    class="brandTitle"
+                />
+            </HBox>
+
+            <tnt:SideNavigation
+                id="sideNavigation"
+                expanded="true"
+            >
+                <tnt:NavigationList>
+                    <!-- general navigation -->
+
+                    <tnt:NavigationListItem
+                        text="Home"
+                        key="home"
+                        icon="sap-icon://home"
+                        select="onNavSelect"
+                    />
+
+                    <tnt:NavigationListItem
+                        text="Projects"
+                        key="projects"
+                        icon="sap-icon://newspaper"
+                        select="onNavSelect"
+                    />
+
+                    <tnt:NavigationListItem
+                        text="Tasks"
+                        key="tasks"
+                        icon="sap-icon://task"
+                        select="onNavSelect"
+                    />
+
+                    <tnt:NavigationListItem
+                        text="Kanban Desk"
+                        key="kanbanDesk"
+                        icon="sap-icon://grid"
+                        select="onNavSelect"
+                    />
+
+                    <tnt:NavigationListItem
+                        text="Calender"
+                        key="calender"
+                        icon="sap-icon://appointment-2"
+                        select="onNavSelect"
+                    />
+
+                    <tnt:NavigationListItem
+                        text="Contact"
+                        key="contact"
+                        icon="sap-icon://address-book"
+                        select="onNavSelect"
+                    />
+
+                    <tnt:NavigationListItem
+                        text="Notification"
+                        key="notification"
+                        icon="sap-icon://bell"
+                        select="onNavSelect"
+                    />
+
+                    <tnt:NavigationListItem
+                        text="Search"
+                        key="search"
+                        icon="sap-icon://search"
+                        select="onNavSelect"
+                    />
+
+                    <!-- project navigation -->
+                    <tnt:NavigationListGroup
+                        expanded="false"
+                        text="Projects"
+                    >
+                        <tnt:NavigationListItem
+                            text="Project 01"
+                            icon="sap-icon://business-objects-mobile"
+                        />
+                        <tnt:NavigationListItem
+                            text="Project 02"
+                            icon="sap-icon://business-objects-mobile"
+                        />
+
+                        <tnt:NavigationListItem
+                            text="Project 03"
+                            icon="sap-icon://business-objects-mobile"
+                        />
+                    </tnt:NavigationListGroup>
+
+                    <tnt:NavigationListGroup
+                        text="Message"
+                        expanded="false"
+                    >
+                        <tnt:NavigationListItem
+                            text="Contact 01"
+                            icon="sap-icon://address-book"
+                        />
+
+                        <tnt:NavigationListItem
+                            text="Contact 02"
+                            icon="sap-icon://address-book"
+                        />
+
+                        <tnt:NavigationListItem
+                            text="Contact 03"
+                            icon="sap-icon://address-book"
+                        />
+                    </tnt:NavigationListGroup>
+                </tnt:NavigationList>
+
+                <tnt:fixedItem>
+                    <tnt:NavigationList>
+                        <tnt:NavigationListItem
+                            text="Expand"
+                            icon="sap-icon://open-command-field"
+                            select="onClickExpand"
+                            visible="false"
+                        />
+
+                        <tnt:NavigationListItem
+                            text="version 0.0.1"
+                            icon="sap-icon://message-information"
+                            selectable="false"
+                        />
+                    </tnt:NavigationList>
+                </tnt:fixedItem>
+            </tnt:SideNavigation>
+        </VBox>
+
+        <VBox
+            renderType="Bare"
+            alignItems="End"
+            width="90%"
+            height="100%"
+            id="heroLoadArea"
+        />
+    </HBox>
+</mvc:XMLView>

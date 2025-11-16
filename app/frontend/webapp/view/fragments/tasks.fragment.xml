@@ -8,14 +8,17 @@
 >
     <Panel height="100%">
         <headerToolbar>
-            <OverflowToolbar height="3rem">
+            <OverflowToolbar
+                visible="false"
+                height="3rem"
+            >
                 <HBox
                     width="100%"
                     justifyContent="SpaceBetween"
                     alignItems="Center"
                 >
                     <Title
-                        text="{i18n>home}"
+                        text="{i18n>tasks}"
                         level="H1"
                     />
 
@@ -101,11 +104,14 @@
                                     width="100%"
                                     horizontal="false"
                                     vertical="true"
+                                    class="padding1rem border1 "
                                 >
                                     <VBox
                                         gap="1rem"
-                                        class=""
-                                        width="100%"
+                                        class="sapUiTinyMarginBegin sapUiTinyMarginTop"
+                                        justifyContent="Center"
+                                        alignItems="Center"
+                                        width="90%"
                                         items="{
                                     path: '/Tasks',
                                     filters: [{
@@ -118,7 +124,7 @@
                                         <f:Card class="taskPanel">
                                             <f:content>
                                                 <VBox
-                                                    class=" sapUiSmallMargin"
+                                                    class="sapUiTinyMargin"
                                                     width="100%"
                                                     gap="1rem"
                                                 >
@@ -273,8 +279,10 @@
                                 >
                                     <VBox
                                         gap="1rem"
-                                        class=""
-                                        width="100%"
+                                        
+                                         class="sapUiTinyMarginBegin sapUiTinyMarginTop"
+                                         justifyContent="Center"
+                                        width="90%"
                                         items="{
                                     path: '/Tasks',
                                     filters: [{
@@ -287,7 +295,7 @@
                                         <f:Card class="taskPanel">
                                             <f:content>
                                                 <VBox
-                                                    class=" sapUiSmallMargin"
+                                                    class=" sapUiTinyMargin"
                                                     width="100%"
                                                     gap="1rem"
                                                 >
@@ -442,8 +450,9 @@
                                 >
                                     <VBox
                                         gap="1rem"
-                                        class=""
-                                        width="100%"
+                                         class="sapUiTinyMarginBegin sapUiTinyMarginTop"
+                                         justifyContent="Center"
+                                        width="90%"
                                         items="{
                                     path: '/Tasks',
                                     filters: [{
@@ -456,7 +465,7 @@
                                         <f:Card class="taskPanel">
                                             <f:content>
                                                 <VBox
-                                                    class=" sapUiSmallMargin"
+                                                    class="sapUiTinyMargin"
                                                     width="100%"
                                                     gap="1rem"
                                                 >
@@ -611,8 +620,9 @@
                                 >
                                     <VBox
                                         gap="1rem"
-                                        class=""
-                                        width="100%"
+                                         class="sapUiTinyMarginBegin sapUiTinyMarginTop"
+                                         justifyContent="Center"
+                                        width="90%"
                                         items="{
                                     path: '/Tasks',
                                     filters: [{
@@ -625,7 +635,7 @@
                                         <f:Card class="taskPanel">
                                             <f:content>
                                                 <VBox
-                                                    class=" sapUiSmallMargin"
+                                                    class="sapUiTinyMargin"
                                                     width="100%"
                                                     gap="1rem"
                                                 >
@@ -780,8 +790,9 @@
                                 >
                                     <VBox
                                         gap="1rem"
-                                        class=""
-                                        width="100%"
+                                         class="sapUiTinyMarginBegin sapUiTinyMarginTop"
+                                         justifyContent="Center"
+                                        width="90%"
                                         items="{
                                     path: '/Tasks',
                                     filters: [{
@@ -794,7 +805,7 @@
                                         <f:Card class="taskPanel">
                                             <f:content>
                                                 <VBox
-                                                    class=" sapUiSmallMargin"
+                                                    class=" sapUiTinyMargin"
                                                     width="100%"
                                                     gap="1rem"
                                                 >

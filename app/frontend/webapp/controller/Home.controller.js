@@ -13,6 +13,13 @@ sap.ui.define([
     return Controller.extend("com.taskflow.dev.frontend.controller.Home", {
         formatter: formatter,
         onInit() {
+
+            this.getSplitAppObj().setHomeIcon({
+                'phone': 'phone-icon.png',
+                'tablet': 'tablet-icon.png',
+                'icon': 'desktop.ico'
+            });
+
             this.oFragmentModel = new JSONModel({
                 key: "home"
             })
@@ -20,7 +27,7 @@ sap.ui.define([
             this._openHomeFragment({ key: "home" });
 
 
-
+            this._setSplitAppMode();
 
 
 
@@ -33,6 +40,14 @@ sap.ui.define([
 
 
             // console.log("model data",this.getView().getModel().bindList("/Projects"));
+        },
+
+        getSplitAppObj: function () {
+            var result = this.byId("taskflowLadingPage");
+            if (!result) {
+                Log.info("SplitApp object can't be found");
+            }
+            return result;
         },
         onNavSelect(oEvent) {
             var sNavItemKey = oEvent.getParameters("items")['item'].getKey()
@@ -81,13 +96,44 @@ sap.ui.define([
             })
         },
         handleOpenCreateProjectDialog() {
-           
+
             projectHelper.handleCreateProject();
         },
 
-        handleOpenCreateTaskDialog(){
+        handleOpenCreateTaskDialog() {
             taskHelper.handleCreateTask();
-        }
+        },
+
+        // split app
+
+        onNavItemPress(oEvent) {
+            var sToPageId = oEvent.getParameter("listItem").getCustomData()[0].getValue();
+
+            this.getSplitAppObj().toDetail(this.createId(sToPageId));
+        },
+        onPressGoToProjectsMaster() {
+            this.getSplitAppObj().toMaster(this.createId("projects"));
+        },
+        onPressMasterBack() {
+            this.getSplitAppObj().backMaster();
+        },
+        _setSplitAppMode() {
+            this.getSplitAppObj().setMode("ShowHideMode");
+        },
+        onHamburgerPress: function () {
+            var oSplitApp = this.getSplitAppObj();
+    // Toggle between showing and hiding the master pane
+    var isMasterVisible = oSplitApp.getMode() !== "HideMode";
+    
+    if (isMasterVisible) {
+        oSplitApp.setMode("HideMode");
+    } else {
+        oSplitApp.setMode("ShowHideMode");
+    }
+
+        },
+
+
 
     });
 });

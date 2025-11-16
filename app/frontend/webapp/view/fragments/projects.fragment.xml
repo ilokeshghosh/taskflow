@@ -6,14 +6,14 @@
 >
     <Panel height="100%">
         <headerToolbar>
-            <OverflowToolbar height="3rem">
+            <OverflowToolbar visible="false" height="3rem">
                 <HBox
                     width="100%"
                     justifyContent="SpaceBetween"
                     alignItems="Center"
                 >
                     <Title
-                        text="{i18n>home}"
+                        text="{i18n>projects}"
                         level="H1"
                     />
 
@@ -88,7 +88,7 @@
                         >
                             <f:content>
                                 <VBox
-                                    class="cardContent"
+                                    class="cardContent sapUiTinyMargin"
                                     width="100%"
                                 >
                                     <!-- header section -->

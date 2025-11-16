@@ -6,172 +6,170 @@
     xmlns:tnt="sap.tnt"
     xmlns:l="sap.ui.layout"
     xmlns:core="sap.ui.core"
+    xmlns:custom="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1"
 >
-    <HBox
-        height="100%"
-        justifyContent="SpaceBetween"
-        class="homeView"
+    <SplitApp
+        id="taskflowLadingPage"
+        initialDetail="detail"
+        initialMaster="master"
     >
-        <VBox
-            renderType="Bare"
-            alignItems="Start"
-            height="100%"
-            
-        >
-            <!-- Brand Header with Logo -->
-            <HBox
-                alignItems="Center"
-                justifyContent="Start"
-                width="100%"
-                class="sapUiTinyMarginLeft"
+        <masterPages>
+            <Page
+                id="master"
+                title="TaskFlow"
+                backgroundDesign="List"
+                showFooter="true"
+            >
+                <List itemPress=".onNavItemPress">
+                    <items>
+                        <StandardListItem
+                            title="Home"
+                            type="Active"
+                            custom:to="home"
+                            icon="sap-icon://home"
+                        />
+                        <StandardListItem
+                            title="Projects"
+                            type="Active"
+                            custom:to="project"
+                            icon="sap-icon://newspaper"
+                        />
+                        <StandardListItem
+                            title="Tasks"
+                            type="Active"
+                            custom:to="tasks"
+                            icon="sap-icon://task"
+                        />
+                        <StandardListItem
+                            title="Kanban Desk"
+                            type="Active"
+                            custom:to="kanbanDesk"
+                            icon="sap-icon://grid"
+                        />
+                        <StandardListItem
+                            title="Calender"
+                            type="Active"
+                            custom:to="calender"
+                            icon="sap-icon://appointment-2"
+                        />
+
+                        <!-- projects -->
+                        <StandardListItem
+                            title="Projects"
+                            type="Navigation"
+                            press=".onPressGoToProjectsMaster"
+                           icon="sap-icon://business-objects-mobile"
+                        />
+                    </items>
+                </List>
+
+                <footer >
+                    <Toolbar height="auto">
+                        <List>
+                            <StandardListItem
+                                icon="sap-icon://add-activity"
+                                type="Active"
+                                title="Create Task"
+                                 press="handleOpenCreateTaskDialog"
+                            />
+
+                             <StandardListItem
+                                icon="sap-icon://add"
+                                iconInset="true"
+                                type="Active"
+                                title="Create Project"
+                                press="handleOpenCreateProjectDialog"
+                            />
+
+
+                             <StandardListItem
+                                icon="sap-icon://bell"
+                                iconInset="true"
+                                type="Active"
+                                title="Notifications"
+                            />
+
+                            <StandardListItem class="" title="Version : 0.0.1">
+                            
+                            <avatar>
+                            <Avatar showBorder="true" displayShape="Circle" src="https://ik.imagekit.io/8fgpvoiai/profile/profile-image-black-white_81gzUNk43.png?updatedAt=1703005079604"></Avatar>
+                            </avatar>
+                            </StandardListItem>
+
+                            
+                        </List>
+                    </Toolbar>
+                </footer>
+            </Page>
+
+            <Page
+                id="projects"
+                title="Projects"
+                backgroundDesign="List"
+                showNavButton="true"
+                navButtonPress=".onPressMasterBack"
+            >
+                <List
+                    id="navItems"
+                    itemPress=".onListItemPress"
+                >
+                    <items>
+                        <StandardListItem
+                            title="Project1"
+                            type="Active"
+                            custom:to="detail"
+                        />
+                        <StandardListItem
+                            title="Project2"
+                            type="Active"
+                            custom:to="detailDetail"
+                        />
+                        <StandardListItem
+                            title="Project3"
+                            type="Active"
+                            custom:to="detail2"
+                        />
+                    </items>
+                </List>
+            </Page>
+        </masterPages>
+
+        <detailPages>
+            <Page
+                id="home"
+                showHeader="true"
+                title="Home"
                 backgroundDesign="Solid"
-                height="3rem"
             >
-                <Image
-                    src="https://ik.imagekit.io/8fgpvoiai/taskFlow/croppedTaskFlow-removebg-preview_0FgIITQmd.png?updatedAt=1762799794592"
-                    width="40px"
-                    height="40px"
-                    class=""
-                    alt="Logo"
+                <core:Fragment
+                    fragmentName="com.taskflow.dev.frontend.view.fragments.home"
+                    type="XML"
                 />
+            </Page>
 
-                <Title
-                    text="Task Flow"
-                    level="H2"
-                    class="brandTitle"
-                />
-            </HBox>
-
-            <tnt:SideNavigation
-                id="sideNavigation"
-                expanded="true"
-                
+            <Page
+                id="project"
+                backgroundDesign="Solid"
+                showHeader="true"
+                title="Projects"
             >
-                <tnt:NavigationList>
-                    <!-- general navigation -->
+                <core:Fragment
+                    fragmentName="com.taskflow.dev.frontend.view.fragments.projects"
+                    type="XML"
+                />
+            </Page>
 
-                    <tnt:NavigationListItem
-                        text="Home"
-                        key="home"
-                        icon="sap-icon://home"
-                        select="onNavSelect"
-                    />
-
-                    <tnt:NavigationListItem
-                        text="Projects"
-                        key="projects"
-                        icon="sap-icon://newspaper"
-                        select="onNavSelect"
-                    />
-
-                    <tnt:NavigationListItem
-                        text="Tasks"
-                        key="tasks"
-                        icon="sap-icon://task"
-                        select="onNavSelect"
-                    />
-
-                    <tnt:NavigationListItem
-                        text="Kanban Desk"
-                        key="kanbanDesk"
-                        icon="sap-icon://grid"
-                        select="onNavSelect"
-                    />
-
-                    <tnt:NavigationListItem
-                        text="Calender"
-                        key="calender"
-                        icon="sap-icon://appointment-2"
-                        select="onNavSelect"
-                    />
-
-                    <tnt:NavigationListItem
-                        text="Contact"
-                        key="contact"
-                        icon="sap-icon://address-book"
-                        select="onNavSelect"
-                    />
-
-                    <tnt:NavigationListItem
-                        text="Notification"
-                        key="notification"
-                        icon="sap-icon://bell"
-                        select="onNavSelect"
-                    />
-
-                    <tnt:NavigationListItem
-                        text="Search"
-                        key="search"
-                        icon="sap-icon://search"
-                        select="onNavSelect"
-                    />
-
-                    <!-- project navigation -->
-                    <tnt:NavigationListGroup
-                        expanded="false"
-                        text="Projects"
-                    >
-                        <tnt:NavigationListItem
-                            text="Project 01"
-                            icon="sap-icon://business-objects-mobile"
-                        />
-                        <tnt:NavigationListItem
-                            text="Project 02"
-                            icon="sap-icon://business-objects-mobile"
-                        />
-
-                        <tnt:NavigationListItem
-                            text="Project 03"
-                            icon="sap-icon://business-objects-mobile"
-                        />
-                    </tnt:NavigationListGroup>
-
-                    <tnt:NavigationListGroup
-                        text="Message"
-                        expanded="false"
-                    >
-                        <tnt:NavigationListItem
-                            text="Contact 01"
-                            icon="sap-icon://address-book"
-                        />
-
-                        <tnt:NavigationListItem
-                            text="Contact 02"
-                            icon="sap-icon://address-book"
-                        />
-
-                        <tnt:NavigationListItem
-                            text="Contact 03"
-                            icon="sap-icon://address-book"
-                        />
-                    </tnt:NavigationListGroup>
-                </tnt:NavigationList>
-
-                <tnt:fixedItem>
-                    <tnt:NavigationList>
-                        <tnt:NavigationListItem
-                            text="Expand"
-                            icon="sap-icon://open-command-field"
-                            select="onClickExpand"
-                            visible="false"
-                        />
-
-                        <tnt:NavigationListItem
-                            text="version 0.0.1"
-                            icon="sap-icon://message-information"
-                            selectable="false"
-                        />
-                    </tnt:NavigationList>
-                </tnt:fixedItem>
-            </tnt:SideNavigation>
-        </VBox>
-
-        <VBox
-            renderType="Bare"
-            alignItems="End"
-            width="90%"
-            height="100%"
-            id="heroLoadArea"
-        />
-    </HBox>
+            <Page
+                id="tasks"
+                backgroundDesign="Solid"
+                showHeader="true"
+                title="Tasks"
+                >
+                <core:Fragment
+                    fragmentName="com.taskflow.dev.frontend.view.fragments.tasks"
+                    type="XML"
+                />
+            </Page>
+        </detailPages>
+    </SplitApp>
 </mvc:View>
