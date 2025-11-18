@@ -38,18 +38,239 @@ body .give-freely-root {
 } */
 
 .homeView .projectCard .cardHeader {
-    border-left: 4px solid #FFD700;
-    padding-left: 4px;
+    /* border-left: 4px solid #FFD700; */
+    /* padding-left: 4px; */
 }
 
 /* .homeView .projectCard .cardContent{
     padding: 1.0rem;
 } */
 
-.homeView .taskPanel {
-    border: 1px solid;
+
+
+.homeView .padding1rem {}
+
+.openTaskPanel>.sapMPanelContent {
+    padding: 0;
 }
 
-.homeView .padding1rem{
-    
+.sapMPanel.openTaskPanel {
+    border: 2px solid;
+    /* width: 500px; */
+    /* width: 100%; */
+}
+
+/* .sapMPage >.sapMVBox{
+    border: 2px solid red !important;
+} */
+
+.sapMFlexBox>.projectDetailsCard {
+    /* border: 2px solid !important; */
+    border-radius: 0.5rem !important;
+    padding: 1rem;
+    background-color: var(--sapButton_Active_Background);
+    max-height: 110px;
+
+}
+
+.sapMFlexBox>.projectDetailsCard :hover {
+    /* border: 2px solid !important; */
+    background-color: var(--sapButton_Hover_Background);
+    box-shadow: var(--sapContent_Shadow);
+
+}
+
+.sapMITB>.sapMITH>.sapMITBHead {
+
+    width: 100% !important;
+    display: flex;
+    justify-content: space-around;
+}
+
+.projectDetailsIconTab>.sapMFlexItem {
+
+    width: 100% !important;
+
+}
+
+.sapMFlexBox>.iconTabBarProjectOverviewContent {
+    /* border: 2px solid red !important; */
+    background-color: var(--sapButton_Active_Background);
+    /* width: 100% !important; */
+}
+
+.sapUiMedia-Std-Desktop .sapMSplitContainer.sapMSplitContainerShowHide .sapMITH {
+
+    padding: 0 0.3rem;
+}
+
+.iconTabBarProjectOverview>.sapMFlexItem {
+    /* border: 2px solid red !important; */
+    border-radius: 1rem;
+    /* border:1px solid ; */
+    width: 100%;
+}
+
+.iconTabBarProjectOverview>.iconTabBarProjectOverviewContent {
+    padding: 1rem !important;
+    /* border: 2px solid green; */
+}
+
+/* .iconTabBarProjectOverview>.iconTabBarProjectOverviewContent.projectDetails {
+    border: 2px solid red;
+} */
+
+.projectGoals>.sapMListHdrText {
+    /* border: 2px solid red; */
+    border-radius: none;
+    background-color: transparent !important;
+    border: none;
+
+}
+
+/* Mobile First (default styles) */
+/* Extra Small Phone */
+@media (max-width: 400px) {
+
+    /* styles */
+    .sapMPanel.openTaskPanel {
+        width: 300px !important;
+    }
+
+    .sapMFlexBox .projectObjectBoxUpperContent {
+        flex-direction: column;
+    }
+
+    .sapMFlexBox .projectDetailsCard {
+        /* border: 2px solid red; */
+        width: 300px !important;
+    }
+
+
+    .iconTabBarProjectOverview>.iconTabBarProjectOverviewContent {
+        width: 100% !important;
+        /* border: 2px solid green; */
+    }
+
+    .iconTabBarProjectOverview>.iconTabBarProjectOverviewContent.projectDetails {
+        /* border: 2px solid red; */
+        width: 100% !important;
+    }
+}
+
+@media (min-width: 480px) {
+    /* Bigger phones */
+
+    .sapFCard.projectCard {
+
+        width: 100% !important;
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+
+    .sapMPanel.openTaskPanel {
+        width: 400px !important;
+    }
+
+    .sapMFlexBox .projectObjectBoxUpperContent {
+        flex-direction: column;
+    }
+
+
+
+    .iconTabBarProjectOverview>.iconTabBarProjectOverviewContent {
+        width: 100% !important;
+        /* border: 2px solid green; */
+    }
+
+    .iconTabBarProjectOverview>.iconTabBarProjectOverviewContent.projectDetails {
+        /* border: 2px solid red; */
+        width: 100% !important;
+    }
+
+
+
+}
+
+@media (min-width: 640px) {
+
+    /* Large phones / phablets */
+    .homePanel .projectOverViewFlex {
+        /* border: 2px solid red !important; */
+        flex-direction: column !important;
+    }
+
+    .sapFCard.projectCard {
+
+        width: 100% !important;
+    }
+
+    .sapMPanel.openTaskPanel {
+        width: 500px;
+    }
+
+
+
+
+}
+
+@media (min-width: 768px) {
+
+    /* Tablets */
+    .sapFCard.projectCard {
+        /* border: 2px solid green ; */
+        width: 500px !important;
+    }
+
+    .homePanel .projectOverViewFlex {
+        /* border: 2px solid red !important; */
+        flex-direction: row !important;
+    }
+
+    .sapMPanel.openTaskPanel {
+        width: 500px;
+    }
+
+
+    .iconTabBarProjectOverview>.iconTabBarProjectOverviewContent {
+        width: 60% !important;
+        /* border: 2px solid green; */
+    }
+
+    .iconTabBarProjectOverview>.iconTabBarProjectOverviewContent.projectDetails {
+        /* border: 2px solid red; */
+        width: 35% !important;
+    }
+
+
+}
+
+@media (min-width: 1024px) {
+
+    /* Tablets landscape / small laptops */
+    .sapFCard.projectCard {
+
+        width: 500px !important;
+    }
+
+    .sapMFlexBox .projectObjectBoxUpperContent {
+        flex-direction: row;
+        justify-content: space-around;
+    }
+
+
+}
+
+@media (min-width: 1280px) {
+
+    /* Laptops */
+    .sapMFlexBox .projectObjectBoxUpperContent {
+        flex-direction: row;
+        justify-content: space-between;
+    }
+
+}
+
+@media (min-width: 1536px) {
+    /* Large Desktop / 4K */
 }

@@ -51,7 +51,7 @@
         </headerToolbar>
         <!-- <Title text="{fragmentModel>/key}" /> -->
         <content>
-            <Panel>
+            <Panel width="100%">
                 <headerToolbar>
                     <OverflowToolbar>
                         <HBox
@@ -79,12 +79,14 @@
                         justifyContent="SpaceAround"
                         width="100%"
                         items="{/Projects}"
+                        gap="1rem"
+                        class="projectOverViewFlex"
                     >
                         <items />
                         <!-- Card 1 -->
                         <f:Card
-                            class="projectCard sapUiSmallMargin sapUiTinyMarginBegin"
-                            width="400px"
+                            class="projectCard sapUiContentPadding sapUiSmallMarginBottom"
+                            
                         >
                             <f:content>
                                 <VBox
@@ -96,9 +98,11 @@
                                         justifyContent="SpaceBetween"
                                         alignItems="Start"
                                         class="cardHeader"
+                                        wrap="Wrap"
+                                        width="100%"
                                     >
                                         <!-- LEFT : Badge + Title -->
-                                        <VBox class="titleSection">
+                                        <VBox class="titleSection" width="90%">
                                             <Title
                                                 text="{name}"
                                                 level="H5"
@@ -129,6 +133,7 @@
                                             class="deadlineSection sapUiSmallMarginTop"
                                             width="100%"
                                             justifyContent="SpaceBetween"
+                                            wrap="Wrap"
                                         >
                                             <HBox gap="2px">
                                                 <core:Icon
@@ -191,7 +196,7 @@
                                         gap="1rem"
                                     >
                                         <!-- client / Budget -->
-                                        <HBox justifyContent="SpaceBetween">
+                                        <HBox justifyContent="SpaceBetween" wrap="Wrap">
                                             <!-- client -->
                                             <VBox
                                                 width="70%"

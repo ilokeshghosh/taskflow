@@ -5,7 +5,7 @@
     xmlns:f="sap.f"
     xmlns:card="sap.f.cards"
 >
-    <Panel height="100%">
+    <Panel class="homePanel" height="100%" width="100%">
         <headerToolbar>
             <OverflowToolbar visible="false" height="3rem">
                 <HBox
@@ -54,7 +54,9 @@
         <content>
             <FlexBox
                 direction="Column"
+                justifyContent="Center"
                 gap="2rem"
+                width="100%"
             >
                 <!-- KPI TILES -->
                 <HBox
@@ -154,7 +156,7 @@
                 </HBox>
 
                 <!-- Project Overview panel -->
-                <Panel>
+                <Panel width="100%">
                     <headerToolbar>
                         <OverflowToolbar style="Clear">
                             <Title
@@ -165,18 +167,19 @@
                     </headerToolbar>
 
                     <content>
-                        <HBox
+                        <FlexBox
                             justifyContent="SpaceAround"
-                            class=""
+                            class="projectOverViewFlex"
                             width="100%"
                             wrap="Wrap"
                             items="{/Projects}"
+                            gap="1rem"
                         >
                             <!-- Card 1 -->
                             <items>
                                 <f:Card
-                                    class="projectCard sapUiContentPadding sapUiSmallMargin sapUiTinyMarginBegin"
-                                    width="500px"
+                                    class="projectCard sapUiContentPadding sapUiSmallMarginBottom"
+                                    
                                 >
                                     <f:content>
                                         <VBox
@@ -188,9 +191,11 @@
                                                 justifyContent="SpaceBetween"
                                                 alignItems="Start"
                                                 class="cardHeader"
+                                                wrap="Wrap"
+                                                width="100%"
                                             >
                                                 <!-- LEFT : Badge + Title -->
-                                                <VBox class="titleSection">
+                                                <VBox width="80%" wrap="Wrap" class="titleSection">
                                                     <Title
                                                         text="{name}"
                                                         level="H5"
@@ -208,6 +213,7 @@
                                                     state="{path:'status',formatter:'.formatter.formatStatus'}"
                                                     class="statusBadge"
                                                     inverted="true"
+                                                
                                                 />
                                             </HBox>
 
@@ -281,7 +287,7 @@
                                     </f:content>
                                 </f:Card>
                             </items>
-                        </HBox>
+                        </FlexBox>
                     </content>
                 </Panel>
             </FlexBox>

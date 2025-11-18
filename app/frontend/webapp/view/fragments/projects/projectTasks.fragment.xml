@@ -111,15 +111,9 @@
                                         justifyContent="Center"
                                         alignItems="Center"
                                         width="90%"
-                                        items="{
-                                    path: '/Tasks',
-                                    filters: [{
-                                        path: 'status',
-                                        operator: 'EQ',
-                                        value1: 'open'
-                                    }]
-                                }"
-                                    >
+                                        items="{selectedProjectOpenTasks>/}"
+                                    >   
+                                    <items>
                                         <f:Card class="taskPanel">
                                             <f:content>
                                                 <VBox
@@ -134,18 +128,18 @@
                                                     >
                                                         <VBox gap="0.5rem">
                                                             <Title
-                                                                text="{title}"
+                                                                text="{selectedProjectOpenTasks>title}"
                                                                 level="H5"
                                                             />
                                                             <Text
-                                                                text="{description}"
+                                                                text="{selectedProjectOpenTasks>description}"
                                                             />
                                                         </VBox>
 
                                                         <!-- RIGHT : priority Badge -->
                                                         <ObjectStatus
-                                                            text="{priority}"
-                                                            state="{path:'priority',formatter:'.formatter.formatPriority'}"
+                                                            text="{selectedProjectOpenTasks>priority}"
+                                                            state="{path:'selectedProjectOpenTasks>priority',formatter:'.formatter.formatPriority'}"
                                                             class="statusBadge"
                                                             inverted="true"
                                                         />
@@ -187,7 +181,7 @@
                                                             enabled="false"
                                                             type="Transparent"
                                                             icon="sap-icon://calendar"
-                                                            text="{dueDate}"
+                                                            text="{selectedProjectTasks>dueDate}"
                                                         />
 
                                                         <Button
@@ -229,6 +223,7 @@
                                                 </VBox>
                                             </f:content>
                                         </f:Card>
+                                    </items>
                                     </VBox>
                                 </ScrollContainer>
                             </content>
@@ -281,14 +276,7 @@
                                         class="sapUiTinyMarginBegin sapUiTinyMarginTop"
                                         justifyContent="Center"
                                         width="90%"
-                                        items="{
-                                    path: '/Tasks',
-                                    filters: [{
-                                        path: 'status',
-                                        operator: 'EQ',
-                                        value1: 'completed'
-                                    }]
-                                }"
+                                        items="{selectedProjectCompletedTasks>/}"
                                     >
                                         <f:Card class="taskPanel">
                                             <f:content>
@@ -304,18 +292,18 @@
                                                     >
                                                         <VBox gap="0.5rem">
                                                             <Title
-                                                                text="{title}"
+                                                                text="{selectedProjectCompletedTasks>title}"
                                                                 level="H5"
                                                             />
                                                             <Text
-                                                                text="{description}"
+                                                                text="{selectedProjectCompletedTasks>description}"
                                                             />
                                                         </VBox>
 
                                                         <!-- RIGHT : priority Badge -->
                                                         <ObjectStatus
-                                                            text="{priority}"
-                                                            state="{path:'priority',formatter:'.formatter.formatPriority'}"
+                                                            text="{selectedProjectCompletedTasks>priority}"
+                                                            state="{path:'selectedProjectCompletedTasks>priority',formatter:'.formatter.formatPriority'}"
                                                             class="statusBadge"
                                                             inverted="true"
                                                         />
@@ -357,7 +345,7 @@
                                                             enabled="false"
                                                             type="Transparent"
                                                             icon="sap-icon://calendar"
-                                                            text="{dueDate}"
+                                                            text="{selectedProjectCompletedTasks>dueDate}"
                                                         />
 
                                                         <Button
@@ -451,14 +439,7 @@
                                         class="sapUiTinyMarginBegin sapUiTinyMarginTop"
                                         justifyContent="Center"
                                         width="90%"
-                                        items="{
-                                    path: '/Tasks',
-                                    filters: [{
-                                        path: 'status',
-                                        operator: 'EQ',
-                                        value1: 'onReview'
-                                    }]
-                                }"
+                                        items="{selectedProjectOnreviewTasks>/}"
                                     >
                                         <f:Card class="taskPanel">
                                             <f:content>
@@ -474,18 +455,18 @@
                                                     >
                                                         <VBox gap="0.5rem">
                                                             <Title
-                                                                text="{title}"
+                                                                text="{selectedProjectOnreviewTasks>title}"
                                                                 level="H5"
                                                             />
                                                             <Text
-                                                                text="{description}"
+                                                                text="{selectedProjectOnreviewTasks>description}"
                                                             />
                                                         </VBox>
 
                                                         <!-- RIGHT : priority Badge -->
                                                         <ObjectStatus
-                                                            text="{priority}"
-                                                            state="{path:'priority',formatter:'.formatter.formatPriority'}"
+                                                            text="{selectedProjectOnreviewTasks>priority}"
+                                                            state="{path:'selectedProjectOnreviewTasks>priority',formatter:'.formatter.formatPriority'}"
                                                             class="statusBadge"
                                                             inverted="true"
                                                         />
@@ -527,7 +508,7 @@
                                                             enabled="false"
                                                             type="Transparent"
                                                             icon="sap-icon://calendar"
-                                                            text="{dueDate}"
+                                                            text="{selectedProjectOnreviewTasks>dueDate}"
                                                         />
 
                                                         <Button
@@ -621,14 +602,7 @@
                                         class="sapUiTinyMarginBegin sapUiTinyMarginTop"
                                         justifyContent="Center"
                                         width="90%"
-                                        items="{
-                                    path: '/Tasks',
-                                    filters: [{
-                                        path: 'status',
-                                        operator: 'EQ',
-                                        value1: 'hold'
-                                    }]
-                                }"
+                                        items="{selectedProjectHoldTasks>/}"
                                     >
                                         <f:Card class="taskPanel">
                                             <f:content>
@@ -644,18 +618,18 @@
                                                     >
                                                         <VBox gap="0.5rem">
                                                             <Title
-                                                                text="{title}"
+                                                                text="{selectedProjectHoldTasks>title}"
                                                                 level="H5"
                                                             />
                                                             <Text
-                                                                text="{description}"
+                                                                text="{selectedProjectHoldTasks>description}"
                                                             />
                                                         </VBox>
 
                                                         <!-- RIGHT : priority Badge -->
                                                         <ObjectStatus
-                                                            text="{priority}"
-                                                            state="{path:'priority',formatter:'.formatter.formatPriority'}"
+                                                            text="{selectedProjectHoldTasks>priority}"
+                                                            state="{path:'selectedProjectHoldTasks>priority',formatter:'.formatter.formatPriority'}"
                                                             class="statusBadge"
                                                             inverted="true"
                                                         />
@@ -697,7 +671,7 @@
                                                             enabled="false"
                                                             type="Transparent"
                                                             icon="sap-icon://calendar"
-                                                            text="{dueDate}"
+                                                            text="{selectedProjectHoldTasks>dueDate}"
                                                         />
 
                                                         <Button
@@ -791,14 +765,7 @@
                                         class="sapUiTinyMarginBegin sapUiTinyMarginTop"
                                         justifyContent="Center"
                                         width="90%"
-                                        items="{
-                                    path: '/Tasks',
-                                    filters: [{
-                                        path: 'status',
-                                        operator: 'EQ',
-                                        value1: 'overdue'
-                                    }]
-                                }"
+                                        items="{selectedProjectOverdueTasks>/}"
                                     >
                                         <f:Card class="taskPanel">
                                             <f:content>
@@ -814,18 +781,18 @@
                                                     >
                                                         <VBox gap="0.5rem">
                                                             <Title
-                                                                text="{title}"
+                                                                text="{selectedProjectOverdueTasks>title}"
                                                                 level="H5"
                                                             />
                                                             <Text
-                                                                text="{description}"
+                                                                text="{selectedProjectOverdueTasks>description}"
                                                             />
                                                         </VBox>
 
                                                         <!-- RIGHT : priority Badge -->
                                                         <ObjectStatus
-                                                            text="{priority}"
-                                                            state="{path:'priority',formatter:'.formatter.formatPriority'}"
+                                                            text="{selectedProjectOverdueTasks>priority}"
+                                                            state="{path:'selectedProjectOverdueTasks>priority',formatter:'.formatter.formatPriority'}"
                                                             class="statusBadge"
                                                             inverted="true"
                                                         />
@@ -867,7 +834,7 @@
                                                             enabled="false"
                                                             type="Transparent"
                                                             icon="sap-icon://calendar"
-                                                            text="{dueDate}"
+                                                            text="{selectedProjectOverdueTasks>dueDate}"
                                                         />
 
                                                         <Button

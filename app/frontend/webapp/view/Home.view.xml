@@ -1,4 +1,5 @@
 <mvc:View
+    xmlns:f="sap.f"
     xmlns:layout="sap.ui.layout"
     controllerName="com.taskflow.dev.frontend.controller.Home"
     xmlns:mvc="sap.ui.core.mvc"
@@ -58,22 +59,23 @@
                             title="Projects"
                             type="Navigation"
                             press=".onPressGoToProjectsMaster"
-                           icon="sap-icon://business-objects-mobile"
+                            icon="sap-icon://business-objects-mobile"
+                            custom:to="projectNav"
                         />
                     </items>
                 </List>
 
-                <footer >
+                <footer>
                     <Toolbar height="auto">
                         <List>
                             <StandardListItem
                                 icon="sap-icon://add-activity"
                                 type="Active"
                                 title="Create Task"
-                                 press="handleOpenCreateTaskDialog"
+                                press="handleOpenCreateTaskDialog"
                             />
 
-                             <StandardListItem
+                            <StandardListItem
                                 icon="sap-icon://add"
                                 iconInset="true"
                                 type="Active"
@@ -81,22 +83,25 @@
                                 press="handleOpenCreateProjectDialog"
                             />
 
-
-                             <StandardListItem
+                            <StandardListItem
                                 icon="sap-icon://bell"
                                 iconInset="true"
                                 type="Active"
                                 title="Notifications"
                             />
 
-                            <StandardListItem class="" title="Version : 0.0.1">
-                            
-                            <avatar>
-                            <Avatar showBorder="true" displayShape="Circle" src="https://ik.imagekit.io/8fgpvoiai/profile/profile-image-black-white_81gzUNk43.png?updatedAt=1703005079604"></Avatar>
-                            </avatar>
+                            <StandardListItem
+                                class=""
+                                title="Version : 0.0.1"
+                            >
+                                <avatar>
+                                    <Avatar
+                                        showBorder="true"
+                                        displayShape="Circle"
+                                        src="https://ik.imagekit.io/8fgpvoiai/profile/profile-image-black-white_81gzUNk43.png?updatedAt=1703005079604"
+                                    />
+                                </avatar>
                             </StandardListItem>
-
-                            
                         </List>
                     </Toolbar>
                 </footer>
@@ -112,22 +117,18 @@
                 <List
                     id="navItems"
                     itemPress=".onListItemPress"
+                    items="{/Projects}"
+                    mode="SingleSelectMaster"
                 >
                     <items>
                         <StandardListItem
-                            title="Project1"
+                            title="{name}"
                             type="Active"
+                            info="{priority}"
+                            infoState="{path:'priority',formatter:'.formatter.formatPriority'}"
+                            infoStateInverted="true"
+                            description="{status}"
                             custom:to="detail"
-                        />
-                        <StandardListItem
-                            title="Project2"
-                            type="Active"
-                            custom:to="detailDetail"
-                        />
-                        <StandardListItem
-                            title="Project3"
-                            type="Active"
-                            custom:to="detail2"
                         />
                     </items>
                 </List>
@@ -164,11 +165,338 @@
                 backgroundDesign="Solid"
                 showHeader="true"
                 title="Tasks"
-                >
+            >
                 <core:Fragment
                     fragmentName="com.taskflow.dev.frontend.view.fragments.tasks"
                     type="XML"
                 />
+            </Page>
+
+            <Page
+                id="projectObject"
+                backgroundDesign="Solid"
+                showHeader="true"
+                title="Project Details"
+                class="projectObject"
+            >
+                <!-- <Text text="{selectedProject>/name}"></Text> -->
+
+                <VBox
+                    justifyContent="Center"
+                    alignItems="Center"
+                    width="100%"
+                    height="auto"
+                >
+                    <VBox
+                        width="90%"
+                        class="projectObjectBox sapUiTinyMarginTop"
+                        gap="1rem"
+                        height="auto"
+                    >
+                        <StandardListItem
+                            title="{selectedProject>/name}"
+                            description="{selectedProject>/description}"
+                            info="checkingit"
+                            infoState="Success"
+                            infoStateInverted="true"
+                            highlight="Warning"
+                            wrapping="true"
+                        />
+
+                        <FlexBox
+                            height="auto"
+                            wrap="Wrap"
+                            gap="1rem"
+                            width="100%"
+                            alignItems="Center"
+                            class="projectObjectBoxUpperContent"
+                        >
+                            <VBox
+                                gap="0.3rem"
+                                class="projectDetailsCard"
+                                width="364px"
+                            >
+                                <Title text="Progress" />
+                                <!-- progress section -->
+                                <VBox
+                                    class="progressSection "
+                                    justifyContent="End"
+                                >
+                                    <HBox
+                                        justifyContent="SpaceBetween"
+                                        alignItems="Center"
+                                        class=""
+                                    >
+                                        <Text
+                                            text="{selectedProject>/progress}%"
+                                            class="progressLabel"
+                                        />
+                                        <Text
+                                            text="24 Tasks"
+                                            class="progressValue"
+                                        />
+                                    </HBox>
+
+                                    <ProgressIndicator
+                                        percentValue="{selectedProject>/progress}"
+                                        class="progressBar"
+                                        width="100%"
+                                        displayAnimation="true"
+                                        displayOnly="true"
+                                    />
+                                </VBox>
+                            </VBox>
+
+                            <VBox
+                                gap="0.3rem"
+                                class="projectDetailsCard"
+                                width="364px"
+                            >
+                                <Text
+                                    width="100%"
+                                    text="Budget"
+                                />
+                                <Title text="${selectedProject>/budget}" />
+                                <Text text="{selectedProject>/clientName}" />
+                            </VBox>
+
+                            <VBox
+                                gap="0.3rem"
+                                class="projectDetailsCard"
+                                width="364px"
+                            >
+                                <Text
+                                    width="100%"
+                                    text="Team"
+                                />
+
+                                <f:AvatarGroup
+                                    groupType="Group"
+                                    avatarDisplaySize="XS"
+                                >
+                                    <f:AvatarGroupItem
+                                        src="https://randomuser.me/api/portraits/men/25.jpg"
+                                    />
+
+                                    <f:AvatarGroupItem
+                                        src="https://randomuser.me/api/portraits/men/26.jpg"
+                                    />
+
+                                    <f:AvatarGroupItem
+                                        src="https://randomuser.me/api/portraits/men/27.jpg"
+                                    />
+
+                                    <f:AvatarGroupItem
+                                        src="https://randomuser.me/api/portraits/men/28.jpg"
+                                    />
+                                </f:AvatarGroup>
+
+                                <Text text="4 Members" />
+                            </VBox>
+
+                            <VBox
+                                gap="0.3rem"
+                                class="projectDetailsCard"
+                                width="364px"
+                            >
+                                <Text
+                                    width="100%"
+                                    text="Tasks"
+                                />
+                                <Title text="128" />
+                                <Text text="Last Updated: Today" />
+                            </VBox>
+                        </FlexBox>
+                    </VBox>
+
+                    <HBox
+                        class="sapUiTinyMarginTop projectDetailsIconTab"
+                        width="90%"
+                    >
+                        <IconTabBar
+                            class=""
+                            select=".onFilterSelect"
+                        >
+                            <items>
+                                <!-- Project Overview -->
+                                <IconTabFilter
+                                    text="Overview"
+                                    icon="sap-icon://document-text"
+                                    design="Vertical"
+                                    class=""
+                                >
+                                    <HBox
+                                        wrap="Wrap"
+                                        width="100%"
+                                        class="iconTabBarProjectOverview"
+                                        justifyContent="SpaceBetween"
+                                        gap="1rem"
+                                    >
+                                        <VBox
+                                            class="iconTabBarProjectOverviewContent"
+                                            width="60%"
+                                            height="auto"
+                                            gap="1rem"
+                                        >
+                                            <HBox>
+                                                <VBox>
+                                                    <Title
+                                                        text="Project Description"
+                                                        level="H1"
+                                                    />
+                                                    <Text
+                                                        text="{selectedProject>/name}"
+                                                    />
+                                                </VBox>
+                                            </HBox>
+
+                                            <HBox
+                                                wrap="Wrap"
+                                                width="90%"
+                                            >
+                                                <Title
+                                                    text="{selectedProject>/description}"
+                                                    wrapping="true"
+                                                    level="H6"
+                                                />
+                                            </HBox>
+
+                                            <HBox
+                                                gap="1rem"
+                                                wrap="Wrap"
+                                                width="100%"
+                                            >
+                                                <List
+                                                    backgroundDesign="Transparent"
+                                                    headerText="Project Goals"
+                                                    class="projectGoals"
+                                                >
+                                                    <StandardListItem
+                                                        title="Goal 1"
+                                                    />
+
+                                                    <StandardListItem
+                                                        title="Goal 2"
+                                                    />
+
+                                                    <StandardListItem
+                                                        title="Goal 3"
+                                                    />
+
+                                                    <StandardListItem
+                                                        title="Goal 4"
+                                                    />
+                                                </List>
+
+                                                <List
+                                                    backgroundDesign="Transparent"
+                                                    class="projectGoals"
+                                                    headerText="Key Deliverables"
+                                                >
+                                                    <StandardListItem
+                                                        title="Deliverables 1"
+                                                    />
+
+                                                    <StandardListItem
+                                                        title="Deliverables 2"
+                                                    />
+
+                                                    <StandardListItem
+                                                        title="Deliverables 3"
+                                                    />
+
+                                                    <StandardListItem
+                                                        title="Deliverables 4"
+                                                    />
+                                                </List>
+                                            </HBox>
+                                        </VBox>
+
+                                        <VBox
+                                            class="iconTabBarProjectOverviewContent projectDetails"
+                                            width="35%"
+                                            gap="1rem"
+                                        >
+                                            <Title text="Project Details" />
+
+                                            <!-- client -->
+                                            <VBox>
+                                                <Text text="Client" />
+                                                <Title
+                                                    text="{selectedProject>/clientName}"
+                                                />
+                                            </VBox>
+
+                                            <!-- Budget -->
+                                            <VBox>
+                                                <Text text="Budget" />
+                                                <Title
+                                                    text="{selectedProject>/budget}"
+                                                />
+                                            </VBox>
+
+                                            <!-- Start Date -->
+                                            <VBox>
+                                                <Text text="Start Date" />
+                                                <Title
+                                                    text="{selectedProject>/startDate}"
+                                                />
+                                            </VBox>
+
+                                            <!-- Deadline -->
+                                            <VBox>
+                                                <Text text="Deadline" />
+                                                <Title
+                                                    text="{selectedProject>/deadline}"
+                                                />
+                                            </VBox>
+
+                                            <!-- Project Manager -->
+                                            <VBox>
+                                                <Text text="Project Manager" />
+                                                <Title
+                                                    text="Manager Should be Here"
+                                                />
+                                            </VBox>
+                                        </VBox>
+                                    </HBox>
+                                </IconTabFilter>
+
+                                <!-- Tasks -->
+                                <IconTabFilter
+                                    text="Tasks"
+                                    icon="sap-icon://activities"
+                                    design="Vertical"
+                                >
+                                    <HBox>
+                                        <core:Fragment
+                                            fragmentName="com.taskflow.dev.frontend.view.fragments.projects.projectTasks"
+                                            type="XML"
+                                        />
+                                    </HBox>
+                                </IconTabFilter>
+
+                                <IconTabFilter
+                                    text="Team"
+                                    icon="sap-icon://group"
+                                    design="Vertical"
+                                />
+
+                                <IconTabFilter
+                                    text="Discussions"
+                                    icon="sap-icon://discussion-2"
+                                    design="Vertical"
+                                />
+
+                                <IconTabFilter
+                                    text="Analytics"
+                                    icon="sap-icon://compare"
+                                    design="Vertical"
+                                />
+                            </items>
+                        </IconTabBar>
+                    </HBox>
+                </VBox>
             </Page>
         </detailPages>
     </SplitApp>
