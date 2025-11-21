@@ -112,118 +112,120 @@
                                         alignItems="Center"
                                         width="90%"
                                         items="{selectedProjectOpenTasks>/}"
-                                    >   
-                                    <items>
-                                        <f:Card class="taskPanel">
-                                            <f:content>
-                                                <VBox
-                                                    class="sapUiTinyMargin"
-                                                    width="100%"
-                                                    gap="1rem"
-                                                >
-                                                    <!-- title / priority section -->
-                                                    <HBox
-                                                        width="100%"
-                                                        justifyContent="SpaceBetween"
-                                                    >
-                                                        <VBox gap="0.5rem">
-                                                            <Title
-                                                                text="{selectedProjectOpenTasks>title}"
-                                                                level="H5"
-                                                            />
-                                                            <Text
-                                                                text="{selectedProjectOpenTasks>description}"
-                                                            />
-                                                        </VBox>
-
-                                                        <!-- RIGHT : priority Badge -->
-                                                        <ObjectStatus
-                                                            text="{selectedProjectOpenTasks>priority}"
-                                                            state="{path:'selectedProjectOpenTasks>priority',formatter:'.formatter.formatPriority'}"
-                                                            class="statusBadge"
-                                                            inverted="true"
-                                                        />
-                                                    </HBox>
-
-                                                    <!-- progress (not used) -->
+                                    >
+                                        <items>
+                                            <f:Card class="taskPanel">
+                                                <f:content>
                                                     <VBox
-                                                        class="progressSection "
-                                                        justifyContent="End"
-                                                        visible="false"
+                                                        class="sapUiTinyMargin"
+                                                        width="100%"
+                                                        gap="1rem"
                                                     >
+                                                        <!-- title / priority section -->
                                                         <HBox
+                                                            width="100%"
                                                             justifyContent="SpaceBetween"
-                                                            alignItems="Center"
-                                                            class=""
                                                         >
-                                                            <Text
-                                                                text="Progress"
-                                                                class="progressLabel"
-                                                            />
-                                                            <Text
-                                                                text="65%"
-                                                                class="progressValue"
+                                                            <VBox gap="0.5rem">
+                                                                <Title
+                                                                    text="{selectedProjectOpenTasks>title}"
+                                                                    level="H5"
+                                                                />
+                                                                <Text
+                                                                    text="{selectedProjectOpenTasks>description}"
+                                                                />
+                                                            </VBox>
+
+                                                            <!-- RIGHT : priority Badge -->
+                                                            <ObjectStatus
+                                                                text="{selectedProjectOpenTasks>priority}"
+                                                                state="{path:'selectedProjectOpenTasks>priority',formatter:'.formatter.formatPriority'}"
+                                                                class="statusBadge"
+                                                                inverted="true"
                                                             />
                                                         </HBox>
 
-                                                        <ProgressIndicator
-                                                            percentValue="65"
-                                                            class="progressBar"
+                                                        <!-- progress (not used) -->
+                                                        <VBox
+                                                            class="progressSection "
+                                                            justifyContent="End"
+                                                            visible="false"
+                                                        >
+                                                            <HBox
+                                                                justifyContent="SpaceBetween"
+                                                                alignItems="Center"
+                                                                class=""
+                                                            >
+                                                                <Text
+                                                                    text="Progress"
+                                                                    class="progressLabel"
+                                                                />
+                                                                <Text
+                                                                    text="65%"
+                                                                    class="progressValue"
+                                                                />
+                                                            </HBox>
+
+                                                            <ProgressIndicator
+                                                                percentValue="65"
+                                                                class="progressBar"
+                                                                width="100%"
+                                                                displayAnimation="true"
+                                                                displayOnly="true"
+                                                            />
+                                                        </VBox>
+
+                                                        <!-- date / other details -->
+                                                        <HBox>
+                                                            <Button
+                                                                enabled="false"
+                                                                type="Transparent"
+                                                                icon="sap-icon://calendar"
+                                                                text="{selectedProjectTasks>dueDate}"
+                                                            />
+
+                                                            <Button
+                                                                enabled="false"
+                                                                type="Transparent"
+                                                                icon="sap-icon://attachment"
+                                                                text="2"
+                                                            />
+
+                                                            <Button
+                                                                enabled="false"
+                                                                type="Transparent"
+                                                                icon="sap-icon://discussion"
+                                                                text="5"
+                                                            />
+
+                                                            <Button
+                                                                enabled="false"
+                                                                type="Transparent"
+                                                                icon="sap-icon://activity-2"
+                                                                text="5"
+                                                            />
+                                                        </HBox>
+
+                                                        <!-- team member / overflow button -->
+                                                        <HBox
+                                                            justifyContent="SpaceBetween"
                                                             width="100%"
-                                                            displayAnimation="true"
-                                                            displayOnly="true"
-                                                        />
+                                                        >
+                                                            <Avatar
+                                                                src="https://ik.imagekit.io/8fgpvoiai/profile/profile-image-black-white_81gzUNk43.png?updatedAt=1703005079604"
+                                                                displaySize="XS"
+                                                            />
+
+                                                            <!-- <Button
+                                                                visible="false"
+                                                                icon="sap-icon://overflow"
+                                                                press=".onPressTaskCard"
+                                                            /> -->
+                                                        </HBox>
                                                     </VBox>
-
-                                                    <!-- date / other details -->
-                                                    <HBox>
-                                                        <Button
-                                                            enabled="false"
-                                                            type="Transparent"
-                                                            icon="sap-icon://calendar"
-                                                            text="{selectedProjectTasks>dueDate}"
-                                                        />
-
-                                                        <Button
-                                                            enabled="false"
-                                                            type="Transparent"
-                                                            icon="sap-icon://attachment"
-                                                            text="2"
-                                                        />
-
-                                                        <Button
-                                                            enabled="false"
-                                                            type="Transparent"
-                                                            icon="sap-icon://discussion"
-                                                            text="5"
-                                                        />
-
-                                                        <Button
-                                                            enabled="false"
-                                                            type="Transparent"
-                                                            icon="sap-icon://activity-2"
-                                                            text="5"
-                                                        />
-                                                    </HBox>
-
-                                                    <!-- team member / overflow button -->
-                                                    <HBox
-                                                        justifyContent="SpaceBetween"
-                                                        width="100%"
-                                                    >
-                                                        <Avatar
-                                                            src="https://ik.imagekit.io/8fgpvoiai/profile/profile-image-black-white_81gzUNk43.png?updatedAt=1703005079604"
-                                                            displaySize="XS"
-                                                        />
-
-                                                        <Button
-                                                            icon="sap-icon://overflow"
-                                                        />
-                                                    </HBox>
-                                                </VBox>
-                                            </f:content>
-                                        </f:Card>
-                                    </items>
+                                                </f:content>
+                                            </f:Card>
+                                        </items>
                                     </VBox>
                                 </ScrollContainer>
                             </content>
@@ -380,9 +382,11 @@
                                                             displaySize="XS"
                                                         />
 
-                                                        <Button
+                                                        <!-- <Button
+                                                        visible="false"
                                                             icon="sap-icon://overflow"
-                                                        />
+                                                            press=".onPressTaskCard"
+                                                        /> -->
                                                     </HBox>
                                                 </VBox>
                                             </f:content>
@@ -543,9 +547,10 @@
                                                             displaySize="XS"
                                                         />
 
-                                                        <Button
+                                                        <!-- <Button
                                                             icon="sap-icon://overflow"
-                                                        />
+                                                            visible="false"
+                                                        /> -->
                                                     </HBox>
                                                 </VBox>
                                             </f:content>
@@ -706,9 +711,10 @@
                                                             displaySize="XS"
                                                         />
 
-                                                        <Button
+                                                        <!-- <Button
                                                             icon="sap-icon://overflow"
-                                                        />
+                                                            visible="false"
+                                                        /> -->
                                                     </HBox>
                                                 </VBox>
                                             </f:content>
@@ -869,9 +875,10 @@
                                                             displaySize="XS"
                                                         />
 
-                                                        <Button
+                                                        <!-- <Button
                                                             icon="sap-icon://overflow"
-                                                        />
+                                                            visible="false"
+                                                        /> -->
                                                     </HBox>
                                                 </VBox>
                                             </f:content>

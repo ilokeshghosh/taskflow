@@ -1,4 +1,5 @@
 <mvc:View
+    xmlns:statusindicator="sap.suite.ui.commons.statusindicator"
     xmlns:f="sap.f"
     xmlns:layout="sap.ui.layout"
     controllerName="com.taskflow.dev.frontend.controller.Home"
@@ -172,6 +173,7 @@
                 />
             </Page>
 
+            <!-- project object page -->
             <Page
                 id="projectObject"
                 backgroundDesign="Solid"
@@ -196,10 +198,10 @@
                         <StandardListItem
                             title="{selectedProject>/name}"
                             description="{selectedProject>/description}"
-                            info="checkingit"
-                            infoState="Success"
+                            info="inProgress"
+                            infoState="Information"
                             infoStateInverted="true"
-                            highlight="Warning"
+                            highlight="Error"
                             wrapping="true"
                         />
 
@@ -480,19 +482,137 @@
                                     text="Team"
                                     icon="sap-icon://group"
                                     design="Vertical"
-                                />
+                                >
+                                    <HBox
+                                        class="teamDetailsBox"
+                                        width="100%"
+                                    >
+                                        <Table class="teamMemberTable">
+                                            <headerToolbar>
+                                                <OverflowToolbar
+                                                    height="auto"
+                                                    width="100%"
+                                                >
+                                                    <HBox
+                                                        wrap="Wrap"
+                                                        justifyContent="SpaceBetween"
+                                                        width="100%"
+                                                    >
+                                                        <VBox>
+                                                            <Title
+                                                                text="Team Members"
+                                                                level="H1"
+                                                            />
+                                                            <Text
+                                                                text="Manage team members and their roles"
+                                                            />
+                                                        </VBox>
+
+                                                        <Button
+                                                            type="Emphasized"
+                                                            icon="sap-icon://add"
+                                                            text="Add Team Member"
+                                                        />
+                                                    </HBox>
+                                                </OverflowToolbar>
+                                            </headerToolbar>
+
+                                            <columns>
+                                                <Column
+                                                    demandPopin="true"
+                                                    minScreenWidth="Phone"
+                                                >
+                                                    <Text text="Name" />
+                                                </Column>
+
+                                                <Column
+                                                    width="7rem"
+                                                    demandPopin="true"
+                                                    minScreenWidth="Phone"
+                                                >
+                                                    <Text text="Role" />
+                                                </Column>
+
+                                                <Column
+                                                    demandPopin="true"
+                                                    minScreenWidth="Phone"
+                                                >
+                                                    <Text text="Tasks" />
+                                                </Column>
+
+                                                <Column
+                                                    demandPopin="true"
+                                                    minScreenWidth="Phone"
+                                                >
+                                                    <Text text="Status" />
+                                                </Column>
+
+                                                <Column
+                                                    demandPopin="true"
+                                                    minScreenWidth="Phone"
+                                                >
+                                                    <Text text="Actions" />
+                                                </Column>
+                                            </columns>
+
+                                            <items>
+                                                <ColumnListItem
+                                                    class="teamMemberTableColumnList"
+                                                    counter="3"
+                                                >
+                                                    <cells>
+                                                        <ObjectIdentifier
+                                                            title="Alex"
+                                                            text="alex@mail.com"
+                                                        />
+
+                                                        <Button
+                                                            text="Manager"
+                                                        />
+
+                                                        <Text text="8" />
+
+                                                        <ObjectStatus
+                                                            inverted="true"
+                                                            text="Active"
+                                                            state="Success"
+                                                        />
+
+                                                        <OverflowToolbar>
+                                                            <OverflowToolbarButton
+                                                                tooltip="Discussion"
+                                                                text="Discussion"
+                                                                icon="sap-icon://comment"
+                                                            />
+                                                            <OverflowToolbarButton
+                                                                tooltip="Delete"
+                                                                text="Delete"
+                                                                icon="sap-icon://delete"
+                                                                type="Reject"
+                                                            />
+                                                        </OverflowToolbar>
+                                                    </cells>
+                                                </ColumnListItem>
+                                            </items>
+                                        </Table>
+                                    </HBox>
+                                </IconTabFilter>
 
                                 <IconTabFilter
                                     text="Discussions"
                                     icon="sap-icon://discussion-2"
                                     design="Vertical"
-                                />
+                                >
+                                    <BusyIndicator text="FEATURE COMING SOON" />
+                                </IconTabFilter>
 
                                 <IconTabFilter
                                     text="Analytics"
                                     icon="sap-icon://compare"
                                     design="Vertical"
-                                />
+                                >
+                                    <BusyIndicator text="FEATURE COMING SOON" />
+                                </IconTabFilter>
                             </items>
                         </IconTabBar>
                     </HBox>

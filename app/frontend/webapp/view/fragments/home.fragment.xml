@@ -245,6 +245,7 @@
                                                     <!-- Three dots menu -->
 
                                                     <Button
+                                                    visible="false"
                                                         icon="sap-icon://overflow"
                                                         type="Transparent"
                                                         press=".onMenuPress"

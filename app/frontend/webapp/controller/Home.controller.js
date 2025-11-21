@@ -1,5 +1,3 @@
-
-
 sap.ui.define([
     "sap/ui/core/mvc/Controller",
     "sap/ui/core/Fragment",
@@ -7,8 +5,10 @@ sap.ui.define([
     // "com/taskflow/dev/frontend/util/projectHelper.js",
     "com/taskflow/dev/frontend/util/projectHelper",
     "com/taskflow/dev/frontend/util/taskHelper",
-    "com/taskflow/dev/frontend/model/formatter"
-], (Controller, Fragment, JSONModel, projectHelper, taskHelper, formatter) => {
+    "com/taskflow/dev/frontend/model/formatter",
+    "sap/m/MessageBox",
+    "sap/m/MessageToast"
+], (Controller, Fragment, JSONModel, projectHelper, taskHelper, formatter, MessageBox, MessageToast) => {
     "use strict";
 
 
@@ -264,9 +264,305 @@ sap.ui.define([
 
             // console.log("aProjectOpenTasks",aProjectCompletedTasks);
 
+        },
+        onQuickActionMenuPress(oEvent) {
+            // console.log("hey There",oEvent.getSource());
+            var oButton = oEvent.getSource();
+            console.log("oButton", oButton.getBindingContext().getObject());
+
+            var oSelectedProjectData = oButton.getBindingContext().getObject();
+            this.getView().setModel(new JSONModel(oSelectedProjectData), "DialogSelectedProject")
+
+            if (!this._oPopover) {
+
+                var oList = new sap.m.List({
+                    inset: false
+                });
+
+                var item1 = new sap.m.StandardListItem({
+                    title: "Project Details",
+                    type: sap.m.ListType.Active,
+                    icon: "sap-icon://document-text",
+                    press: this.onLoadProjectDetails.bind(this)
+                })
+
+                var item2 = new sap.m.StandardListItem({
+                    title: "Change Status",
+                    type: sap.m.ListType.Active,
+                    icon: "sap-icon://future",
+                    press: this.onChangeStatus
+                })
+
+                var item3 = new sap.m.StandardListItem({
+                    title: "Marked as Completed",
+                    type: sap.m.ListType.Active,
+                    icon: "sap-icon://activity-2",
+                    press: this.onMarkedAsCompleted
+                })
+
+                var item4 = new sap.m.StandardListItem({
+                    title: "Put on Hold",
+                    type: sap.m.ListType.Active,
+                    icon: "sap-icon://pause",
+                    press: this.onPutOnHold
+                })
+
+
+
+                // Project Details
+                // change Status
+                // marks as completed
+                // put on hold
+
+                oList.addItem(item1);
+                oList.addItem(item2);
+                oList.addItem(item3);
+                oList.addItem(item4);
+
+                this._oPopover = new sap.m.Popover({
+                    title: "Project Action",
+                    placement: sap.m.PlacementType.Left,
+                    content: [oList]
+
+                });
+                this.getView().addDependent(this._oPopover);
+
+            }
+
+            this._oPopover.openBy(oButton);
+        },
+        onLoadProjectDetails(oEvent) {
+            var oView = this.getView();
+            console.log("oEvent", oView.getModel());;
+
+
+            // console.log("DialogSelectedProject",oView.getModel("DialogSelectedProject").getData())
+
+            this.getView().setBusy(true);
+
+            if (!this._pDialog) {
+                this._pDialog = Fragment.load({
+                    id: oView.getId(),
+                    name: "com.taskflow.dev.frontend.view.fragments.projects.projectObject",
+                    controller: this
+                }).then((oDialog) => {
+                    oView.addDependent(oDialog);
+                    return oDialog;
+                })
+            }
+
+            this._pDialog.then((oDialog) => {
+                oDialog.setModel(this.getView().getModel("DialogSelectedProject"), "selectedProject");
+                this.getView().setModel(this.getView().getModel("DialogSelectedProject"), "selectedProject")
+                // console.log("selectedProject", this.getView().getModel("selectedProject"))
+                this._loadAllTasks();
+                oDialog.open();
+                this.getView().setBusy(false);
+            })
+        },
+        onChangeStatus() {
+            console.log("onChangeStatus");
+
+        },
+        onMarkedAsCompleted() {
+            console.log("onMarkedAsCompleted");
+        },
+        onPutOnHold() {
+            console.log("onPutOnHold");
+        },
+        onCloseDialog() {
+            this.byId("projectObjectDialog").close();
+        },
+
+
+        onPressTaskCard(oEvent) {
+            var oButton = oEvent.getSource();
+            this._selectedTask = oButton.getBindingContext();
+            // console.log("_selectedTask", oButton.getBindingContext());
+            // var oSelectedProjectData = oButton.getBindingContext().getObject();
+
+
+            if (!this._oPopoverTask) {
+                var oList = new sap.m.List({
+                    inset: false
+                })
+
+                var item1 = new sap.m.StandardListItem({
+                    title: "Edit Task",
+                    type: sap.m.ListType.Active,
+                    icon: "sap-icon://edit",
+                    press: this.onEditTask.bind(this)
+                })
+
+
+
+                var item2 = new sap.m.StandardListItem({
+                    title: "Marked as Completed",
+                    type: sap.m.ListType.Active,
+                    icon: "sap-icon://activity-2",
+                    // press: this.onTaskMarkedAsCompleted
+                })
+
+                var item3 = new sap.m.StandardListItem({
+                    title: "Change Due Date",
+                    type: sap.m.ListType.Active,
+                    icon: "sap-icon://future",
+                    // press: this.onTaskChangeDueDate
+                })
+
+                var item4 = new sap.m.StandardListItem({
+                    title: "Change Priority",
+                    type: sap.m.ListType.Active,
+                    icon: "sap-icon://high-priority",
+                    // press: this.onTaskChangePriority
+                })
+
+                var item5 = new sap.m.StandardListItem({
+                    title: "Archive Task",
+                    type: sap.m.ListType.Active,
+                    icon: "sap-icon://fallback",
+                    // press: this.onTaskArchive
+                })
+
+
+
+                var item6 = new sap.m.StandardListItem({
+                    title: "Delete Task",
+                    type: sap.m.ListType.Active,
+                    icon: "sap-icon://delete",
+                    press: this.onPutOnHold
+                })
+
+
+
+                oList.addItem(item1);
+                oList.addItem(item2);
+                oList.addItem(item3);
+                oList.addItem(item4);
+                oList.addItem(item5);
+                oList.addItem(item6);
+
+                this._oPopoverTask = new sap.m.Popover({
+                    title: "Task Quick Action",
+                    placement: sap.m.PlacementType.Left,
+                    content: [oList]
+                });
+
+                this.getView().addDependent(this._oPopoverTask);
+            }
+            this._oPopoverTask.openBy(oButton);
+        },
+        onEditTask() {
+            console.log("hey there need to edit the task");
+            var oView = this.getView();
+            // oView.setBusy(true);
+            if (!this._pTaskEditDialog) {
+                this._pTaskEditDialog = Fragment.load({
+                    id: oView.getId(),
+                    name: "com.taskflow.dev.frontend.view.fragments.projects.editTask",
+                    controller: this
+                }).then((oDialog) => {
+                    oView.addDependent(oDialog);
+                    return oDialog;
+                })
+            }
+
+            this._pTaskEditDialog.then(oDialog => {
+                // oDialog.setModel()
+                // console.log("oDialog", oDialog.getMetadata());
+
+                // var oObjectBinding = oDialog.bindObject(this._selectedTask.getPath());
+                // var oObject = oObjectBinding.getObjectBinding();
+                // console.log("oObject",oObject);
+
+                // console.log("_selectedTask",this._selectedTask.getObject());
+                var sID = this._selectedTask.getObject().ID;
+                console.log("ID", sID)
+
+                // var oBinding = oView.getModel().bindList("/Tasks",null,null,
+
+                //     [
+                //         new sap.ui.model.Filter("ID","EQ",sID)
+                //     ],
+                //     {$expand:"assignedTo,project"}
+                // );
+
+                // oBinding.requestContexts().then((aContexts) => {
+                //     if (aContexts.length > 0) {
+
+                //         var oProjectData = aContexts[0].getObject();
+                //          this.getView().setModel(new JSONModel(oProjectData), "selectedTask")
+                //     } else {
+                //         console.log("Task Not Found");
+
+                //     }
+                // })
+                oDialog.setBusy(true);
+                oDialog.bindElement({
+                    path: this._selectedTask.getPath(),
+                    parameters: { $expand: "assignedTo,project" }
+                })
+                // var oTaskData = this._selectedTask.getObject();
+                // var oEditModel = new JSONModel({
+                //     ID: oTaskData.assignedTo.ID,
+                //     name:oTaskData.assignedTo.name
+                // });
+                // this.getView().setModel(oEditModel, "editTaskLocal");
+
+
+                var oElementBinding = oDialog.getElementBinding();
+                oElementBinding.attachEventOnce("dataReceived", (oEvent) => {
+                    oDialog.setBusy(false);
+                    oDialog.open();
+
+
+                    var oContext = oElementBinding.getBoundContext();
+                    var oData = oContext && oContext.getObject();
+
+
+                    var oEditModel = new JSONModel({
+                        ID: oData.assignedTo.ID,
+                        name: oData.assignedTo.name
+                    });
+
+                    this.getView().setModel(oEditModel, "editTaskLocal");
+
+
+                })
+                // oView.setBusy(false);
+            })
+        },
+        onCloseEditTaskDialog() {
+            this.getView().byId("EditTaskDialog").close();
+        },
+        onSubmitEditTask() {
+
+            this.getView().setBusy(true);
+
+
+            var oDialog = this.byId("EditTaskDialog");
+            var oContext = oDialog.getBindingContext();
+
+            var sNewUserID = this.getView().byId("taskEditClientInputAssigne").getSelectedKey();
+            var oModel = this.getView().getModel();
+
+
+            // Update the managed foreign key property
+            oContext.setProperty("assignedTo_ID", sNewUserID);
+
+
+
+            this.getView().getModel().submitBatch("$auto").then(() => {
+                MessageBox.success("Task Updated");
+                this.getView().getModel().refresh();
+                this.getView().setBusy(false);
+                this.getView().byId("EditTaskDialog").close();
+            }).catch((err) => {
+                MessageBox.error("Update Failed");
+            })
+
         }
 
-        //https://port4004-workspaces-ws-8ti3t.us10.trial.applicationstudio.cloud.sap/odata/v4/task/Tasks?$filter=project_ID%20eq%20%27P001%27
 
     });
 });

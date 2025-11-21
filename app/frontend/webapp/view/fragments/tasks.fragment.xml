@@ -92,6 +92,7 @@
                                         <Button
                                             icon="sap-icon://overflow"
                                             type="Transparent"
+                                            
                                         />
                                     </HBox>
                                 </OverflowToolbar>
@@ -224,6 +225,7 @@
 
                                                         <Button
                                                             icon="sap-icon://overflow"
+                                                            press=".onPressTaskCard"
                                                         />
                                                     </HBox>
                                                 </VBox>
@@ -394,6 +396,7 @@
 
                                                         <Button
                                                             icon="sap-icon://overflow"
+                                                            press=".onPressTaskCard"
                                                         />
                                                     </HBox>
                                                 </VBox>
@@ -564,6 +567,7 @@
 
                                                         <Button
                                                             icon="sap-icon://overflow"
+                                                            press=".onPressTaskCard"
                                                         />
                                                     </HBox>
                                                 </VBox>
@@ -734,6 +738,7 @@
 
                                                         <Button
                                                             icon="sap-icon://overflow"
+                                                            press=".onPressTaskCard"
                                                         />
                                                     </HBox>
                                                 </VBox>
@@ -904,6 +909,7 @@
 
                                                         <Button
                                                             icon="sap-icon://overflow"
+                                                            press=".onPressTaskCard"
                                                         />
                                                     </HBox>
                                                 </VBox>

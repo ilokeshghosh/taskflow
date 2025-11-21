@@ -6,7 +6,10 @@
 >
     <Panel height="100%">
         <headerToolbar>
-            <OverflowToolbar visible="false" height="3rem">
+            <OverflowToolbar
+                visible="false"
+                height="3rem"
+            >
                 <HBox
                     width="100%"
                     justifyContent="SpaceBetween"
@@ -86,7 +89,6 @@
                         <!-- Card 1 -->
                         <f:Card
                             class="projectCard sapUiContentPadding sapUiSmallMarginBottom"
-                            
                         >
                             <f:content>
                                 <VBox
@@ -102,7 +104,10 @@
                                         width="100%"
                                     >
                                         <!-- LEFT : Badge + Title -->
-                                        <VBox class="titleSection" width="90%">
+                                        <VBox
+                                            class="titleSection"
+                                            width="90%"
+                                        >
                                             <Title
                                                 text="{name}"
                                                 level="H5"
@@ -154,7 +159,7 @@
                                             <Button
                                                 icon="sap-icon://overflow"
                                                 type="Transparent"
-                                                press=".onMenuPress"
+                                                press=".onQuickActionMenuPress"
                                             />
                                         </HBox>
 
@@ -173,9 +178,9 @@
                                                     class="progressLabel"
                                                 />
                                                 <Text
-                                                            text="{progress}%"
-                                                            class="progressValue"
-                                                        />
+                                                    text="{progress}%"
+                                                    class="progressValue"
+                                                />
                                             </HBox>
 
                                             <ProgressIndicator
@@ -196,7 +201,10 @@
                                         gap="1rem"
                                     >
                                         <!-- client / Budget -->
-                                        <HBox justifyContent="SpaceBetween" wrap="Wrap">
+                                        <HBox
+                                            justifyContent="SpaceBetween"
+                                            wrap="Wrap"
+                                        >
                                             <!-- client -->
                                             <VBox
                                                 width="70%"
