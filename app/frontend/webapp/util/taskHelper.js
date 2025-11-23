@@ -5,7 +5,6 @@ sap.ui.define(["sap/ui/core/Fragment", "sap/m/MessageBox", "sap/ui/model/json/JS
         init: function (oController) {
             _oController = oController;
 
-
             var sNewID = "TASK" + Date.now().toString().slice(-6);
             var oDate = new Date();
             var sNow = oDate.toISOString().split('T')[0];
@@ -23,10 +22,6 @@ sap.ui.define(["sap/ui/core/Fragment", "sap/m/MessageBox", "sap/ui/model/json/JS
 
 
             _oController.getView().setModel(oCreateTaskModel, "createTaskModel")
-
-            // this._updateTaskCounts();
-
-
         },
         handleCreateTask() {
             var oView = _oController.getView();
@@ -93,22 +88,12 @@ sap.ui.define(["sap/ui/core/Fragment", "sap/m/MessageBox", "sap/ui/model/json/JS
                 _oController.byId("createTaskDialog").close();
                 oModel.refresh();
             })
-
-            // console.log("taskCreate input priority",sTaskCreateClientInputPriority);
-
-
-
-            // console.log("input data",oInputTaskData);
-            // this._closeCreateTaskDialog();
         },
         _closeCreateTaskDialog() {
             _oController.byId("createTaskDialog").close();
         },
         onCancelTaskProject() {
             this._closeCreateTaskDialog();
-        },
-        handleTask(){
-            console.log("i am running")
         }
 
 

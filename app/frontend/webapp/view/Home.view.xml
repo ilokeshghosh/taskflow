@@ -10,44 +10,61 @@
     xmlns:core="sap.ui.core"
     xmlns:custom="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1"
 >
+    <!-- xmlns:custom="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1"  is used to add Custom data for navigation (using custom:to="pageID") used in master page navigation item list -->
+
+    <!-- SplitApp Container -->
     <SplitApp
         id="taskflowLadingPage"
         initialDetail="detail"
         initialMaster="master"
     >
+        <!-- SplitApp Master Pages || Left Side || Main Navigation-->
         <masterPages>
+            <!-- Main Master Page with list of navigation items -->
             <Page
                 id="master"
                 title="TaskFlow"
                 backgroundDesign="List"
                 showFooter="true"
             >
+                <!-- navigation items list -->
                 <List itemPress=".onNavItemPress">
                     <items>
+                        <!-- Home Page Navigation Item with custom data -->
                         <StandardListItem
                             title="Home"
                             type="Active"
                             custom:to="home"
                             icon="sap-icon://home"
                         />
+
+                        <!-- Projects Page Navigation Item(all project on right detailed page) with custom data -->
                         <StandardListItem
                             title="Projects"
                             type="Active"
                             custom:to="project"
                             icon="sap-icon://newspaper"
                         />
+
+                        <!-- Tasks Page Navigation Item(with all tasks on right detailed page) with custom data -->
                         <StandardListItem
                             title="Tasks"
                             type="Active"
                             custom:to="tasks"
                             icon="sap-icon://task"
                         />
+
+                        <!-- TO BE IMPLEMENTED -->
+                        <!-- Kanban Desk Navigation Item -->
                         <StandardListItem
                             title="Kanban Desk"
                             type="Active"
                             custom:to="kanbanDesk"
                             icon="sap-icon://grid"
                         />
+
+                        <!-- TO BE IMPLEMENTED -->
+                        <!-- Calender Navigation for Projects/Task Deadline -->
                         <StandardListItem
                             title="Calender"
                             type="Active"
@@ -55,7 +72,7 @@
                             icon="sap-icon://appointment-2"
                         />
 
-                        <!-- projects -->
+                        <!-- Projects Navigation Items ( will navigate to Master Page with all project List on left side and project details on right side) -->
                         <StandardListItem
                             title="Projects"
                             type="Navigation"
@@ -65,10 +82,11 @@
                         />
                     </items>
                 </List>
-
+                <!-- Footer Container for create projects/tasks, notification and user profile -->
                 <footer>
                     <Toolbar height="auto">
                         <List>
+                            <!-- create Task List Item to open create task dialog -->
                             <StandardListItem
                                 icon="sap-icon://add-activity"
                                 type="Active"
@@ -76,6 +94,7 @@
                                 press="handleOpenCreateTaskDialog"
                             />
 
+                            <!-- create Project List Item to open create project dialog -->
                             <StandardListItem
                                 icon="sap-icon://add"
                                 iconInset="true"
@@ -84,6 +103,8 @@
                                 press="handleOpenCreateProjectDialog"
                             />
 
+                            <!-- TO BE IMPLEMENTED -->
+                            <!-- Notification List item to open notifaction dialog to check notifications/alerts/updates -->
                             <StandardListItem
                                 icon="sap-icon://bell"
                                 iconInset="true"
@@ -91,11 +112,13 @@
                                 title="Notifications"
                             />
 
+                            <!-- TO BE IMPLEMENTED || NEED TO UPDATED || NEEDS TO MAKE DYNAMIC(MUST COMPLY WITH GITHUB REPO VERSION) -->
                             <StandardListItem
                                 class=""
                                 title="Version : 0.0.1"
                             >
                                 <avatar>
+                                    <!-- TO BE IMPLEMENTED || NEED TO UPDATED || NEED TO MAKE DYNAMIC AS PER USER AVATAR  -->
                                     <Avatar
                                         showBorder="true"
                                         displayShape="Circle"
@@ -136,44 +159,51 @@
             </Page>
         </masterPages>
 
+        <!-- SplitApp Detail Pages || Right Side || Object Page-->
         <detailPages>
+            <!-- Home Detail Page  -->
             <Page
                 id="home"
                 showHeader="true"
                 title="Home"
                 backgroundDesign="Solid"
             >
+                <!-- Loading home fragment -->
                 <core:Fragment
                     fragmentName="com.taskflow.dev.frontend.view.fragments.home"
                     type="XML"
                 />
             </Page>
 
+            <!-- Project Detail page -->
             <Page
                 id="project"
                 backgroundDesign="Solid"
                 showHeader="true"
                 title="Projects"
             >
+                <!-- Loading projects fragment || showing all projects in a single page -->
                 <core:Fragment
                     fragmentName="com.taskflow.dev.frontend.view.fragments.projects"
                     type="XML"
                 />
             </Page>
 
+            <!-- Task Detail Page -->
             <Page
                 id="tasks"
                 backgroundDesign="Solid"
                 showHeader="true"
                 title="Tasks"
             >
+                <!-- Loading tasks || showing all tasks in a single page (not project specific) -->
                 <core:Fragment
                     fragmentName="com.taskflow.dev.frontend.view.fragments.tasks"
                     type="XML"
                 />
             </Page>
 
-            <!-- project object page -->
+            <!-- Project Object Detail page || For selected project (non-dialog) -->
             <Page
                 id="projectObject"
                 backgroundDesign="Solid"
@@ -181,20 +211,21 @@
                 title="Project Details"
                 class="projectObject"
             >
-                <!-- <Text text="{selectedProject>/name}"></Text> -->
-
+                <!-- Main Container -->
                 <VBox
                     justifyContent="Center"
                     alignItems="Center"
                     width="100%"
                     height="auto"
                 >
+                    <!-- TOP CONTAINER ||  project overview(title & desc) details with progress, budget, team, tasks -->
                     <VBox
                         width="90%"
                         class="projectObjectBox sapUiTinyMarginTop"
                         gap="1rem"
                         height="auto"
                     >
+                        <!-- TOP SECTION || Project Overview List Item (title, desc, status, priority) -->
                         <StandardListItem
                             title="{selectedProject>/name}"
                             description="{selectedProject>/description}"
@@ -205,6 +236,7 @@
                             wrapping="true"
                         />
 
+                        <!-- LOWER SECTION CONTAINER || CARDS || Progress, Budget, Team, Tasks || WRAP ON -->
                         <FlexBox
                             height="auto"
                             wrap="Wrap"
@@ -213,17 +245,20 @@
                             alignItems="Center"
                             class="projectObjectBoxUpperContent"
                         >
+                            <!-- Project Progress Card -->
                             <VBox
                                 gap="0.3rem"
                                 class="projectDetailsCard"
                                 width="364px"
                             >
+                                <!-- Title -->
                                 <Title text="Progress" />
-                                <!-- progress section -->
+                                <!-- Inner Progress Card section -->
                                 <VBox
                                     class="progressSection "
                                     justifyContent="End"
                                 >
+                                    <!-- Upper Section for percentage and task count -->
                                     <HBox
                                         justifyContent="SpaceBetween"
                                         alignItems="Center"
@@ -239,6 +274,7 @@
                                         />
                                     </HBox>
 
+                                    <!-- Progress Indicator -->
                                     <ProgressIndicator
                                         percentValue="{selectedProject>/progress}"
                                         class="progressBar"
@@ -249,29 +285,34 @@
                                 </VBox>
                             </VBox>
 
+                            <!-- Project Budget Card -->
                             <VBox
                                 gap="0.3rem"
                                 class="projectDetailsCard"
                                 width="364px"
                             >
-                                <Text
+                                <!-- Budget Title -->
+                                <Title
                                     width="100%"
                                     text="Budget"
                                 />
+                                <!-- Budget Number & Client Name -->
                                 <Title text="${selectedProject>/budget}" />
                                 <Text text="{selectedProject>/clientName}" />
                             </VBox>
 
+                            <!-- Project Team Card -->
                             <VBox
                                 gap="0.3rem"
                                 class="projectDetailsCard"
                                 width="364px"
                             >
-                                <Text
+                                <!-- Team Title -->
+                                <Title
                                     width="100%"
                                     text="Team"
                                 />
-
+                                <!-- TO BE IMPLEMENTED || Avatar Group Container || Need to add all users avatar related to this project-->
                                 <f:AvatarGroup
                                     groupType="Group"
                                     avatarDisplaySize="XS"
@@ -293,40 +334,48 @@
                                     />
                                 </f:AvatarGroup>
 
+                                <!-- TO BE IMPLEMENTED || Team Member Count || Need to add the number of user assigned to this project -->
                                 <Text text="4 Members" />
                             </VBox>
 
+                            <!-- Project Tasks Card -->
                             <VBox
                                 gap="0.3rem"
                                 class="projectDetailsCard"
                                 width="364px"
                             >
-                                <Text
+                                <!-- Task Title-->
+                                <Title
                                     width="100%"
                                     text="Tasks"
                                 />
+
+                                <!-- TO BE IMPLEMENTED || Task Count & updated at Details || Add the count of tasks and time of latest added/upated task-->
                                 <Title text="128" />
                                 <Text text="Last Updated: Today" />
                             </VBox>
                         </FlexBox>
                     </VBox>
 
+                    <!-- LOWER CONTAINER || Icon Tab bar Container for Detailed Overview, Tasks, Teams, Discussions & Anaytics pages -->
                     <HBox
                         class="sapUiTinyMarginTop projectDetailsIconTab"
                         width="90%"
                     >
+                        <!-- Icon Tab Bar Container -->
                         <IconTabBar
                             class=""
                             select=".onFilterSelect"
                         >
                             <items>
-                                <!-- Project Overview -->
+                                <!-- Project Overview Details Container -->
                                 <IconTabFilter
                                     text="Overview"
                                     icon="sap-icon://document-text"
                                     design="Vertical"
                                     class=""
                                 >
+                                    <!-- Outer continer -->
                                     <HBox
                                         wrap="Wrap"
                                         width="100%"
@@ -334,12 +383,14 @@
                                         justifyContent="SpaceBetween"
                                         gap="1rem"
                                     >
+                                        <!-- LEFT || Project Description, Goals, Deliverables Container-->
                                         <VBox
                                             class="iconTabBarProjectOverviewContent"
                                             width="60%"
                                             height="auto"
                                             gap="1rem"
                                         >
+                                            <!-- UPPER SECTION || Project Name -->
                                             <HBox>
                                                 <VBox>
                                                     <Title
@@ -352,6 +403,7 @@
                                                 </VBox>
                                             </HBox>
 
+                                            <!-- MIDDLE SECTION || Project Description -->
                                             <HBox
                                                 wrap="Wrap"
                                                 width="90%"
@@ -363,11 +415,13 @@
                                                 />
                                             </HBox>
 
+                                            <!-- LOWER SECTION || Project Goals & Key Deliverables -->
                                             <HBox
                                                 gap="1rem"
                                                 wrap="Wrap"
                                                 width="100%"
                                             >
+                                                <!-- TO BE IMPLEMENTED || Project Goals List -->
                                                 <List
                                                     backgroundDesign="Transparent"
                                                     headerText="Project Goals"
@@ -390,6 +444,7 @@
                                                     />
                                                 </List>
 
+                                                <!-- TO BE IMPLEMENTED || Project key Deliverables List -->
                                                 <List
                                                     backgroundDesign="Transparent"
                                                     class="projectGoals"
@@ -414,14 +469,16 @@
                                             </HBox>
                                         </VBox>
 
+                                        <!-- RIGHT || Project Details (Client, Budget, Start date, deadline, Project Manager) -->
                                         <VBox
                                             class="iconTabBarProjectOverviewContent projectDetails"
                                             width="35%"
                                             gap="1rem"
                                         >
+                                            <!-- Project Details -->
                                             <Title text="Project Details" />
 
-                                            <!-- client -->
+                                            <!-- Client Name -->
                                             <VBox>
                                                 <Text text="Client" />
                                                 <Title
@@ -429,7 +486,7 @@
                                                 />
                                             </VBox>
 
-                                            <!-- Budget -->
+                                            <!-- Budgets -->
                                             <VBox>
                                                 <Text text="Budget" />
                                                 <Title
@@ -453,7 +510,7 @@
                                                 />
                                             </VBox>
 
-                                            <!-- Project Manager -->
+                                            <!-- TO BE IMPLEMENTED || Project Manager -->
                                             <VBox>
                                                 <Text text="Project Manager" />
                                                 <Title
@@ -464,12 +521,13 @@
                                     </HBox>
                                 </IconTabFilter>
 
-                                <!-- Tasks -->
+                                <!-- Tasks Container-->
                                 <IconTabFilter
                                     text="Tasks"
                                     icon="sap-icon://activities"
                                     design="Vertical"
                                 >
+                                    <!-- Loading Project Tasks Fragment (Non-dialog Fragment) -->
                                     <HBox>
                                         <core:Fragment
                                             fragmentName="com.taskflow.dev.frontend.view.fragments.projects.projectTasks"
@@ -478,16 +536,20 @@
                                     </HBox>
                                 </IconTabFilter>
 
+                                <!-- Team Container -->
                                 <IconTabFilter
                                     text="Team"
                                     icon="sap-icon://group"
                                     design="Vertical"
                                 >
+                                    <!-- Outter Container -->
                                     <HBox
                                         class="teamDetailsBox"
                                         width="100%"
                                     >
+                                        <!-- TO BE IMPLEMENTED || Table for Team Details -->
                                         <Table class="teamMemberTable">
+                                            <!-- Table Header for tools and filters -->
                                             <headerToolbar>
                                                 <OverflowToolbar
                                                     height="auto"
@@ -517,6 +579,7 @@
                                                 </OverflowToolbar>
                                             </headerToolbar>
 
+                                            <!-- ColumNs Container -->
                                             <columns>
                                                 <Column
                                                     demandPopin="true"
@@ -555,6 +618,7 @@
                                                 </Column>
                                             </columns>
 
+                                            <!-- Table Data cells -->
                                             <items>
                                                 <ColumnListItem
                                                     class="teamMemberTableColumnList"
@@ -598,6 +662,7 @@
                                     </HBox>
                                 </IconTabFilter>
 
+                                <!-- TO BE IMPLEMENTED || Need To Add Chats Regarding the Project Discussion -->
                                 <IconTabFilter
                                     text="Discussions"
                                     icon="sap-icon://discussion-2"
@@ -605,7 +670,7 @@
                                 >
                                     <BusyIndicator text="FEATURE COMING SOON" />
                                 </IconTabFilter>
-
+                                <!-- TO BE IMPLEMENTED || Need to add Analytical Data -->
                                 <IconTabFilter
                                     text="Analytics"
                                     icon="sap-icon://compare"

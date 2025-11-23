@@ -54,10 +54,10 @@
                 </HBox>
             </OverflowToolbar>
         </headerToolbar>
-        <!-- <Title text="{fragmentModel>/key}" /> -->
+
         <content>
             <Panel class="taskPanelContainer">
-                <!-- header / filter / view type section  -->
+                <!-- TO BE IMPEMENTED || header / filter / view type section  -->
                 <headerToolbar>
                     <OverflowToolbar class="">
                         <Button
@@ -73,7 +73,7 @@
                         justifyContent="SpaceAround"
                         wrap="Wrap"
                     >
-                        <!-- Open -->
+                        <!-- Open Card -->
                         <Panel
                             class="sapUiMediumMarginTop openTaskPanel taskPanel border1"
                         >
@@ -87,12 +87,6 @@
                                             text="Open"
                                             level="H2"
                                             textAlign="End"
-                                        />
-
-                                        <Button
-                                            icon="sap-icon://overflow"
-                                            type="Transparent"
-                                            
                                         />
                                     </HBox>
                                 </OverflowToolbar>
@@ -246,7 +240,7 @@
                             </Toolbar>
                         </Panel>
 
-                        <!-- Completed -->
+                        <!-- Completed Card -->
                         <Panel
                             class="sapUiMediumMarginTop taskPanel openTaskPanel border1"
                             visible="true"
@@ -261,11 +255,6 @@
                                             text="Completed"
                                             level="H2"
                                             textAlign="End"
-                                        />
-
-                                        <Button
-                                            icon="sap-icon://overflow"
-                                            type="Transparent"
                                         />
                                     </HBox>
                                 </OverflowToolbar>
@@ -433,11 +422,6 @@
                                             level="H2"
                                             textAlign="End"
                                         />
-
-                                        <Button
-                                            icon="sap-icon://overflow"
-                                            type="Transparent"
-                                        />
                                     </HBox>
                                 </OverflowToolbar>
                             </headerToolbar>
@@ -604,11 +588,6 @@
                                             level="H2"
                                             textAlign="End"
                                         />
-
-                                        <Button
-                                            icon="sap-icon://overflow"
-                                            type="Transparent"
-                                        />
                                     </HBox>
                                 </OverflowToolbar>
                             </headerToolbar>
@@ -774,11 +753,6 @@
                                             text="Overdue"
                                             level="H2"
                                             textAlign="End"
-                                        />
-
-                                        <Button
-                                            icon="sap-icon://overflow"
-                                            type="Transparent"
                                         />
                                     </HBox>
                                 </OverflowToolbar>

@@ -25,30 +25,8 @@ body .give-freely-root {
     border-left: 4px solid #FFC933;
     border-radius: 1%;
     padding-left: 3px;
-    /* height: 100%; */
+
 }
-
-.homeView .projectCard,
-.sapFCard {
-    /* padding: 10rem; */
-}
-
-/* .sapMVBox {
-    padding: 10rem !important;
-} */
-
-.homeView .projectCard .cardHeader {
-    /* border-left: 4px solid #FFD700; */
-    /* padding-left: 4px; */
-}
-
-/* .homeView .projectCard .cardContent{
-    padding: 1.0rem;
-} */
-
-
-
-.homeView .padding1rem {}
 
 .openTaskPanel>.sapMPanelContent {
     padding: 0;
@@ -56,16 +34,9 @@ body .give-freely-root {
 
 .sapMPanel.openTaskPanel {
     border: 2px solid;
-    /* width: 500px; */
-    /* width: 100%; */
 }
 
-/* .sapMPage >.sapMVBox{
-    border: 2px solid red !important;
-} */
-
 .sapMFlexBox>.projectDetailsCard {
-    /* border: 2px solid !important; */
     border-radius: 0.5rem !important;
     padding: 1rem;
     background-color: var(--sapButton_Active_Background);
@@ -74,54 +45,40 @@ body .give-freely-root {
 }
 
 .sapMFlexBox>.projectDetailsCard :hover {
-    /* border: 2px solid !important; */
     background-color: var(--sapButton_Hover_Background);
     box-shadow: var(--sapContent_Shadow);
 
 }
 
 .sapMITB>.sapMITH>.sapMITBHead {
-
     width: 100% !important;
     display: flex;
     justify-content: space-around;
 }
 
 .projectDetailsIconTab>.sapMFlexItem {
-
     width: 100% !important;
 
 }
 
 .sapMFlexBox>.iconTabBarProjectOverviewContent {
-    /* border: 2px solid red !important; */
     background-color: var(--sapButton_Active_Background);
-    /* width: 100% !important; */
 }
 
 .sapUiMedia-Std-Desktop .sapMSplitContainer.sapMSplitContainerShowHide .sapMITH {
-
     padding: 0 0.3rem;
 }
 
 .iconTabBarProjectOverview>.sapMFlexItem {
-    /* border: 2px solid red !important; */
     border-radius: 1rem;
-    /* border:1px solid ; */
     width: 100%;
 }
 
 .iconTabBarProjectOverview>.iconTabBarProjectOverviewContent {
     padding: 1rem !important;
-    /* border: 2px solid green; */
 }
 
-/* .iconTabBarProjectOverview>.iconTabBarProjectOverviewContent.projectDetails {
-    border: 2px solid red;
-} */
-
 .projectGoals>.sapMListHdrText {
-    /* border: 2px solid red; */
     border-radius: none;
     background-color: transparent !important;
     border: none;
@@ -131,8 +88,6 @@ body .give-freely-root {
 /* Project Overview / Teams Details */
 
 .teamMemberTable>.sapMIBar {
-    /* width: 100%; */
-    /* border: 2px solid red; */
     padding: 0.2rem 1rem;
 }
 
@@ -142,7 +97,7 @@ body .give-freely-root {
 
 /* Project Overview / Teams Details */
 
-.deadlineSection > .testingJust{
+.deadlineSection>.testingJust {
     border: 2px solid red;
 }
 
@@ -150,7 +105,6 @@ body .give-freely-root {
 /* Extra Small Phone */
 @media (max-width: 400px) {
 
-    /* styles */
     .sapMPanel.openTaskPanel {
         width: 300px !important;
     }
@@ -160,18 +114,15 @@ body .give-freely-root {
     }
 
     .sapMFlexBox .projectDetailsCard {
-        /* border: 2px solid red; */
         width: 300px !important;
     }
 
 
     .iconTabBarProjectOverview>.iconTabBarProjectOverviewContent {
         width: 100% !important;
-        /* border: 2px solid green; */
     }
 
     .iconTabBarProjectOverview>.iconTabBarProjectOverviewContent.projectDetails {
-        /* border: 2px solid red; */
         width: 100% !important;
     }
 }
@@ -198,50 +149,37 @@ body .give-freely-root {
 
     .iconTabBarProjectOverview>.iconTabBarProjectOverviewContent {
         width: 100% !important;
-        /* border: 2px solid green; */
     }
 
     .iconTabBarProjectOverview>.iconTabBarProjectOverviewContent.projectDetails {
-        /* border: 2px solid red; */
         width: 100% !important;
     }
-
-
-
 }
 
 @media (min-width: 640px) {
 
     /* Large phones / phablets */
     .homePanel .projectOverViewFlex {
-        /* border: 2px solid red !important; */
         flex-direction: column !important;
     }
 
     .sapFCard.projectCard {
-
         width: 100% !important;
     }
 
     .sapMPanel.openTaskPanel {
         width: 500px;
     }
-
-
-
-
 }
 
 @media (min-width: 768px) {
 
     /* Tablets */
     .sapFCard.projectCard {
-        /* border: 2px solid green ; */
         width: 500px !important;
     }
 
     .homePanel .projectOverViewFlex {
-        /* border: 2px solid red !important; */
         flex-direction: row !important;
     }
 
@@ -252,11 +190,9 @@ body .give-freely-root {
 
     .iconTabBarProjectOverview>.iconTabBarProjectOverviewContent {
         width: 60% !important;
-        /* border: 2px solid green; */
     }
 
     .iconTabBarProjectOverview>.iconTabBarProjectOverviewContent.projectDetails {
-        /* border: 2px solid red; */
         width: 35% !important;
     }
 

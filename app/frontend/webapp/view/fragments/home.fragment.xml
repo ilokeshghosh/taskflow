@@ -5,66 +5,28 @@
     xmlns:f="sap.f"
     xmlns:card="sap.f.cards"
 >
-    <Panel class="homePanel" height="100%" width="100%">
-        <headerToolbar>
-            <OverflowToolbar visible="false" height="3rem">
-                <HBox
-                    width="100%"
-                    justifyContent="SpaceBetween"
-                    alignItems="Center"
-                >
-                    <Title
-                        text="{i18n>home}"
-                        level="H1"
-                    />
-
-                    <HBox
-                        alignItems="Center"
-                        width="90%"
-                        justifyContent="End"
-                        gap="6px"
-                    >
-                        <core:Icon src="sap-icon://bell" />
-                        <Button
-                            class=""
-                            icon="sap-icon://add-activity"
-                            type="Success"
-                            text="Create Task"
-                            press="handleOpenCreateTaskDialog"
-                        />
-                        <Button
-                            class=""
-                            icon="sap-icon://add"
-                            type="Emphasized"
-                            text="Create Project"
-                            press="handleOpenCreateProjectDialog"
-                        />
-
-                        <Avatar
-                            class="userAvatar"
-                            imageFitType="Cover"
-                            displaySize="XS"
-                            src="https://ik.imagekit.io/8fgpvoiai/profile/profile-image-black-white_81gzUNk43.png?updatedAt=1703005079604"
-                        />
-                    </HBox>
-                </HBox>
-            </OverflowToolbar>
-        </headerToolbar>
-        <!-- <Title text="{fragmentModel>/key}" /> -->
+    <!-- Home Panel -->
+    <Panel
+        class="homePanel"
+        height="100%"
+        width="100%"
+    >
         <content>
+            <!-- Home page container -->
             <FlexBox
                 direction="Column"
                 justifyContent="Center"
                 gap="2rem"
                 width="100%"
             >
-                <!-- KPI TILES -->
+                <!-- UPPER SECTION || KPI TILES container-->
                 <HBox
                     class=""
                     wrap="Wrap"
                     justifyContent="SpaceAround"
                     width="100%"
                 >
+                    <!-- Total Project KPI Tile || TO BE IMPLEMENTED (MoM Growth Status Indicator) -->
                     <GenericTile
                         mode="ContentMode"
                         header="Total Projects"
@@ -84,6 +46,7 @@
                         </TileContent>
                     </GenericTile>
 
+                    <!-- Total Tasks KPI Tile || TO BE IMPLEMENTED (MoM Growth Status Indicator) -->
                     <GenericTile
                         mode="ContentMode"
                         header="Total Tasks"
@@ -103,6 +66,7 @@
                         </TileContent>
                     </GenericTile>
 
+                    <!-- Total Tasks with status 'In Progress' KPI Tile || TO BE IMPLEMENTED (MoM Growth Status Indicator) -->
                     <GenericTile
                         mode="ContentMode"
                         header="In Progress"
@@ -120,6 +84,7 @@
                         </TileContent>
                     </GenericTile>
 
+                    <!-- Total Tasks with status 'Completed' KPI Tile || TO BE IMPLEMENTED (MoM Growth Status Indicator) -->
                     <GenericTile
                         mode="ContentMode"
                         header="Completed"
@@ -137,6 +102,7 @@
                         </TileContent>
                     </GenericTile>
 
+                    <!-- Total Tasks with status 'Overdue' KPI Tile || TO BE IMPLEMENTED (MoM Growth Status Indicator) -->
                     <GenericTile
                         mode="ContentMode"
                         header="Overdue"
@@ -155,8 +121,9 @@
                     </GenericTile>
                 </HBox>
 
-                <!-- Project Overview panel -->
+                <!--LOWER SECTION || Project Overview panel(To show all projects) || TO BE IMPLEMENTED ( display top 3 projects which is most valuable in terms of budget, priority, client), need to write custom algo -->
                 <Panel width="100%">
+                    <!-- All Projects Header Container || TO BE IMPLEMENTED (Apply Filters and search options and view all) -->
                     <headerToolbar>
                         <OverflowToolbar style="Clear">
                             <Title
@@ -165,8 +132,9 @@
                             />
                         </OverflowToolbar>
                     </headerToolbar>
-
+                    <!-- All Project Content Container -->
                     <content>
+                        <!-- All Project Cards Container -->
                         <FlexBox
                             justifyContent="SpaceAround"
                             class="projectOverViewFlex"
@@ -175,18 +143,17 @@
                             items="{/Projects}"
                             gap="1rem"
                         >
-                            <!-- Card 1 -->
+                            <!-- Project Card -->
                             <items>
                                 <f:Card
                                     class="projectCard sapUiContentPadding sapUiSmallMarginBottom"
-                                    
                                 >
                                     <f:content>
                                         <VBox
                                             class="cardContent border2 sapUiTinyMargin"
                                             width="100%"
                                         >
-                                            <!-- header section -->
+                                            <!-- UPPER CONTAINER || header section -->
                                             <HBox
                                                 justifyContent="SpaceBetween"
                                                 alignItems="Start"
@@ -194,8 +161,12 @@
                                                 wrap="Wrap"
                                                 width="100%"
                                             >
-                                                <!-- LEFT : Badge + Title -->
-                                                <VBox width="80%" wrap="Wrap" class="titleSection">
+                                                <!-- LEFT : Title & Desc -->
+                                                <VBox
+                                                    width="80%"
+                                                    wrap="Wrap"
+                                                    class="titleSection"
+                                                >
                                                     <Title
                                                         text="{name}"
                                                         level="H5"
@@ -213,15 +184,15 @@
                                                     state="{path:'status',formatter:'.formatter.formatStatus'}"
                                                     class="statusBadge"
                                                     inverted="true"
-                                                
                                                 />
                                             </HBox>
 
+                                            <!-- LOWER CONTAINER || deadline & progress bar -->
                                             <VBox
                                                 class=""
                                                 justifyContent="End"
                                             >
-                                                <!-- deadline section -->
+                                                <!-- UPPER || deadline section -->
                                                 <HBox
                                                     alignItems="Center"
                                                     class="deadlineSection sapUiSmallMarginTop"
@@ -245,14 +216,14 @@
                                                     <!-- Three dots menu -->
 
                                                     <Button
-                                                    visible="false"
+                                                        visible="false"
                                                         icon="sap-icon://overflow"
                                                         type="Transparent"
                                                         press=".onMenuPress"
                                                     />
                                                 </HBox>
 
-                                                <!-- progress section -->
+                                                <!-- LOWER || progress section -->
                                                 <VBox
                                                     class="progressSection "
                                                     justifyContent="End"
@@ -280,9 +251,6 @@
                                                         displayOnly="true"
                                                     />
                                                 </VBox>
-
-                                                <!-- footer section -->
-                                                <HBox />
                                             </VBox>
                                         </VBox>
                                     </f:content>
@@ -291,6 +259,8 @@
                         </FlexBox>
                     </content>
                 </Panel>
+
+                <!-- TO BE IMPLEMENTED || add Analytics, user progress, user Tasks, team performance, team member  -->
             </FlexBox>
         </content>
     </Panel>

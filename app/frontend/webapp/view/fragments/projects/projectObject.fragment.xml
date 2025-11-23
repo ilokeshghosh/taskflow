@@ -10,18 +10,21 @@
         id="projectObjectDialog"
     >
         <content>
+            <!-- Project Object Container -->
             <VBox
                 justifyContent="Center"
                 alignItems="Center"
                 width="100%"
                 height="auto"
             >
+                <!-- UPPER || Project Overview Details -->
                 <VBox
                     width="90%"
                     class="projectObjectBox sapUiTinyMarginTop"
                     gap="1rem"
                     height="auto"
                 >
+                    <!-- UPPER || title, description, priority, status -->
                     <StandardListItem
                         title="{selectedProject>/name}"
                         description="{selectedProject>/description}"
@@ -31,7 +34,7 @@
                         highlight="Error"
                         wrapping="true"
                     />
-
+                    <!-- LOWER || card container -->
                     <FlexBox
                         height="auto"
                         wrap="Wrap"
@@ -40,6 +43,7 @@
                         alignItems="Center"
                         class="projectObjectBoxUpperContent"
                     >
+                        <!-- Progress Card -->
                         <VBox
                             gap="0.3rem"
                             class="projectDetailsCard"
@@ -76,12 +80,13 @@
                             </VBox>
                         </VBox>
 
+                        <!-- Budget Card -->
                         <VBox
                             gap="0.3rem"
                             class="projectDetailsCard"
                             width="364px"
                         >
-                            <Text
+                            <Title
                                 width="100%"
                                 text="Budget"
                             />
@@ -89,12 +94,13 @@
                             <Text text="{selectedProject>/clientName}" />
                         </VBox>
 
+                        <!-- Team Card -->
                         <VBox
                             gap="0.3rem"
                             class="projectDetailsCard"
                             width="364px"
                         >
-                            <Text
+                            <Title
                                 width="100%"
                                 text="Team"
                             />
@@ -123,12 +129,13 @@
                             <Text text="4 Members" />
                         </VBox>
 
+                        <!-- Tasks Card -->
                         <VBox
                             gap="0.3rem"
                             class="projectDetailsCard"
                             width="364px"
                         >
-                            <Text
+                            <Title
                                 width="100%"
                                 text="Tasks"
                             />
@@ -138,6 +145,7 @@
                     </FlexBox>
                 </VBox>
 
+                <!-- LOWER || Icon Tab Bar -->
                 <HBox
                     class="sapUiTinyMarginTop projectDetailsIconTab"
                     width="90%"
@@ -147,7 +155,7 @@
                         select=".onFilterSelect"
                     >
                         <items>
-                            <!-- Project Overview -->
+                            <!-- Project Overview Tab Filter -->
                             <IconTabFilter
                                 text="Overview"
                                 icon="sap-icon://document-text"
@@ -161,12 +169,14 @@
                                     justifyContent="SpaceBetween"
                                     gap="1rem"
                                 >
+                                    <!-- LEFT SIDE || Project Overview -->
                                     <VBox
                                         class="iconTabBarProjectOverviewContent"
                                         width="60%"
                                         height="auto"
                                         gap="1rem"
                                     >
+                                        <!-- UPPER || Project Title -->
                                         <HBox>
                                             <VBox>
                                                 <Title
@@ -179,6 +189,7 @@
                                             </VBox>
                                         </HBox>
 
+                                        <!-- MIDDLE || Project Description -->
                                         <HBox
                                             wrap="Wrap"
                                             width="90%"
@@ -190,6 +201,7 @@
                                             />
                                         </HBox>
 
+                                        <!-- TO BE IMPLEMENTED || Add project goals & deliverables -->
                                         <HBox
                                             gap="1rem"
                                             wrap="Wrap"
@@ -240,7 +252,7 @@
                                             </List>
                                         </HBox>
                                     </VBox>
-
+                                    <!-- RIGHT SIDE || Project Details -->
                                     <VBox
                                         class="iconTabBarProjectOverviewContent projectDetails"
                                         width="35%"
@@ -291,7 +303,7 @@
                                 </HBox>
                             </IconTabFilter>
 
-                            <!-- Tasks -->
+                            <!-- Tasks Tab Filter -->
                             <IconTabFilter
                                 text="Tasks"
                                 icon="sap-icon://activities"
@@ -305,6 +317,7 @@
                                 </HBox>
                             </IconTabFilter>
 
+                            <!-- Team Tab Filter || TO BE IMPLEMENTED -->
                             <IconTabFilter
                                 text="Team"
                                 icon="sap-icon://group"
@@ -423,6 +436,7 @@
                                 </HBox>
                             </IconTabFilter>
 
+                            <!-- Discussions Tab Filter || TO BE IMPLEMENTED -->
                             <IconTabFilter
                                 text="Discussions"
                                 icon="sap-icon://discussion-2"
@@ -431,6 +445,7 @@
                                 <BusyIndicator text="FEATURE COMING SOON" />
                             </IconTabFilter>
 
+                            <!-- Analytics Tab Filter || TO BE IMPLEMENTED -->
                             <IconTabFilter
                                 text="Analytics"
                                 icon="sap-icon://compare"
@@ -445,7 +460,11 @@
         </content>
 
         <beginButton>
-            <Button text="Close" press=".onCloseDialog" />
+            <!-- Close Button -->
+            <Button
+                text="Close"
+                press=".onCloseDialog"
+            />
         </beginButton>
     </Dialog>
 </core:FragmentDefinition>

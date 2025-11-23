@@ -2,7 +2,6 @@ sap.ui.define([
     "sap/ui/core/mvc/Controller",
     "sap/ui/core/Fragment",
     "sap/ui/model/json/JSONModel",
-    // "com/taskflow/dev/frontend/util/projectHelper.js",
     "com/taskflow/dev/frontend/util/projectHelper",
     "com/taskflow/dev/frontend/util/taskHelper",
     "com/taskflow/dev/frontend/model/formatter",
@@ -13,6 +12,7 @@ sap.ui.define([
 
 
     return Controller.extend("com.taskflow.dev.frontend.controller.Home", {
+        // initialize formatter
         formatter: formatter,
         onInit() {
 
@@ -38,10 +38,6 @@ sap.ui.define([
         onAfterRendering() {
             projectHelper.init(this);
             taskHelper.init(this);
-
-
-
-            // console.log("model data",this.getView().getModel().bindList("/Projects"));
         },
 
         getSplitAppObj: function () {
@@ -53,39 +49,27 @@ sap.ui.define([
         },
         onNavSelect(oEvent) {
             var sNavItemKey = oEvent.getParameters("items")['item'].getKey()
-
             this.getView().byId("heroLoadArea").setBusy(true);
             this._openHomeFragment({ key: sNavItemKey });
-
         },
         _openHomeFragment(oData) {
             var oView = this.getView();
             this.oFragmentModel.setData(oData);
             var sNavItemKey = oData.key;
-            // console.log("htye",sNavItemKey);
-
             if (this._userFormDialog) {
-                console.log("item already exists");
-
                 oView.byId("heroLoadArea").destroyItems();
-
             }
-
             if (!this._userFormDialog) {
                 this._loadFragment(sNavItemKey);
             } else {
                 oView.byId("heroLoadArea").destroyItems();
-
                 this._loadFragment(sNavItemKey);
             }
-
             this._userFormDialog.then((oFragment) => {
-
                 oView.byId("heroLoadArea").addItem(oFragment);
                 this.getView().byId("heroLoadArea").setBusy(false);
             })
         },
-
         _loadFragment(sNavItemKey) {
             var oView = this.getView();
             this._userFormDialog = Fragment.load({
@@ -107,11 +91,8 @@ sap.ui.define([
         },
 
         // split app
-
         onNavItemPress(oEvent) {
-
             var sToPageId = oEvent.getParameter("listItem").getCustomData()[0].getValue();
-
             this.getSplitAppObj().toDetail(this.createId(sToPageId));
         },
         onPressGoToProjectsMaster() {
@@ -127,7 +108,6 @@ sap.ui.define([
             var oSplitApp = this.getSplitAppObj();
             // Toggle between showing and hiding the master pane
             var isMasterVisible = oSplitApp.getMode() !== "HideMode";
-
             if (isMasterVisible) {
                 oSplitApp.setMode("HideMode");
             } else {
@@ -135,7 +115,6 @@ sap.ui.define([
             }
 
         },
-
         onListItemPress(oEvent) {
             var oList = this.byId("navItems");
             var aItems = oList.getItems();
@@ -150,36 +129,21 @@ sap.ui.define([
             oBinding.requestContexts().then(function (aContexts) {
                 if (aContexts.length > 0) {
                     var oProjectData = aContexts[0].getObject();
-
-                    // console.log("Project:",typeof aContexts[0].getObject());
-
                     this.getSplitAppObj().toDetail(this.createId("projectObject"));
 
                     this.getView().setModel(new JSONModel(oProjectData), "selectedProject")
 
                     this._loadAllTasks();
-                    // this._loadSelectProjectTasks();
-
-                    // console.log("selectedProject",this.getView().getModel("selectedProject").getData())
-
-                    // this.getView().byId("projectObject").setTitle(oProjectData.name)
-
                     this.getView().setBusy(false);
 
                 } else {
-                    console.log("No project found");
+                    MessageBox.error("No project found")
                 }
             }.bind(this));
-            // console.log("getContexts", oModel.getMetadata());
-            // console.log("oMOdel", oModel.getBoundContext());
-
-            // console.log("aSelected",aSelected[0].getMetadata());
-            // console.log("aSelected",aSelected[0].getTitle());
-
         },
 
         onFilterSelect() {
-            console.log("hey there");
+            // console.log("hey there");
         },
         _loadAllTasks() {
             var oView = this.getView();
@@ -191,18 +155,18 @@ sap.ui.define([
             var oProjectTasksData = []
             oBinding.requestContexts().then(function (aContexts) {
                 if (aContexts.length > 0) {
-                    // var oProjectTasksData = aContexts[0].getObject();
+
                     aContexts.forEach(element => {
                         oProjectTasksData.push(element.getObject())
                     });
-                    // console.log("oProjectTaskData",oProjectTasksData);
+
                     oView.setModel(new JSONModel(oProjectTasksData), "selectedProjectTasks");
 
-                    console.log("model", oView.getModel("selectedProjectTasks"))
+
                     this._setFilterSelectProjectTasks()
 
                 } else {
-                    console.log("No Tasks Found");
+                    MessageBox.error("No Tasks Found")
                 }
             }.bind(this));
         },
@@ -218,23 +182,18 @@ sap.ui.define([
             aAllProjectTasks.forEach(element => {
                 switch (element.status) {
                     case "hold":
-                        console.log("hold task", element);
                         aProjectHoldTasks.push(element);
                         break;
                     case "open" || "inProgress":
-                        console.log("open task", element);
                         aProjectOpenTasks.push(element);
                         break;
                     case "completed":
-                        console.log("completed task", element);
                         aProjectCompletedTasks.push(element);
                         break;
                     case "overdue":
-                        console.log("overdue task", element);
                         aProjectOverdueTasks.push(element);
                         break;
                     case "onReview":
-                        console.log("onReview task", element);
                         aProjectOnreviewTasks.push(element);
                         break;
                     default:
@@ -244,29 +203,18 @@ sap.ui.define([
                 }
             })
 
-
-            // console.log("aProjectOnreviewTasks",aProjectOnreviewTasks.length);
-            // oView.setModel(new JSONModel(aProjectOpenTasks), "selectedProjectOpenTasks");
             oView.setModel(new JSONModel(aProjectOpenTasks.length >= 1 ? aProjectOpenTasks : [{ title: "NO TASKS ARE OPEN" }]), "selectedProjectOpenTasks");
             oView.setModel(new JSONModel(aProjectHoldTasks.length >= 1 ? aProjectHoldTasks : [{ title: "NO TASKS ON HOLD" }]), "selectedProjectHoldTasks");
 
-            // oView.setModel(new JSONModel(aProjectCompletedTasks), "selectedProjectCompletedTasks");
             oView.setModel(new JSONModel(aProjectCompletedTasks.length >= 1 ? aProjectCompletedTasks : [{ title: "NO TASKS MARKED AS COMPLETED" }]), "selectedProjectCompletedTasks");
 
-
-            // oView.setModel(new JSONModel(aProjectOverdueTasks), "selectedProjectOverdueTasks");
             oView.setModel(new JSONModel(aProjectOverdueTasks.length >= 1 ? aProjectOverdueTasks : [{ title: "NO TASKS ARE OVERDUE" }]), "selectedProjectOverdueTasks");
 
 
-            // oView.setModel(new JSONModel(aProjectOnreviewTasks), "selectedProjectOnreviewTasks");
             oView.setModel(new JSONModel(aProjectOnreviewTasks.length >= 1 ? aProjectOnreviewTasks : [{ title: "NO TASKS ON REVIEW" }]), "selectedProjectOnreviewTasks");
-
-
-            // console.log("aProjectOpenTasks",aProjectCompletedTasks);
 
         },
         onQuickActionMenuPress(oEvent) {
-            // console.log("hey There",oEvent.getSource());
             var oButton = oEvent.getSource();
             console.log("oButton", oButton.getBindingContext().getObject());
 
@@ -307,13 +255,6 @@ sap.ui.define([
                     press: this.onPutOnHold
                 })
 
-
-
-                // Project Details
-                // change Status
-                // marks as completed
-                // put on hold
-
                 oList.addItem(item1);
                 oList.addItem(item2);
                 oList.addItem(item3);
@@ -335,9 +276,6 @@ sap.ui.define([
             var oView = this.getView();
             console.log("oEvent", oView.getModel());;
 
-
-            // console.log("DialogSelectedProject",oView.getModel("DialogSelectedProject").getData())
-
             this.getView().setBusy(true);
 
             if (!this._pDialog) {
@@ -354,33 +292,28 @@ sap.ui.define([
             this._pDialog.then((oDialog) => {
                 oDialog.setModel(this.getView().getModel("DialogSelectedProject"), "selectedProject");
                 this.getView().setModel(this.getView().getModel("DialogSelectedProject"), "selectedProject")
-                // console.log("selectedProject", this.getView().getModel("selectedProject"))
                 this._loadAllTasks();
                 oDialog.open();
                 this.getView().setBusy(false);
             })
         },
         onChangeStatus() {
-            console.log("onChangeStatus");
+            // console.log("onChangeStatus");
 
         },
         onMarkedAsCompleted() {
-            console.log("onMarkedAsCompleted");
+            // console.log("onMarkedAsCompleted");
         },
         onPutOnHold() {
-            console.log("onPutOnHold");
+            // console.log("onPutOnHold");
         },
         onCloseDialog() {
             this.byId("projectObjectDialog").close();
         },
 
-
         onPressTaskCard(oEvent) {
             var oButton = oEvent.getSource();
             this._selectedTask = oButton.getBindingContext();
-            // console.log("_selectedTask", oButton.getBindingContext());
-            // var oSelectedProjectData = oButton.getBindingContext().getObject();
-
 
             if (!this._oPopoverTask) {
                 var oList = new sap.m.List({
@@ -453,9 +386,7 @@ sap.ui.define([
             this._oPopoverTask.openBy(oButton);
         },
         onEditTask() {
-            console.log("hey there need to edit the task");
             var oView = this.getView();
-            // oView.setBusy(true);
             if (!this._pTaskEditDialog) {
                 this._pTaskEditDialog = Fragment.load({
                     id: oView.getId(),
@@ -468,57 +399,20 @@ sap.ui.define([
             }
 
             this._pTaskEditDialog.then(oDialog => {
-                // oDialog.setModel()
-                // console.log("oDialog", oDialog.getMetadata());
-
-                // var oObjectBinding = oDialog.bindObject(this._selectedTask.getPath());
-                // var oObject = oObjectBinding.getObjectBinding();
-                // console.log("oObject",oObject);
-
-                // console.log("_selectedTask",this._selectedTask.getObject());
                 var sID = this._selectedTask.getObject().ID;
-                console.log("ID", sID)
-
-                // var oBinding = oView.getModel().bindList("/Tasks",null,null,
-
-                //     [
-                //         new sap.ui.model.Filter("ID","EQ",sID)
-                //     ],
-                //     {$expand:"assignedTo,project"}
-                // );
-
-                // oBinding.requestContexts().then((aContexts) => {
-                //     if (aContexts.length > 0) {
-
-                //         var oProjectData = aContexts[0].getObject();
-                //          this.getView().setModel(new JSONModel(oProjectData), "selectedTask")
-                //     } else {
-                //         console.log("Task Not Found");
-
-                //     }
-                // })
                 oDialog.setBusy(true);
                 oDialog.bindElement({
                     path: this._selectedTask.getPath(),
                     parameters: { $expand: "assignedTo,project" }
                 })
-                // var oTaskData = this._selectedTask.getObject();
-                // var oEditModel = new JSONModel({
-                //     ID: oTaskData.assignedTo.ID,
-                //     name:oTaskData.assignedTo.name
-                // });
-                // this.getView().setModel(oEditModel, "editTaskLocal");
-
 
                 var oElementBinding = oDialog.getElementBinding();
                 oElementBinding.attachEventOnce("dataReceived", (oEvent) => {
                     oDialog.setBusy(false);
                     oDialog.open();
 
-
                     var oContext = oElementBinding.getBoundContext();
                     var oData = oContext && oContext.getObject();
-
 
                     var oEditModel = new JSONModel({
                         ID: oData.assignedTo.ID,
@@ -527,18 +421,14 @@ sap.ui.define([
 
                     this.getView().setModel(oEditModel, "editTaskLocal");
 
-
                 })
-                // oView.setBusy(false);
             })
         },
         onCloseEditTaskDialog() {
             this.getView().byId("EditTaskDialog").close();
         },
         onSubmitEditTask() {
-
             this.getView().setBusy(true);
-
 
             var oDialog = this.byId("EditTaskDialog");
             var oContext = oDialog.getBindingContext();

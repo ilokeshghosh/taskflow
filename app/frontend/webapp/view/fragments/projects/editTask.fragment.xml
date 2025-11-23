@@ -13,6 +13,7 @@
         <content>
             <form:SimpleForm>
                 <form:content>
+                    <!-- Task Title -->
                     <Label
                         text="Title"
                         required="true"
@@ -25,6 +26,7 @@
                         value="{title}"
                     />
 
+                    <!-- Task Description -->
                     <Label text="Description" />
 
                     <TextArea
@@ -33,6 +35,7 @@
                         value="{description}"
                     />
 
+                    <!-- Task Priority -->
                     <Label text="Priority" />
                     <Select
                         id="taskEditClientInputPriority"
@@ -51,7 +54,7 @@
                             text="High"
                         />
                     </Select>
-
+                    <!-- Task Due Date -->
                     <Label text="Due Date" />
                     <DatePicker
                         displayFormat="MM/dd/yyyy"
@@ -59,6 +62,7 @@
                         value="{dueDate}"
                     />
 
+                    <!-- Task Assign To -->
                     <Label text="Assign To" />
                     <Select
                         id="taskEditClientInputAssigne"
@@ -73,6 +77,7 @@
                         </items>
                     </Select>
 
+                    <!-- Task Status -->
                     <Label text="Status" />
                     <Select
                         id="taskEditClientInputStatus"
@@ -116,6 +121,7 @@
         </content>
 
         <beginButton>
+            <!-- Task Save -->
             <Button
                 text="Save Changes"
                 type="Emphasized"
@@ -123,6 +129,7 @@
             />
         </beginButton>
         <endButton>
+            <!-- Cancel Button -->
             <Button
                 type="Reject"
                 text="Cancel"

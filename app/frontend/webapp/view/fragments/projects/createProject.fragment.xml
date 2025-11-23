@@ -32,11 +32,10 @@
                 columnsXL="2"
                 columnsL="2"
                 columnsM="1"
-                
-                
             >
                 <form:content>
                     <core:Title text="Project Details" />
+                    <!-- Project Name -->
                     <Label
                         text="Name"
                         required="true"
@@ -46,20 +45,23 @@
                         required="true"
                         placeholder="Enter Project Name"
                         value="{createProjectModel>/name}"
-                        
                     />
 
+                    <!-- Project Description -->
                     <Label text="Description" />
                     <TextArea
                         placeholder="Enter Description"
                         rows="3"
                         cols="4"
                         value="{createProjectModel>/description}"
-                       
                     />
 
+                    <!-- Select Members -->
                     <Label text="Members" />
-                    <MultiComboBox selectedKeys="{createProjectModel>/members}" width="350px">
+                    <MultiComboBox
+                        selectedKeys="{createProjectModel>/members}"
+                        width="350px"
+                    >
                         <core:Item
                             key="1"
                             text="Member1"
@@ -69,8 +71,8 @@
                             text="Member2"
                         />
                     </MultiComboBox>
-                    
 
+                    <!-- Manager Name -->
                     <Label
                         text="Manager"
                         required="true"
@@ -80,20 +82,31 @@
                         value="Your Name"
                         editable="false"
                         enabled="false"
-                        
-                    
                     />
 
+                    <!-- Start Date -->
                     <Label text="Start Date" />
-                    <DatePicker displayFormat="MM/dd/yyyy" 
-                    valueFormat="yyyy-MM-dd" value="{createProjectModel>/startDate}" id="startDateInput"/>
+                    <DatePicker
+                        displayFormat="MM/dd/yyyy"
+                        valueFormat="yyyy-MM-dd"
+                        value="{createProjectModel>/startDate}"
+                        id="startDateInput"
+                    />
 
+                    <!-- Dealine  -->
                     <Label text="Deadline" />
-                    <DatePicker displayFormat="MM/dd/yyyy" 
-                        valueFormat="yyyy-MM-dd" value="{createProjectModel>/deadline}"  />
+                    <DatePicker
+                        displayFormat="MM/dd/yyyy"
+                        valueFormat="yyyy-MM-dd"
+                        value="{createProjectModel>/deadline}"
+                    />
 
+                    <!-- client name -->
                     <Label text="Client" />
-                    <Select id="projectCreateClientInput" selectedKey="{createProjectModel>/clientName}">
+                    <Select
+                        id="projectCreateClientInput"
+                        selectedKey="{createProjectModel>/clientName}"
+                    >
                         <core:Item
                             key="client1"
                             text="Client1"
@@ -104,26 +117,30 @@
                         />
                     </Select>
 
+                    <!-- Budget -->
                     <Label text="Budget" />
-                    <Input value="{createProjectModel>/budget}"  type="Number" />
+                    <Input
+                        value="{createProjectModel>/budget}"
+                        type="Number"
+                    />
 
+                    <!-- Projec Progress Slider -->
                     <core:Title text="Project Progress and Status" />
                     <Label
                         class=""
                         text="Progress"
-                        
                     />
                     <Slider
-                        value="{createProjectModel>/progress}" 
+                        value="{createProjectModel>/progress}"
                         min="0"
                         max="100"
                         inputsAsTooltips="true"
                         showAdvancedTooltip="true"
-                        
                     />
 
+                    <!-- Project Priority -->
                     <Label text="Priority" />
-                    <Select selectedKey="{createProjectModel>/priority}"  >
+                    <Select selectedKey="{createProjectModel>/priority}">
                         <core:Item
                             key="low"
                             text="Low"
@@ -138,8 +155,9 @@
                         />
                     </Select>
 
+                    <!-- Project Priority -->
                     <Label text="Status" />
-                    <Select selectedKey="{createProjectModel>/status}"  >
+                    <Select selectedKey="{createProjectModel>/status}">
                         <core:Item
                             key="hold"
                             text="Hold"
@@ -166,6 +184,7 @@
         </content>
 
         <beginButton>
+            <!-- Create Button -->
             <Button
                 text="Create Project"
                 type="Emphasized"
@@ -173,6 +192,7 @@
             />
         </beginButton>
         <endButton>
+            <!-- Cancel Button -->
             <Button
                 text="Cancel"
                 type="Transparent"

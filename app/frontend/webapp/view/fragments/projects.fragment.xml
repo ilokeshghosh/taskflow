@@ -5,56 +5,10 @@
     xmlns:core="sap.ui.core"
 >
     <Panel height="100%">
-        <headerToolbar>
-            <OverflowToolbar
-                visible="false"
-                height="3rem"
-            >
-                <HBox
-                    width="100%"
-                    justifyContent="SpaceBetween"
-                    alignItems="Center"
-                >
-                    <Title
-                        text="{i18n>projects}"
-                        level="H1"
-                    />
-
-                    <HBox
-                        alignItems="Center"
-                        width="90%"
-                        justifyContent="End"
-                        gap="6px"
-                    >
-                        <core:Icon src="sap-icon://bell" />
-                        <Button
-                            class=""
-                            icon="sap-icon://add-activity"
-                            type="Success"
-                            text="Create Task"
-                            press="handleOpenCreateTaskDialog"
-                        />
-                        <Button
-                            class=""
-                            icon="sap-icon://add"
-                            type="Emphasized"
-                            text="Create Project"
-                            press="handleOpenCreateProjectDialog"
-                        />
-
-                        <Avatar
-                            class="userAvatar"
-                            imageFitType="Cover"
-                            displaySize="XS"
-                            src="https://ik.imagekit.io/8fgpvoiai/profile/profile-image-black-white_81gzUNk43.png?updatedAt=1703005079604"
-                        />
-                    </HBox>
-                </HBox>
-            </OverflowToolbar>
-        </headerToolbar>
-        <!-- <Title text="{fragmentModel>/key}" /> -->
+        <!-- Project Container -->
         <content>
             <Panel width="100%">
+                <!-- Project Container Header Tool Bar || TO BE IMPLEMENTED (add search & filter) -->
                 <headerToolbar>
                     <OverflowToolbar>
                         <HBox
@@ -77,6 +31,7 @@
                 </headerToolbar>
 
                 <content>
+                    <!-- Project Cards Container -->
                     <FlexBox
                         wrap="Wrap"
                         justifyContent="SpaceAround"
@@ -86,7 +41,7 @@
                         class="projectOverViewFlex"
                     >
                         <items />
-                        <!-- Card 1 -->
+                        <!-- Project Card  -->
                         <f:Card
                             class="projectCard sapUiContentPadding sapUiSmallMarginBottom"
                         >
@@ -95,7 +50,7 @@
                                     class="cardContent sapUiTinyMargin"
                                     width="100%"
                                 >
-                                    <!-- header section -->
+                                    <!--UPPER SECTION || Project Title + Desc -->
                                     <HBox
                                         justifyContent="SpaceBetween"
                                         alignItems="Start"
@@ -128,6 +83,7 @@
                                         />
                                     </HBox>
 
+                                    <!-- MID SECTION || Project Progress & Project Action Button Container -->
                                     <VBox
                                         class=""
                                         justifyContent="End"
@@ -196,6 +152,7 @@
                                         <HBox />
                                     </VBox>
 
+                                    <!-- LOWER SECTION || Project Other Details( Client, Budget, Start Date, Priority) -->
                                     <VBox
                                         class="sapUiMediumMarginTop"
                                         gap="1rem"

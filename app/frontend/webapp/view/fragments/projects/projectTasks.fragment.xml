@@ -7,57 +7,9 @@
     xmlns:core="sap.ui.core"
 >
     <Panel height="100%">
-        <headerToolbar>
-            <OverflowToolbar
-                visible="false"
-                height="3rem"
-            >
-                <HBox
-                    width="100%"
-                    justifyContent="SpaceBetween"
-                    alignItems="Center"
-                >
-                    <Title
-                        text="{i18n>tasks}"
-                        level="H1"
-                    />
-
-                    <HBox
-                        alignItems="Center"
-                        width="90%"
-                        justifyContent="End"
-                        gap="6px"
-                    >
-                        <core:Icon src="sap-icon://bell" />
-                        <Button
-                            class=""
-                            icon="sap-icon://add-activity"
-                            type="Success"
-                            text="Create Task"
-                            press="handleOpenCreateTaskDialog"
-                        />
-                        <Button
-                            class=""
-                            icon="sap-icon://add"
-                            type="Emphasized"
-                            text="Create Project"
-                            press="handleOpenCreateProjectDialog"
-                        />
-
-                        <Avatar
-                            class="userAvatar"
-                            imageFitType="Cover"
-                            displaySize="XS"
-                            src="https://ik.imagekit.io/8fgpvoiai/profile/profile-image-black-white_81gzUNk43.png?updatedAt=1703005079604"
-                        />
-                    </HBox>
-                </HBox>
-            </OverflowToolbar>
-        </headerToolbar>
-        <!-- <Title text="{fragmentModel>/key}" /> -->
         <content>
             <Panel class="taskPanelContainer">
-                <!-- header / filter / view type section  -->
+                <!-- TO BE IMPLEMENTED || header / filter / view type section  -->
                 <headerToolbar>
                     <OverflowToolbar class="">
                         <Button
@@ -73,7 +25,7 @@
                         justifyContent="SpaceAround"
                         wrap="Wrap"
                     >
-                        <!-- Open -->
+                        <!-- Open Card -->
                         <Panel
                             class="sapUiMediumMarginTop openTaskPanel taskPanel border1"
                         >
@@ -87,11 +39,6 @@
                                             text="Open"
                                             level="H2"
                                             textAlign="End"
-                                        />
-
-                                        <Button
-                                            icon="sap-icon://overflow"
-                                            type="Transparent"
                                         />
                                     </HBox>
                                 </OverflowToolbar>
@@ -216,11 +163,11 @@
                                                                 displaySize="XS"
                                                             />
 
-                                                            <!-- <Button
-                                                                visible="false"
+                                                            <Button
+                                                                visible="true"
                                                                 icon="sap-icon://overflow"
                                                                 press=".onPressTaskCard"
-                                                            /> -->
+                                                            />
                                                         </HBox>
                                                     </VBox>
                                                 </f:content>
@@ -241,7 +188,7 @@
                             </Toolbar>
                         </Panel>
 
-                        <!-- Completed -->
+                        <!-- Completed Card -->
                         <Panel
                             class="sapUiMediumMarginTop taskPanel openTaskPanel border1"
                             visible="true"
@@ -406,7 +353,7 @@
                             </Toolbar>
                         </Panel>
 
-                        <!-- in/on review -->
+                        <!-- in/on review Card-->
                         <Panel
                             class="sapUiMediumMarginTop taskPanel openTaskPanel border1"
                             visible="true"
@@ -570,7 +517,7 @@
                             </Toolbar>
                         </Panel>
 
-                        <!-- Hold -->
+                        <!-- Hold Card -->
                         <Panel
                             class="sapUiMediumMarginTop taskPanel openTaskPanel border1"
                             visible="true"
@@ -734,7 +681,7 @@
                             </Toolbar>
                         </Panel>
 
-                        <!-- overdue -->
+                        <!-- Overdue Card-->
                         <Panel
                             class="sapUiMediumMarginTop taskPanel openTaskPanel border1"
                             visible="true"

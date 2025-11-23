@@ -2,8 +2,6 @@ sap.ui.define([], function () {
     "use strict";
     return {
         formatStatus: function (sValue) {
-            // Capitalize first letter
-            // Map status to ObjectStatus state
             var mStatusMap = {
                 "planning": "Information",
                 "hold": "Warning",

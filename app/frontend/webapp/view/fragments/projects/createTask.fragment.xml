@@ -34,6 +34,7 @@
                 columnsM="1"
             >
                 <form:content>
+                    <!-- Task Title -->
                     <Label
                         text="Title"
                         required="true"
@@ -45,7 +46,7 @@
                         placeholder="Enter Task Name"
                         value="{createTaskModel>/title}"
                     />
-
+                    <!-- Task Description -->
                     <Label text="Description" />
 
                     <TextArea
@@ -54,6 +55,7 @@
                         value="{createTaskModel>/description}"
                     />
 
+                    <!-- Task Priority -->
                     <Label text="Priority" />
                     <Select
                         id="taskCreateClientInputPriority"
@@ -73,6 +75,7 @@
                         />
                     </Select>
 
+                    <!-- Task Due date -->
                     <Label text="Due Date" />
                     <DatePicker
                         displayFormat="MM/dd/yyyy"
@@ -80,6 +83,7 @@
                         value="{createTaskModel>/dueDate}"
                     />
 
+                    <!-- Assign To -->
                     <Label text="Assign To" />
                     <Select
                         id="taskCreateClientInputAssigne"
@@ -92,6 +96,7 @@
                         />
                     </Select>
 
+                    <!-- Task Status -->
                     <Label text="Status" />
                     <Select
                         id="taskCreateClientInputStatus"
@@ -119,6 +124,7 @@
                         />
                     </Select>
 
+                    <!-- Project Selection -->
                     <Label text="Projects" />
                     <Select
                         id="taskCreateClientInputProject"
@@ -135,6 +141,7 @@
         </content>
 
         <beginButton>
+            <!-- Create Task Button -->
             <Button
                 text="Create Task"
                 type="Emphasized"
@@ -142,6 +149,7 @@
             />
         </beginButton>
         <endButton>
+            <!-- Cancel Task Button -->
             <Button
                 text="Cancel"
                 type="Transparent"
