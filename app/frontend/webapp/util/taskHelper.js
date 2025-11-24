@@ -1,10 +1,10 @@
 sap.ui.define(["sap/ui/core/Fragment", "sap/m/MessageBox", "sap/ui/model/json/JSONModel",], function (Fragment, MessageBox, JSONModel) {
     "use strict";
-    var _oController;
+    var _oController; //for access outside function scope
     return {
         init: function (oController) {
             _oController = oController;
-
+            // setup local model for task creation
             var sNewID = "TASK" + Date.now().toString().slice(-6);
             var oDate = new Date();
             var sNow = oDate.toISOString().split('T')[0];
@@ -23,9 +23,10 @@ sap.ui.define(["sap/ui/core/Fragment", "sap/m/MessageBox", "sap/ui/model/json/JS
 
             _oController.getView().setModel(oCreateTaskModel, "createTaskModel")
         },
+        // open create project dialog to handle task creation
         handleCreateTask() {
             var oView = _oController.getView();
-            
+
             if (!this._pDialog) {
                 this._pDialog = Fragment.load({
                     id: oView.getId(),
@@ -40,18 +41,23 @@ sap.ui.define(["sap/ui/core/Fragment", "sap/m/MessageBox", "sap/ui/model/json/JS
                 oDialog.open();
             })
         },
+        // function ot handle task creation after submitting the form
         onCreateTaskSubmit() {
             var oInputTaskData = _oController.getView().getModel("createTaskModel").getData();
 
             var oModel = _oController.getView().getModel();
             var oBindingList = oModel.bindList("/Tasks");
 
+            // fetch task priorty
             var sTaskCreateClientInputPriority = _oController.byId("taskCreateClientInputPriority").getSelectedItem().getKey();
 
+            // fetch task assigne
             var sTaskCreateClientInputAssigne = _oController.byId("taskCreateClientInputAssigne").getSelectedItem().getKey();
 
+            // fetch task status
             var sTaskCreateClientInputStatus = _oController.byId("taskCreateClientInputStatus").getSelectedItem().getKey();
 
+            // fetch selected project for task
             var sTaskCreateClientInputProject = _oController.byId("taskCreateClientInputProject").getSelectedItem().getKey();
 
 
@@ -72,7 +78,7 @@ sap.ui.define(["sap/ui/core/Fragment", "sap/m/MessageBox", "sap/ui/model/json/JS
 
             oModel.submitBatch("$auto").then(function () {
                 MessageBox.success("Task Created Successfully");
-
+                // reset the model after task creation
                 var oCreateTaskModel = new JSONModel({
                     ID: "",
                     title: "",
@@ -89,9 +95,11 @@ sap.ui.define(["sap/ui/core/Fragment", "sap/m/MessageBox", "sap/ui/model/json/JS
                 oModel.refresh();
             })
         },
+        // function for closing create task dialog
         _closeCreateTaskDialog() {
             _oController.byId("createTaskDialog").close();
         },
+        // function for closing create task dialog ( when pressed cancel button )
         onCancelTaskProject() {
             this._closeCreateTaskDialog();
         }

@@ -162,12 +162,6 @@
                                                                 src="https://ik.imagekit.io/8fgpvoiai/profile/profile-image-black-white_81gzUNk43.png?updatedAt=1703005079604"
                                                                 displaySize="XS"
                                                             />
-
-                                                            <Button
-                                                                visible="true"
-                                                                icon="sap-icon://overflow"
-                                                                press=".onPressTaskCard"
-                                                            />
                                                         </HBox>
                                                     </VBox>
                                                 </f:content>
@@ -203,11 +197,6 @@
                                             text="Completed"
                                             level="H2"
                                             textAlign="End"
-                                        />
-
-                                        <Button
-                                            icon="sap-icon://overflow"
-                                            type="Transparent"
                                         />
                                     </HBox>
                                 </OverflowToolbar>
@@ -328,12 +317,6 @@
                                                             src="https://ik.imagekit.io/8fgpvoiai/profile/profile-image-black-white_81gzUNk43.png?updatedAt=1703005079604"
                                                             displaySize="XS"
                                                         />
-
-                                                        <!-- <Button
-                                                        visible="false"
-                                                            icon="sap-icon://overflow"
-                                                            press=".onPressTaskCard"
-                                                        /> -->
                                                     </HBox>
                                                 </VBox>
                                             </f:content>
@@ -368,11 +351,6 @@
                                             text="On Review"
                                             level="H2"
                                             textAlign="End"
-                                        />
-
-                                        <Button
-                                            icon="sap-icon://overflow"
-                                            type="Transparent"
                                         />
                                     </HBox>
                                 </OverflowToolbar>
@@ -493,11 +471,6 @@
                                                             src="https://ik.imagekit.io/8fgpvoiai/profile/profile-image-black-white_81gzUNk43.png?updatedAt=1703005079604"
                                                             displaySize="XS"
                                                         />
-
-                                                        <!-- <Button
-                                                            icon="sap-icon://overflow"
-                                                            visible="false"
-                                                        /> -->
                                                     </HBox>
                                                 </VBox>
                                             </f:content>
@@ -532,11 +505,6 @@
                                             text="Hold"
                                             level="H2"
                                             textAlign="End"
-                                        />
-
-                                        <Button
-                                            icon="sap-icon://overflow"
-                                            type="Transparent"
                                         />
                                     </HBox>
                                 </OverflowToolbar>
@@ -657,11 +625,6 @@
                                                             src="https://ik.imagekit.io/8fgpvoiai/profile/profile-image-black-white_81gzUNk43.png?updatedAt=1703005079604"
                                                             displaySize="XS"
                                                         />
-
-                                                        <!-- <Button
-                                                            icon="sap-icon://overflow"
-                                                            visible="false"
-                                                        /> -->
                                                     </HBox>
                                                 </VBox>
                                             </f:content>
@@ -696,11 +659,6 @@
                                             text="Overdue"
                                             level="H2"
                                             textAlign="End"
-                                        />
-
-                                        <Button
-                                            icon="sap-icon://overflow"
-                                            type="Transparent"
                                         />
                                     </HBox>
                                 </OverflowToolbar>
@@ -821,11 +779,6 @@
                                                             src="https://ik.imagekit.io/8fgpvoiai/profile/profile-image-black-white_81gzUNk43.png?updatedAt=1703005079604"
                                                             displaySize="XS"
                                                         />
-
-                                                        <!-- <Button
-                                                            icon="sap-icon://overflow"
-                                                            visible="false"
-                                                        /> -->
                                                     </HBox>
                                                 </VBox>
                                             </f:content>

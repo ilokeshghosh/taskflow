@@ -363,10 +363,7 @@
                         width="90%"
                     >
                         <!-- Icon Tab Bar Container -->
-                        <IconTabBar
-                            class=""
-                            select=".onFilterSelect"
-                        >
+                        <IconTabBar class="">
                             <items>
                                 <!-- Project Overview Details Container -->
                                 <IconTabFilter

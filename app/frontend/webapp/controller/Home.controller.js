@@ -22,11 +22,11 @@ sap.ui.define([
                 'icon': 'desktop.ico'
             });
 
-            this.oFragmentModel = new JSONModel({
-                key: "home"
-            })
-            this.getView().setModel(this.oFragmentModel, "fragmentModel");
-            this._openHomeFragment({ key: "home" });
+            // this.oFragmentModel = new JSONModel({
+            //     key: "home"
+            // })
+            // this.getView().setModel(this.oFragmentModel, "fragmentModel");
+            // this._openHomeFragment({ key: "home" });
 
 
             this._setSplitAppMode();
@@ -35,11 +35,13 @@ sap.ui.define([
 
         },
 
+        // Loading up Project & Task Helper Utils
         onAfterRendering() {
             projectHelper.init(this);
             taskHelper.init(this);
         },
 
+        // Return the SplitApp object
         getSplitAppObj: function () {
             var result = this.byId("taskflowLadingPage");
             if (!result) {
@@ -47,74 +49,48 @@ sap.ui.define([
             }
             return result;
         },
-        onNavSelect(oEvent) {
-            var sNavItemKey = oEvent.getParameters("items")['item'].getKey()
-            this.getView().byId("heroLoadArea").setBusy(true);
-            this._openHomeFragment({ key: sNavItemKey });
-        },
-        _openHomeFragment(oData) {
-            var oView = this.getView();
-            this.oFragmentModel.setData(oData);
-            var sNavItemKey = oData.key;
-            if (this._userFormDialog) {
-                oView.byId("heroLoadArea").destroyItems();
-            }
-            if (!this._userFormDialog) {
-                this._loadFragment(sNavItemKey);
-            } else {
-                oView.byId("heroLoadArea").destroyItems();
-                this._loadFragment(sNavItemKey);
-            }
-            this._userFormDialog.then((oFragment) => {
-                oView.byId("heroLoadArea").addItem(oFragment);
-                this.getView().byId("heroLoadArea").setBusy(false);
-            })
-        },
-        _loadFragment(sNavItemKey) {
-            var oView = this.getView();
-            this._userFormDialog = Fragment.load({
-                id: oView.getId(),
-                name: `com.taskflow.dev.frontend.view.fragments.${sNavItemKey}`,
-                controller: this
-            }).then(function (oFragment) {
-                oView.addDependent(oFragment);
-                return oFragment;
-            })
-        },
-        handleOpenCreateProjectDialog() {
 
+        // Open Create Project Dialog
+        handleOpenCreateProjectDialog() {
             projectHelper.handleCreateProject();
         },
 
+        // Open Task Dialog
         handleOpenCreateTaskDialog() {
             taskHelper.handleCreateTask();
         },
 
-        // split app
+        // split app navigation method
         onNavItemPress(oEvent) {
             var sToPageId = oEvent.getParameter("listItem").getCustomData()[0].getValue();
+            // create Detailed Page ID dynamically and go to detail page (using custom:to)
             this.getSplitAppObj().toDetail(this.createId(sToPageId));
         },
         onPressGoToProjectsMaster() {
+            // create Master Page ID dynamically and go to master page using
             this.getSplitAppObj().toMaster(this.createId("projects"));
         },
+        // Back to Master Navigation Page from Projects Master Page
         onPressMasterBack() {
             this.getSplitAppObj().backMaster();
         },
+        // split app mode
         _setSplitAppMode() {
             this.getSplitAppObj().setMode("ShowHideMode");
         },
-        onHamburgerPress: function () {
-            var oSplitApp = this.getSplitAppObj();
-            // Toggle between showing and hiding the master pane
-            var isMasterVisible = oSplitApp.getMode() !== "HideMode";
-            if (isMasterVisible) {
-                oSplitApp.setMode("HideMode");
-            } else {
-                oSplitApp.setMode("ShowHideMode");
-            }
+        // onHamburgerPress: function () {
+        //     var oSplitApp = this.getSplitAppObj();
+        //     // Toggle between showing and hiding the master pane
+        //     var isMasterVisible = oSplitApp.getMode() !== "HideMode";
+        //     if (isMasterVisible) {
+        //         oSplitApp.setMode("HideMode");
+        //     } else {
+        //         oSplitApp.setMode("ShowHideMode");
+        //     }
 
-        },
+        // },
+
+        // Project Master Page Navigation
         onListItemPress(oEvent) {
             var oList = this.byId("navItems");
             var aItems = oList.getItems();
@@ -129,10 +105,11 @@ sap.ui.define([
             oBinding.requestContexts().then(function (aContexts) {
                 if (aContexts.length > 0) {
                     var oProjectData = aContexts[0].getObject();
+                    // Navigate to Project Detailed Page
                     this.getSplitAppObj().toDetail(this.createId("projectObject"));
 
                     this.getView().setModel(new JSONModel(oProjectData), "selectedProject")
-
+                    // Loading all project Specific Task
                     this._loadAllTasks();
                     this.getView().setBusy(false);
 
@@ -141,14 +118,13 @@ sap.ui.define([
                 }
             }.bind(this));
         },
-
-        onFilterSelect() {
-            // console.log("hey there");
-        },
+        // Load Task for Selected Project
         _loadAllTasks() {
             var oView = this.getView();
+            // Fetch Data of Selected Project
             var oCurrentProjectData = oView.getModel("selectedProject").getData();
-            console.log("oCurrentProjectData", oCurrentProjectData.ID)
+
+            // Get all Task Related to the selected project
             var oBinding = oView.getModel().bindList("/Tasks", null, null, [
                 new sap.ui.model.Filter("project_ID", "EQ", `${oCurrentProjectData.ID}`)
             ])
@@ -159,10 +135,10 @@ sap.ui.define([
                     aContexts.forEach(element => {
                         oProjectTasksData.push(element.getObject())
                     });
-
+                    // set local model for selected project tasks
                     oView.setModel(new JSONModel(oProjectTasksData), "selectedProjectTasks");
 
-
+                    // Call function that filter all project according to the status
                     this._setFilterSelectProjectTasks()
 
                 } else {
@@ -203,20 +179,26 @@ sap.ui.define([
                 }
             })
 
+            // set model for open tasks
             oView.setModel(new JSONModel(aProjectOpenTasks.length >= 1 ? aProjectOpenTasks : [{ title: "NO TASKS ARE OPEN" }]), "selectedProjectOpenTasks");
+
+            // set model for hold tasks
             oView.setModel(new JSONModel(aProjectHoldTasks.length >= 1 ? aProjectHoldTasks : [{ title: "NO TASKS ON HOLD" }]), "selectedProjectHoldTasks");
 
+            // set model for completed tasks
             oView.setModel(new JSONModel(aProjectCompletedTasks.length >= 1 ? aProjectCompletedTasks : [{ title: "NO TASKS MARKED AS COMPLETED" }]), "selectedProjectCompletedTasks");
 
+            // set model for overdue tasks
             oView.setModel(new JSONModel(aProjectOverdueTasks.length >= 1 ? aProjectOverdueTasks : [{ title: "NO TASKS ARE OVERDUE" }]), "selectedProjectOverdueTasks");
 
 
+            // set model for review tasks
             oView.setModel(new JSONModel(aProjectOnreviewTasks.length >= 1 ? aProjectOnreviewTasks : [{ title: "NO TASKS ON REVIEW" }]), "selectedProjectOnreviewTasks");
 
         },
+        // open quick action menu in projects page 
         onQuickActionMenuPress(oEvent) {
             var oButton = oEvent.getSource();
-            console.log("oButton", oButton.getBindingContext().getObject());
 
             var oSelectedProjectData = oButton.getBindingContext().getObject();
             this.getView().setModel(new JSONModel(oSelectedProjectData), "DialogSelectedProject")
@@ -227,6 +209,7 @@ sap.ui.define([
                     inset: false
                 });
 
+                // project Details action item
                 var item1 = new sap.m.StandardListItem({
                     title: "Project Details",
                     type: sap.m.ListType.Active,
@@ -234,6 +217,7 @@ sap.ui.define([
                     press: this.onLoadProjectDetails.bind(this)
                 })
 
+                // TO BE IMPLEMENTED || change status action item
                 var item2 = new sap.m.StandardListItem({
                     title: "Change Status",
                     type: sap.m.ListType.Active,
@@ -241,6 +225,7 @@ sap.ui.define([
                     press: this.onChangeStatus
                 })
 
+                // TO BE IMPLEMENTED || marked as completed action item
                 var item3 = new sap.m.StandardListItem({
                     title: "Marked as Completed",
                     type: sap.m.ListType.Active,
@@ -248,6 +233,7 @@ sap.ui.define([
                     press: this.onMarkedAsCompleted
                 })
 
+                // TO BE IMPLEMENTED || put on hold action item
                 var item4 = new sap.m.StandardListItem({
                     title: "Put on Hold",
                     type: sap.m.ListType.Active,
@@ -272,9 +258,9 @@ sap.ui.define([
 
             this._oPopover.openBy(oButton);
         },
+        // open project object page dialog
         onLoadProjectDetails(oEvent) {
             var oView = this.getView();
-            console.log("oEvent", oView.getModel());;
 
             this.getView().setBusy(true);
 
@@ -290,8 +276,10 @@ sap.ui.define([
             }
 
             this._pDialog.then((oDialog) => {
+                // set dialog model for selected project data
                 oDialog.setModel(this.getView().getModel("DialogSelectedProject"), "selectedProject");
                 this.getView().setModel(this.getView().getModel("DialogSelectedProject"), "selectedProject")
+                // load all project specific task
                 this._loadAllTasks();
                 oDialog.open();
                 this.getView().setBusy(false);
@@ -307,12 +295,14 @@ sap.ui.define([
         onPutOnHold() {
             // console.log("onPutOnHold");
         },
+        // close dialog
         onCloseDialog() {
             this.byId("projectObjectDialog").close();
         },
-
+        // Task quick action button (on all task page)
         onPressTaskCard(oEvent) {
             var oButton = oEvent.getSource();
+            // set the context for the selected task for later use
             this._selectedTask = oButton.getBindingContext();
 
             if (!this._oPopoverTask) {
@@ -320,6 +310,7 @@ sap.ui.define([
                     inset: false
                 })
 
+                // TO BE IMPLEMENTED || edit task quick action item
                 var item1 = new sap.m.StandardListItem({
                     title: "Edit Task",
                     type: sap.m.ListType.Active,
@@ -328,7 +319,7 @@ sap.ui.define([
                 })
 
 
-
+                // TO BE IMPLEMENTED || marked as completed quick action item
                 var item2 = new sap.m.StandardListItem({
                     title: "Marked as Completed",
                     type: sap.m.ListType.Active,
@@ -336,6 +327,7 @@ sap.ui.define([
                     // press: this.onTaskMarkedAsCompleted
                 })
 
+                // TO BE IMPLEMENTED || change due date quick action item
                 var item3 = new sap.m.StandardListItem({
                     title: "Change Due Date",
                     type: sap.m.ListType.Active,
@@ -343,6 +335,7 @@ sap.ui.define([
                     // press: this.onTaskChangeDueDate
                 })
 
+                // TO BE IMPLEMENTED || change priority quick action item
                 var item4 = new sap.m.StandardListItem({
                     title: "Change Priority",
                     type: sap.m.ListType.Active,
@@ -350,6 +343,7 @@ sap.ui.define([
                     // press: this.onTaskChangePriority
                 })
 
+                // TO BE IMPLEMENTED || archive task quick action item
                 var item5 = new sap.m.StandardListItem({
                     title: "Archive Task",
                     type: sap.m.ListType.Active,
@@ -358,7 +352,7 @@ sap.ui.define([
                 })
 
 
-
+                // TO BE IMPLEMENTED ||  delete task quick action item
                 var item6 = new sap.m.StandardListItem({
                     title: "Delete Task",
                     type: sap.m.ListType.Active,
@@ -385,8 +379,10 @@ sap.ui.define([
             }
             this._oPopoverTask.openBy(oButton);
         },
+        // edit task quick action item's function
         onEditTask() {
             var oView = this.getView();
+            // open edit task Fragment (dialog)
             if (!this._pTaskEditDialog) {
                 this._pTaskEditDialog = Fragment.load({
                     id: oView.getId(),
@@ -401,6 +397,7 @@ sap.ui.define([
             this._pTaskEditDialog.then(oDialog => {
                 var sID = this._selectedTask.getObject().ID;
                 oDialog.setBusy(true);
+                // bind(element binding) the select task details 
                 oDialog.bindElement({
                     path: this._selectedTask.getPath(),
                     parameters: { $expand: "assignedTo,project" }
@@ -413,7 +410,7 @@ sap.ui.define([
 
                     var oContext = oElementBinding.getBoundContext();
                     var oData = oContext && oContext.getObject();
-
+                    // creating a local edit model for editing 'assigned to' as we can't directly update data in Odata V4 from select option.
                     var oEditModel = new JSONModel({
                         ID: oData.assignedTo.ID,
                         name: oData.assignedTo.name
@@ -424,31 +421,30 @@ sap.ui.define([
                 })
             })
         },
+        // close edit task function
         onCloseEditTaskDialog() {
             this.getView().byId("EditTaskDialog").close();
         },
+        // submit edited task function
         onSubmitEditTask() {
             this.getView().setBusy(true);
 
             var oDialog = this.byId("EditTaskDialog");
             var oContext = oDialog.getBindingContext();
-
+            // fetching user selected data of 'assign to field'
             var sNewUserID = this.getView().byId("taskEditClientInputAssigne").getSelectedKey();
-            var oModel = this.getView().getModel();
-
-
             // Update the managed foreign key property
             oContext.setProperty("assignedTo_ID", sNewUserID);
 
 
-
+            // submit the batch for save all changes
             this.getView().getModel().submitBatch("$auto").then(() => {
                 MessageBox.success("Task Updated");
-                this.getView().getModel().refresh();
+                this.getView().getModel().refresh(); // refresh the model to reload all the data after changes
                 this.getView().setBusy(false);
-                this.getView().byId("EditTaskDialog").close();
+                this.getView().byId("EditTaskDialog").close(); //close the dialog after saving the updated task data
             }).catch((err) => {
-                MessageBox.error("Update Failed");
+                MessageBox.error("Update Failed", err);
             })
 
         }
