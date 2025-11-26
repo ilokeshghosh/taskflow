@@ -3,6 +3,8 @@
     xmlns="sap.m"
     xmlns:form="sap.ui.layout.form"
     xmlns:core="sap.ui.core"
+    xmlns:p13n="sap.m.p13n"
+    xmlns:fb="sap.ui.comp.filterbar"
 >
     <Panel height="100%">
         <!-- Project Container -->
@@ -10,21 +12,129 @@
             <Panel width="100%">
                 <!-- Project Container Header Tool Bar || TO BE IMPLEMENTED (add search & filter) -->
                 <headerToolbar>
-                    <OverflowToolbar>
+                    <OverflowToolbar height="auto">
                         <HBox
                             justifyContent="SpaceBetween"
                             width="100%"
+                            alignItems="Center"
+                            wrap="Wrap"
                         >
-                            <HBox gap="1rem">
-                                <SearchField placeholder="Search Project.." />
-                                <Button
-                                    type="Emphasized"
-                                    icon="sap-icon://filter"
-                                    text="All Projects"
+                            <!-- Search and Sort Container -->
+                            <HBox
+                                gap="1rem"
+                                alignItems="Start"
+                                width="auto"
+                                height="auto"
+                            >
+                                <SearchField
+                                    id="projectSearchField"
+                                    placeholder="Search.."
+                                    liveChange=".onSearchProjects"
                                 />
+
+                                <Button
+                                    type="Transparent"
+                                    icon="sap-icon://sort"
+                                    press="onSorterContainerOpen"
+                                    tooltip="Sort"
+                                />
+
+                                <p13n:Popup
+                                    id="p13nPopup"
+                                    title="Project Sort"
+                                    close="onClose"
+                                    warningText="Are you sure?"
+                                >
+                                    <p13n:panels>
+                                        <p13n:SortPanel
+                                            id="sortPanel"
+                                            title="Sort"
+                                            change="onParseP13nState"
+                                        />
+                                    </p13n:panels>
+                                </p13n:Popup>
                             </HBox>
-                            <HBox>
-                                <Button text="Layout Button" />
+
+                            <!-- Filter Container ( status / priority ) -->
+                            <HBox
+                                width="auto"
+                                height="auto"
+                            >
+                                <fb:FilterBar
+                                    id="filterBar"
+                                    persistencyKey="myPersistencyKey"
+                                    useToolbar="false"
+                                    search=".onSearch"
+                                >
+                                    <fb:filterGroupItems>
+                                        <!-- Item 1: Status Filter -->
+                                        <fb:FilterGroupItem
+                                            name="status"
+                                            label="Status"
+                                            groupName="Group1"
+                                            visibleInFilterBar="true"
+                                            id="Group1"
+                                        >
+                                            <fb:control>
+                                                <Select id="statusSelect">
+                                                    <items>
+                                                        <core:Item
+                                                            key="X"
+                                                            text="All"
+                                                        />
+                                                        <core:Item
+                                                            key="A"
+                                                            text="Planning"
+                                                        />
+                                                        <core:Item
+                                                            key="B"
+                                                            text="Hold"
+                                                        />
+                                                        <core:Item
+                                                            key="C"
+                                                            text="In Progress"
+                                                        />
+                                                        <core:Item
+                                                            key="D"
+                                                            text="Completed"
+                                                        />
+                                                    </items>
+                                                </Select>
+                                            </fb:control>
+                                        </fb:FilterGroupItem>
+
+                                        <fb:FilterGroupItem
+                                            name="priority"
+                                            label="Priority"
+                                            groupName="Group2"
+                                            visibleInFilterBar="true"
+                                            id="Group2"
+                                        >
+                                            <fb:control>
+                                                <Select id="prioritySelect">
+                                                    <items>
+                                                        <core:Item
+                                                            key="X"
+                                                            text="All"
+                                                        />
+                                                        <core:Item
+                                                            key="A"
+                                                            text="High"
+                                                        />
+                                                        <core:Item
+                                                            key="B"
+                                                            text="Medium"
+                                                        />
+                                                        <core:Item
+                                                            key="C"
+                                                            text="Low"
+                                                        />
+                                                    </items>
+                                                </Select>
+                                            </fb:control>
+                                        </fb:FilterGroupItem>
+                                    </fb:filterGroupItems>
+                                </fb:FilterBar>
                             </HBox>
                         </HBox>
                     </OverflowToolbar>
@@ -33,6 +143,7 @@
                 <content>
                     <!-- Project Cards Container -->
                     <FlexBox
+                        id="projectCardContainer"
                         wrap="Wrap"
                         justifyContent="SpaceAround"
                         width="100%"

@@ -447,6 +447,47 @@ sap.ui.define([
                 MessageBox.error("Update Failed", err);
             })
 
+        },
+
+        onSearchProjects(){
+            this.getView().byId("projectCardContainer").setBusy(true);
+            var sValue = this.getView().byId("projectSearchField").getValue().trim();
+            console.log("sValue",sValue);
+            projectHelper.searchProject(sValue);
+
+        },
+        onSorterContainerOpen(oEvt){
+         projectHelper.handleSorterContainerOpen(oEvt);   
+        },
+        onParseP13nState(oEvt){
+            projectHelper.parseP13nState(oEvt);
+        },
+        onSearch(){
+            projectHelper.handleProjectFilter();
+            
+        },
+        onSearchTasks(){
+            // taskHelper.handleLoadState(true);
+            taskHelper.handleSearchTask();
+            // taskHelper.handleSearchCompletedTask();
+        },
+        onTasksSorter(){
+            taskHelper.handleTasksSort();
+        },
+        onTasksFilter(){
+
+            taskHelper.handleTasksFilter();
+        },
+        onSelectedSearchTasks(){
+            
+            taskHelper.handleSelectedSearchTask();
+        },
+        onSelectedTasksSorter(){
+            console.log('Task Sorter Invoked')
+            taskHelper.handleSelectedTaskSorter();
+        },
+        onSelectedTasksFilter(){
+            taskHelper.handleSelectedTaskFilter();
         }
 
 

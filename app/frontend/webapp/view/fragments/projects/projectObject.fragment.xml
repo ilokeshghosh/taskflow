@@ -311,6 +311,7 @@
                             >
                                 <HBox>
                                     <core:Fragment
+                                    id="projectTasksTab"
                                         fragmentName="com.taskflow.dev.frontend.view.fragments.projects.projectTasks"
                                         type="XML"
                                     />

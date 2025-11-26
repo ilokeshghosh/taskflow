@@ -5,17 +5,91 @@
     xmlns="sap.m"
     xmlns:form="sap.ui.layout.form"
     xmlns:core="sap.ui.core"
+    xmlns:p13n="sap.m.p13n"
+    xmlns:fb="sap.ui.comp.filterbar"
 >
     <Panel height="100%">
         <content>
             <Panel class="taskPanelContainer">
                 <!-- TO BE IMPLEMENTED || header / filter / view type section  -->
                 <headerToolbar>
-                    <OverflowToolbar class="">
-                        <Button
-                            icon="sap-icon://grid"
-                            text="Place Button here"
-                        />
+                    <OverflowToolbar height="auto">
+                        <HBox
+                            justifyContent="SpaceBetween"
+                            width="100%"
+                            alignItems="Center"
+                            wrap="Wrap"
+                        >
+                            <!-- Search and Sort Container -->
+                            <HBox
+                                gap="1rem"
+                                alignItems="Start"
+                                width="auto"
+                                height="auto"
+                            >
+                                <SearchField
+                                    id="selectedTasksSearchInputField"
+                                    placeholder="Search.."
+                                    liveChange=".onSelectedSearchTasks"
+                                />
+
+                                <Button
+                                    type="Transparent"
+                                    icon="sap-icon://sort"
+                                    press="onSelectedTasksSorter"
+                                    tooltip="Sort by ue date"
+                                />
+                            </HBox>
+
+                            <!-- Filter Container (Status / Priority) -->
+                            <HBox
+                                width="auto"
+                                height="auto"
+                            >
+                                <fb:FilterBar
+                                    id="selectedTasksFilterBar"
+                                    persistencyKey="tasksPersistencyKey"
+                                    useToolbar="false"
+                                    search=".onSelectedTasksFilter"
+                                >
+                                    <fb:filterGroupItems>
+                                        <!-- priority filter -->
+                                        <fb:FilterGroupItem
+                                            name="priority"
+                                            label="Priority"
+                                            groupName="Group1"
+                                            visibleInFilterBar="true"
+                                            id="Group5"
+                                        >
+                                            <fb:control>
+                                                <Select
+                                                    id="selectedTaskPrioritySelect"
+                                                >
+                                                    <items>
+                                                        <core:Item
+                                                            key="X"
+                                                            text="All"
+                                                        />
+                                                        <core:Item
+                                                            key="high"
+                                                            text="High"
+                                                        />
+                                                        <core:Item
+                                                            key="medium"
+                                                            text="Medium"
+                                                        />
+                                                        <core:Item
+                                                            key="low"
+                                                            text="Low"
+                                                        />
+                                                    </items>
+                                                </Select>
+                                            </fb:control>
+                                        </fb:FilterGroupItem>
+                                    </fb:filterGroupItems>
+                                </fb:FilterBar>
+                            </HBox>
+                        </HBox>
                     </OverflowToolbar>
                 </headerToolbar>
 
@@ -53,6 +127,7 @@
                                     class="padding1rem border1 "
                                 >
                                     <VBox
+                                        id="selectedOpenTasksCardsContainer"
                                         gap="1rem"
                                         class="sapUiTinyMarginBegin sapUiTinyMarginTop"
                                         justifyContent="Center"
@@ -128,7 +203,7 @@
                                                                 enabled="false"
                                                                 type="Transparent"
                                                                 icon="sap-icon://calendar"
-                                                                text="{selectedProjectTasks>dueDate}"
+                                                                text="{selectedProjectOpenTasks>dueDate}"
                                                             />
 
                                                             <Button
@@ -210,6 +285,7 @@
                                     vertical="true"
                                 >
                                     <VBox
+                                        id="selectedHoldTasksCardsContainer"
                                         gap="1rem"
                                         class="sapUiTinyMarginBegin sapUiTinyMarginTop"
                                         justifyContent="Center"
