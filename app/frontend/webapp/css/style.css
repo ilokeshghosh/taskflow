@@ -101,6 +101,28 @@ body .give-freely-root {
     border: 2px solid red;
 }
 
+
+
+
+.archiveTaskInstructionContainer.sapMHBox{
+    border:2px solid var(--sapErrorColor);
+    margin: 1rem auto !important;
+    padding: 0.5rem !important;
+    border-radius: 1rem;
+    background-color: var(--sapCard_Background) !important;
+    color: var(--sapErrorColor) !important;
+
+}
+
+.insText.sapMTitle{
+    /* border: 2px solid red !important; */
+    color: var(--sapErrorColor);
+}
+
+.insText.sapMText{
+ color: var(--sapErrorColor);
+}
+
 /* Mobile First (default styles) */
 /* Extra Small Phone */
 @media (max-width: 400px) {

@@ -327,6 +327,78 @@ sap.ui.define([
         _resetFilter() {
             var oProjectCardContainer = _oController.byId("projectCardContainer");
             oProjectCardContainer.getBinding("items").filter([]);
+        },
+
+        handleChangeStatus(oEvent) {
+            var oView = _oController.getView();
+
+            this._sSelectedProjectId = oView.getModel("DialogSelectedProject").getData().ID;
+
+            if (!this._sDialog) {
+                this._sDialog = Fragment.load({
+                    id: oView.getId(),
+                    name: "com.taskflow.dev.frontend.view.fragments.projects.changeProjectStatus",
+                    controller: this
+                }).then(oDialog => {
+                    oView.addDependent(oDialog);
+                    
+                    return oDialog;
+                })
+            }
+
+            this._sDialog.then(oDialog => {
+                oDialog.open();
+                this._dialogInstance = oDialog;
+            })
+
+
+
+        },
+        onUpdateStatus() {
+            var oView = _oController.getView();
+           
+            var oList = oView.byId("statusChangeList");
+
+            var sSelectedStatus = oList.getSelectedItem().getId().split("Home--")[1];
+            // console.log("sSelectedStatus",sSelectedStatus);
+            this._changeProjectStatus(sSelectedStatus);
+
+            
+
+            
+        },
+        onUpdateStatusCancel() {
+            console.log("update status canel");
+            _oController.getView().byId("changeProjectStatusDialog").close();
+        },
+        _changeProjectStatus(sStatus){
+              var oView = _oController.getView();
+           
+            
+
+            var oContextBinding = oView.getModel().bindContext(`/Projects('${this._sSelectedProjectId}')`);
+            var oContext = oContextBinding.getBoundContext();
+            oContext.setProperty("status",sStatus);
+            oView.getModel().submitBatch("$auto").then(()=>{
+                MessageToast.show("Project Status Changed to "+sStatus);
+                oView.getModel().refresh();
+                if(this._dialogInstance){
+                    this._dialogInstance.close();
+                }
+                    
+            })
+        },
+        handleProjectMarkedAsCompleted(){
+            var oView = _oController.getView();
+
+            this._sSelectedProjectId = oView.getModel("DialogSelectedProject").getData().ID;
+            this._changeProjectStatus("completed");
+        },
+        handleProjectPutonHold(){
+             var oView = _oController.getView();
+
+            this._sSelectedProjectId = oView.getModel("DialogSelectedProject").getData().ID;
+            this._changeProjectStatus("hold");
         }
-    };
-});
+    }
+})

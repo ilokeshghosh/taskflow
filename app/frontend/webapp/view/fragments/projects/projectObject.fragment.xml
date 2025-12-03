@@ -309,6 +309,7 @@
                                 icon="sap-icon://activities"
                                 design="Vertical"
                             >
+                            <!-- Loading Project Tasks Fragments (Dialog) -->
                                 <HBox>
                                     <core:Fragment
                                     id="projectTasksTab"

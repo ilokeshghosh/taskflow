@@ -199,7 +199,7 @@ sap.ui.define([
         // open quick action menu in projects page 
         onQuickActionMenuPress(oEvent) {
             var oButton = oEvent.getSource();
-
+            console.log("0. Debug");
             var oSelectedProjectData = oButton.getBindingContext().getObject();
             this.getView().setModel(new JSONModel(oSelectedProjectData), "DialogSelectedProject")
 
@@ -222,7 +222,7 @@ sap.ui.define([
                     title: "Change Status",
                     type: sap.m.ListType.Active,
                     icon: "sap-icon://future",
-                    press: this.onChangeStatus
+                    press: this.onChangeStatus.bind(this)
                 })
 
                 // TO BE IMPLEMENTED || marked as completed action item
@@ -230,7 +230,7 @@ sap.ui.define([
                     title: "Marked as Completed",
                     type: sap.m.ListType.Active,
                     icon: "sap-icon://activity-2",
-                    press: this.onMarkedAsCompleted
+                    press: this.onMarkedAsCompleted.bind(this)
                 })
 
                 // TO BE IMPLEMENTED || put on hold action item
@@ -238,7 +238,7 @@ sap.ui.define([
                     title: "Put on Hold",
                     type: sap.m.ListType.Active,
                     icon: "sap-icon://pause",
-                    press: this.onPutOnHold
+                    press: this.onPutOnHold.bind(this)
                 })
 
                 oList.addItem(item1);
@@ -286,14 +286,15 @@ sap.ui.define([
             })
         },
         onChangeStatus() {
+            projectHelper.handleChangeStatus();
             // console.log("onChangeStatus");
 
         },
         onMarkedAsCompleted() {
-            // console.log("onMarkedAsCompleted");
+            projectHelper.handleProjectMarkedAsCompleted();
         },
         onPutOnHold() {
-            // console.log("onPutOnHold");
+            projectHelper.handleProjectPutonHold()
         },
         // close dialog
         onCloseDialog() {
@@ -324,7 +325,7 @@ sap.ui.define([
                     title: "Marked as Completed",
                     type: sap.m.ListType.Active,
                     icon: "sap-icon://activity-2",
-                    // press: this.onTaskMarkedAsCompleted
+                    press: this.onTaskMarkedAsCompleted.bind(this)
                 })
 
                 // TO BE IMPLEMENTED || change due date quick action item
@@ -332,7 +333,7 @@ sap.ui.define([
                     title: "Change Due Date",
                     type: sap.m.ListType.Active,
                     icon: "sap-icon://future",
-                    // press: this.onTaskChangeDueDate
+                    press: this.onTaskChangeDueDate.bind(this)
                 })
 
                 // TO BE IMPLEMENTED || change priority quick action item
@@ -340,7 +341,7 @@ sap.ui.define([
                     title: "Change Priority",
                     type: sap.m.ListType.Active,
                     icon: "sap-icon://high-priority",
-                    // press: this.onTaskChangePriority
+                    press: this.onTaskChangePriority.bind(this)
                 })
 
                 // TO BE IMPLEMENTED || archive task quick action item
@@ -348,7 +349,7 @@ sap.ui.define([
                     title: "Archive Task",
                     type: sap.m.ListType.Active,
                     icon: "sap-icon://fallback",
-                    // press: this.onTaskArchive
+                    press: this.onTaskArchive.bind(this)
                 })
 
 
@@ -357,7 +358,7 @@ sap.ui.define([
                     title: "Delete Task",
                     type: sap.m.ListType.Active,
                     icon: "sap-icon://delete",
-                    press: this.onPutOnHold
+                    press: this.onDeleteTask.bind(this)
                 })
 
 
@@ -420,6 +421,21 @@ sap.ui.define([
 
                 })
             })
+        },
+        onTaskMarkedAsCompleted(){
+            taskHelper.handleTaskMarkedAsCompleted();
+        },
+        onTaskChangeDueDate(){
+            taskHelper.handleTaskDueDate();
+        },
+        onTaskChangePriority(){
+            taskHelper.handleTaskChangePriority();
+        },
+        onTaskArchive(){
+            taskHelper.handleTaskArchive();
+        },
+        onDeleteTask(){
+            taskHelper.handleTaskDelete();
         },
         // close edit task function
         onCloseEditTaskDialog() {
@@ -488,6 +504,12 @@ sap.ui.define([
         },
         onSelectedTasksFilter(){
             taskHelper.handleSelectedTaskFilter();
+        },
+        getModelData(modelName){
+            console.log("1. Debug");
+            if(modelName){
+                return this.getView().getModel(modelName);
+            }
         }
 
 

@@ -224,8 +224,10 @@ sap.ui.define(["sap/ui/core/Fragment", "sap/m/MessageBox", "sap/ui/model/json/JS
             var aSelectedProjectTasks = _oController.getView().getModel("selectedProjectTasks").getData()
 
 
-            var sSearchValue = _oController.byId("selectedTasksSearchInputField").getValue().trim();
-
+            // var sSearchValue = _oController.byId("selectedTasksSearchInputField").getValue().trim();
+            // projectTasksDialog
+            var sSearchValue = Fragment.byId("projectTasksDialog", "selectedTasksSearchInputField")
+            console.log("selectedTasksSearchInputField", sSearchValue)
 
 
             var aProjectOpenTasks = [];
@@ -393,15 +395,15 @@ sap.ui.define(["sap/ui/core/Fragment", "sap/m/MessageBox", "sap/ui/model/json/JS
 
                 // this._selectedTaskFilterHelper("selectedProjectOpenTasks", sSelectTaskPriority);
 
-                this._selectedTaskFilterHelper("selectedProjectOpenTasks", sSelectTaskPriority,"open");
-                this._selectedTaskFilterHelper("selectedProjectHoldTasks", sSelectTaskPriority,"hold");
-                this._selectedTaskFilterHelper("selectedProjectCompletedTasks", sSelectTaskPriority,"completed");
-                this._selectedTaskFilterHelper("selectedProjectOverdueTasks", sSelectTaskPriority,"overdue");
-                this._selectedTaskFilterHelper("selectedProjectOnreviewTasks", sSelectTaskPriority,"onReview");
+                this._selectedTaskFilterHelper("selectedProjectOpenTasks", sSelectTaskPriority, "open");
+                this._selectedTaskFilterHelper("selectedProjectHoldTasks", sSelectTaskPriority, "hold");
+                this._selectedTaskFilterHelper("selectedProjectCompletedTasks", sSelectTaskPriority, "completed");
+                this._selectedTaskFilterHelper("selectedProjectOverdueTasks", sSelectTaskPriority, "overdue");
+                this._selectedTaskFilterHelper("selectedProjectOnreviewTasks", sSelectTaskPriority, "onReview");
             }
         },
 
-        _selectedTaskFilterHelper(modelName, priority,status) {
+        _selectedTaskFilterHelper(modelName, priority, status) {
             var oView = _oController.getView();
             if (modelName && priority && status) {
                 if (priority === "X") {
@@ -461,6 +463,156 @@ sap.ui.define(["sap/ui/core/Fragment", "sap/m/MessageBox", "sap/ui/model/json/JS
                 }
 
             }
+        },
+        handleTaskMarkedAsCompleted() {
+            var oView = _oController.getView();
+            // console.log("Task Helper Debugger",_oController._selectedTask);
+            _oController._selectedTask.setProperty("status", "completed");
+
+            oView.getModel().submitBatch("$auto").then(() => {
+                MessageToast.show("Task Status Changed to " + "completed");
+                oView.getModel().refresh();
+                // if(this._dialogInstance){
+                //     this._dialogInstance.close();
+                // }
+
+            })
+
+
+        },
+        handleTaskDueDate() {
+            var oView = _oController.getView();
+            var oModel = oView.getModel();
+            this._selectedTaskContext = _oController._selectedTask;
+
+            var oDueDateData = {
+                "taskDueDate": `${_oController._selectedTask.getObject().dueDate}`
+            }
+            oView.setModel(new JSONModel(oDueDateData), "dueDateModel");
+            if (!this.dDialog) {
+                this.dDialog = Fragment.load({
+                    id: oView.getId(),
+                    name: "com.taskflow.dev.frontend.view.fragments.tasks.changeDueDate",
+                    controller: this
+                }).then(oDialog => {
+                    oView.addDependent(oDialog);
+                    return oDialog;
+                })
+            }
+
+            this.dDialog.then(oDialog => {
+                oDialog.open();
+                this._dialogInstance = oDialog;
+            })
+        },
+        onUpdateTaskDueDate() {
+            var oView = _oController.getView();
+            var oModel = oView.getModel();
+            var oSelectedTaskContextBinding = this._selectedTaskContext;
+
+            var dueDateModel = oView.getModel("dueDateModel");
+            var sNewDueDate = dueDateModel.getData().taskDueDate;
+
+            oSelectedTaskContextBinding.setProperty("dueDate", sNewDueDate);
+
+            oModel.submitBatch("$auto").then(() => {
+                MessageToast.show("Tasks Due Date Changed To " + sNewDueDate);
+                oView.byId("changeTaskDueDateDialog").close();
+                if (this._dialogInstance) {
+                    this._dialogInstance.close();
+                }
+
+
+            })
+        },
+        handleTaskChangePriority() {
+            var oView = _oController.getView();
+
+            if (!this._pDialog) {
+                this._pDialog = Fragment.load({
+                    id: oView.getId(),
+                    name: "com.taskflow.dev.frontend.view.fragments.tasks.changeTaskPriority",
+                    controller: this
+                }).then(oDialog => {
+                    oView.addDependent(oDialog);
+                    return oDialog;
+                })
+            }
+
+            this._pDialog.then(oDialog => {
+                oDialog.open();
+            })
+
+
+
+        },
+        onUpdateTaskPriority() {
+            console.log("onUpdateTaskPriority");
+            var oView = _oController.getView();
+            var oList = oView.byId("priorityChangeList");
+            var sSelectedPriority = oList.getSelectedItem().getId().split("Home--")[1];
+            this._changeTaskPriority(sSelectedPriority);
+        },
+        _changeTaskPriority(sPriority) {
+            var oView = _oController.getView();
+            var oSelectedTaskContextBinding = _oController._selectedTask;
+            oSelectedTaskContextBinding.setProperty("priority", sPriority);
+            var oModel = oView.getModel();
+
+            oModel.submitBatch("$auto").then(() => {
+                MessageToast.show(`Task Priority Changed to ${sPriority}`);
+                oView.byId("changeTaskPriorityDialog").close();
+            })
+        },
+        onCancelTaskPriority(){
+            var oView = _oController.getView();
+            oView.byId("changeTaskPriorityDialog").close();
+        },
+        handleTaskArchive(){
+            console.log("handleTaskArchive");
+            var oView = _oController.getView();
+
+            if(!this._aDialog){
+                this._aDialog = Fragment.load({
+                    id:oView.getId(),
+                    name:"com.taskflow.dev.frontend.view.fragments.tasks.archiveTask",
+                    controller:this
+                }).then(oDialog=>{
+                    oView.addDependent(oDialog);
+                    return oDialog;
+                })
+            }
+
+            this._aDialog.then(oDialog=>{
+                oDialog.open();
+            })
+        },
+        onArchiveTask(){
+            console.log("archive Task");
+            var oView = _oController.getView();
+            var oModel = oView.getModel();
+            var oSelectedTaskContextBinding = _oController._selectedTask;
+            oSelectedTaskContextBinding.setProperty("isArchived", true);
+
+            oModel.submitBatch("$auto").then(()=>{
+                MessageToast.show("Task is Archived");
+                oView.byId("archiveTaskDialog").close();
+            })
+        },
+        onArchiveCancel(){
+            _oController.getView().byId("archiveTaskDialog").close();
+        },
+        handleTaskDelete(){
+             var oSelectedTaskContextBinding = _oController._selectedTask;
+            console.log("oSelectedTaskContextBinding",oSelectedTaskContextBinding)
+            oSelectedTaskContextBinding.delete().then(
+                function(){
+                    MessageBox.success("Deleted Successfully");
+                },
+                function(oError){
+                    MessageBox.error("Delete Failed "+oError.message);
+                }
+            )
         }
 
     };

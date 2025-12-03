@@ -1,0 +1,39 @@
+<core:FragmentDefinition
+    xmlns:uxap="sap.uxap"
+    xmlns:cards="sap.f.cards"
+    xmlns:f="sap.f"
+    xmlns="sap.m"
+    xmlns:form="sap.ui.layout.form"
+    xmlns:core="sap.ui.core"
+    xmlns:p13n="sap.m.p13n"
+    xmlns:fb="sap.ui.comp.filterbar"
+>
+    <Dialog
+        title="Change Task Due date"
+        id="changeTaskDueDateDialog"
+    >
+        <content>
+            <Label text="Due Date" />
+            <DatePicker
+                displayFormat="MM/dd/yyyy"
+                valueFormat="yyyy-MM-dd"
+                value="{dueDateModel>/taskDueDate}"
+            />
+        </content>
+
+        <beginButton>
+            <Button
+                text="Cancel"
+                press=""
+            />
+        </beginButton>
+
+        <endButton>
+            <Button
+                text="Update Due Date"
+                type="Emphasized"
+                press=".onUpdateTaskDueDate"
+            />
+        </endButton>
+    </Dialog>
+</core:FragmentDefinition>

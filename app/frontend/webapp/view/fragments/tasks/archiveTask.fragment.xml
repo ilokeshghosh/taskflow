@@ -1,0 +1,66 @@
+<core:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:f="sap.f"
+    xmlns:form="sap.ui.layout.form"
+    xmlns:u="sap.ui.unified"
+    xmlns:layout="sap.ui.layout"
+>
+    <Dialog
+        title="Archive Task"
+        id="archiveTaskDialog"
+        icon="sap-icon://message-warning"
+        state="Error"
+        contentWidth="auto"
+        horizontalScrolling="false"
+    >
+        <content>
+            <HBox
+                width="90%"
+                class="sapUiTinyMargin archiveTaskInstructionContainer"
+                justifyContent="Center"
+                alignItems="Center"
+            >
+                <VBox
+                    width="100%"
+                    gap="5px"
+                >
+                    <Title
+                        class="insText"
+                        text="Archiving a task will:"
+                    />
+                    <VBox gap="5px">
+                        <Text
+                            class="insText"
+                            text="- Remove it from active task lists"
+                        />
+                        <Text
+                            class="insText"
+                            text="- Preserve all task data and history"
+                        />
+                        <Text
+                            class="insText"
+                            text="- Allow you to restore it in the future if needed"
+                        />
+                        <Text
+                            class="insText"
+                            text="- Not delete any associated files or data"
+                        />
+                    </VBox>
+                </VBox>
+            </HBox>
+        </content>
+
+        <endButton>
+            <Button
+                type="Reject"
+                text="Archive Task"
+                press=".onArchiveTask"
+            />
+        </endButton>
+
+        <beginButton>
+            <Button text="Cancel" press=".onArchiveCancel" />
+        </beginButton>
+    </Dialog>
+</core:FragmentDefinition>

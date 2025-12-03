@@ -40,18 +40,19 @@ entity Task : managed {
         assignedTo  : Association to User;
         status      : taskStatus default 'open';
         project     : Association to Project;
+        isArchived  : Boolean default false;
 
 }
 
 
-
-entity User : managed{
-    key ID   : String(10);
-        name : String;
-        type : userType;
-        role : String;
-        tasks:Association to many Task on tasks.assignedTo = $self;
-        project: Association to Project;
+entity User : managed {
+    key ID      : String(10);
+        name    : String;
+        type    : userType;
+        role    : String;
+        tasks   : Association to many Task
+                      on tasks.assignedTo = $self;
+        project : Association to Project;
 
 }
 
@@ -59,7 +60,8 @@ entity Project : managed {
     key ID          : String(10);
         name        : String;
         description : String;
-        members     : Association to many User on members.project = $self;
+        members     : Association to many User
+                          on members.project = $self;
         manager     : Association to User;
         deadline    : Date;
         startDate   : Date;
@@ -72,7 +74,7 @@ entity Project : managed {
         tasks       : Association to many Task
                           on tasks.project = $self;
         priority    : priority;
-        status      : projectStatus
+        status      : projectStatus;
 
 
 }

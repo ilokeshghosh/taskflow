@@ -1,0 +1,80 @@
+<core:FragmentDefinition
+    xmlns:uxap="sap.uxap"
+    xmlns:cards="sap.f.cards"
+    xmlns:f="sap.f"
+    xmlns="sap.m"
+    xmlns:form="sap.ui.layout.form"
+    xmlns:core="sap.ui.core"
+    xmlns:p13n="sap.m.p13n"
+    xmlns:fb="sap.ui.comp.filterbar"
+>
+    <Dialog
+        title="
+Change Project Status"
+        id="changeProjectStatusDialog"
+    >
+        <content>
+            <List
+                id="statusChangeList"
+                mode="SingleSelectLeft"
+            >
+                <items>
+                    <StandardListItem
+                        id="planning"
+                        title="Planning"
+                        description="Project is in the planning phase"
+                        icon="sap-icon://pending"
+                        iconDensityAware="false"
+                        iconInset="false"
+                        wrapping="true"
+                    />
+
+                    <StandardListItem
+                        id="inProgress"
+                        title="In Progress"
+                        description="Project is actively being worked on"
+                        icon="sap-icon://message-warning"
+                        iconDensityAware="false"
+                        iconInset="false"
+                        wrapping="true"
+                    />
+
+                    <StandardListItem
+                        id="completed"
+                        title="Completed"
+                        description="Project has been completed"
+                        icon="sap-icon://activity-2"
+                        iconDensityAware="false"
+                        iconInset="false"
+                        wrapping="true"
+                    />
+
+                    <StandardListItem
+                        id="hold"
+                        title="On Hold"
+                        description="Project is temporarily paused"
+                        icon="sap-icon://pause"
+                        iconDensityAware="false"
+                        iconInset="false"
+                        wrapping="true"
+                    />
+                </items>
+            </List>
+        </content>
+
+        <beginButton>
+            <Button
+                text="Cancel"
+                press=".onUpdateStatusCancel"
+            />
+        </beginButton>
+
+        <endButton>
+            <Button
+                text="Update Status"
+                type="Emphasized"
+                press=".onUpdateStatus"
+            />
+        </endButton>
+    </Dialog>
+</core:FragmentDefinition>
