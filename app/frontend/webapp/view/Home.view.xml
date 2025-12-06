@@ -417,6 +417,7 @@
                                                 gap="1rem"
                                                 wrap="Wrap"
                                                 width="100%"
+                                                visible="false"
                                             >
                                                 <!-- TO BE IMPLEMENTED || Project Goals List -->
                                                 <List
@@ -527,7 +528,7 @@
                                     <!-- Loading Project Tasks Fragment (Non-dialog Fragment) -->
                                     <HBox>
                                         <core:Fragment
-                                        id="projectTasksDialog"
+                                            id="projectTasksDialog"
                                             fragmentName="com.taskflow.dev.frontend.view.fragments.projects.projectTasks"
                                             type="XML"
                                         />
@@ -546,7 +547,12 @@
                                         width="100%"
                                     >
                                         <!-- TO BE IMPLEMENTED || Table for Team Details -->
-                                        <Table class="teamMemberTable">
+                                        <Table
+                                            class="teamMemberTable"
+                                            items="{
+                                                path: 'selectedProject>/members'
+                                            }"
+                                        >
                                             <!-- Table Header for tools and filters -->
                                             <headerToolbar>
                                                 <OverflowToolbar
@@ -587,7 +593,7 @@
                                                 </Column>
 
                                                 <Column
-                                                    width="7rem"
+                                                    
                                                     demandPopin="true"
                                                     minScreenWidth="Phone"
                                                 >
@@ -595,6 +601,7 @@
                                                 </Column>
 
                                                 <Column
+                                                visible="false"
                                                     demandPopin="true"
                                                     minScreenWidth="Phone"
                                                 >
@@ -624,15 +631,15 @@
                                                 >
                                                     <cells>
                                                         <ObjectIdentifier
-                                                            title="Alex"
-                                                            text="alex@mail.com"
+                                                            title="{selectedProject>name}"
+                                                            
                                                         />
 
                                                         <Button
-                                                            text="Manager"
+                                                            text="{selectedProject>role}"
                                                         />
 
-                                                        <Text text="8" />
+                                                        <Text visible="false" text="8" />
 
                                                         <ObjectStatus
                                                             inverted="true"

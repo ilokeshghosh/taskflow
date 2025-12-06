@@ -98,10 +98,16 @@ sap.ui.define([
 
             var oBinding = this.getView().getModel().bindList("/Projects", null, null, [
                 new sap.ui.model.Filter("name", "EQ", aSelected[0].getTitle())
-            ]);
+            ],
+            {
+                $expand : "members"
+            }
+        
+        );
 
-            this.getView().setBusy(true);
+            // this.getView().setBusy(true);
 
+        
             oBinding.requestContexts().then(function (aContexts) {
                 if (aContexts.length > 0) {
                     var oProjectData = aContexts[0].getObject();

@@ -22,6 +22,8 @@ sap.ui.define([
             // enable routing
             this.getRouter().initialize();
             // this._isNavExpanded = true;
+
+            
         }
     });
 });
