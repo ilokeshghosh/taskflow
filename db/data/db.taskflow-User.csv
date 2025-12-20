@@ -1,13 +1,11 @@
-ID,name,type,role,project_ID,createdAt,createdBy,modifiedAt,modifiedBy
-U001,Rajesh Kumar,manager,Project Manager,P001,2024-01-15T09:00:00Z,system,2024-01-15T09:00:00Z,system
-U002,Priya Sharma,manager,Technical Lead,P002,2024-02-01T10:30:00Z,system,2024-02-01T10:30:00Z,system
-U003,Amit Patel,member,Senior Developer,P001,2024-01-15T09:15:00Z,U001,2024-01-15T09:15:00Z,U001
-U004,Sneha Reddy,member,UI/UX Designer,P001,2024-01-15T09:20:00Z,U001,2024-01-15T09:20:00Z,U001
-U005,Vikram Singh,member,Full Stack Developer,P002,2024-02-01T11:00:00Z,U002,2024-02-01T11:00:00Z,U002
-U006,Ananya Iyer,member,QA Engineer,P001,2024-01-16T08:30:00Z,U001,2024-01-16T08:30:00Z,U001
-U007,Karthik Menon,member,Backend Developer,P002,2024-02-02T09:00:00Z,U002,2024-02-02T09:00:00Z,U002
-U008,Neha Gupta,manager,Delivery Manager,P003,2024-03-10T10:00:00Z,system,2024-03-10T10:00:00Z,system
-U009,Rohit Desai,member,DevOps Engineer,P003,2024-03-10T11:00:00Z,U008,2024-03-10T11:00:00Z,U008
-U010,Divya Nair,member,Business Analyst,P001,2024-01-17T09:00:00Z,U001,2024-01-17T09:00:00Z,U001
-U011,Arjun Mehta,clientUser,Client Stakeholder,P001,2024-01-15T14:00:00Z,system,2024-01-15T14:00:00Z,system
-U012,Sanjay Verma,clientUser,Product Owner,P002,2024-02-01T15:00:00Z,system,2024-02-01T15:00:00Z,system
+ID,email,firstname,lastname,password,phone,isActive,type,role,project_ID,createdAt,createdBy,modifiedAt,modifiedBy
+USER001,john@corp.com,John,Doe,pass123,9876543210,true,manager,PROJECT_MANAGER,PROJ001,2025-01-01T10:00:00Z,system,2025-06-01T11:00:00Z,system
+USER002,jane@corp.com,Jane,Smith,pass123,9876543211,true,member,DEVELOPER,PROJ001,2025-01-05T09:00:00Z,system,2025-06-02T12:00:00Z,system
+USER003,mark@corp.com,Mark,Johnson,pass123,9876543212,true,member,DEVELOPER,PROJ002,2025-02-01T08:30:00Z,system,2025-06-03T13:20:00Z,system
+USER004,lisa@corp.com,Lisa,Brown,pass123,9876543213,true,clientUser,CLIENT,PROJ002,2025-02-10T08:00:00Z,system,2025-06-04T14:00:00Z,system
+USER005,alex@corp.com,Alex,Wilson,pass123,9876543214,true,manager,TEAM_LEAD,PROJ003,2025-03-02T10:00:00Z,system,2025-06-05T15:00:00Z,system
+USER006,emma@corp.com,Emma,Taylor,pass123,9876543215,true,member,TESTER,PROJ003,2025-03-15T10:30:00Z,system,2025-06-06T10:00:00Z,system
+USER007,james@corp.com,James,White,pass123,9876543216,true,member,DEVOPS,PROJ004,2025-04-01T11:00:00Z,system,2025-06-07T09:00:00Z,system
+USER008,olivia@corp.com,Olivia,Martin,pass123,9876543217,true,clientUser,STAKEHOLDER,PROJ004,2025-04-05T07:45:00Z,system,2025-06-08T09:50:00Z,system
+USER009,robert@corp.com,Robert,Lee,pass123,9876543218,true,member,DESIGNER,PROJ005,2025-05-01T08:15:00Z,system,2025-06-09T08:30:00Z,system
+USER010,sophia@corp.com,Sophia,Clark,pass123,9876543219,true,member,BUSINESS_ANALYST,PROJ005,2025-05-10T08:45:00Z,system,2025-06-10T10:25:00Z,system

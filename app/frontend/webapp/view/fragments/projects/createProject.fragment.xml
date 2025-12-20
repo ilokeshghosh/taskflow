@@ -61,15 +61,23 @@
                     <MultiComboBox
                         selectedKeys="{createProjectModel>/members}"
                         width="350px"
+                         items="{
+                        path:'/Users',
+                            filters:[
+                            {path:'type',operator:'NE',value1:'clientUser'},
+                            {path:'project_ID',operator:'EQ',value1:null}
+                            ]
+                        }"
                     >
-                        <core:Item
-                            key="1"
-                            text="Member1"
-                        />
-                        <core:Item
-                            key="2"
-                            text="Member2"
-                        />
+                        <items> 
+                            <core:Item
+                                key="{ID}"
+                                text="{firstname}"
+                                
+                            />
+
+                            
+                        </items>
                     </MultiComboBox>
 
                     <!-- Manager Name -->
@@ -106,15 +114,18 @@
                     <Select
                         id="projectCreateClientInput"
                         selectedKey="{createProjectModel>/clientName}"
+                        items="{
+                        
+                        path:'/Users',
+                            filters:[{path:'type',operator:'EQ',value1:'clientUser'}]
+                        }"
                     >
-                        <core:Item
-                            key="client1"
-                            text="Client1"
-                        />
-                        <core:Item
-                            key="client2"
-                            text="Client2"
-                        />
+                        <items>
+                            <core:Item
+                                key="{ID}"
+                                text="{firstname}"
+                            />
+                        </items>
                     </Select>
 
                     <!-- Budget -->
@@ -163,20 +174,16 @@
                             text="Hold"
                         />
                         <core:Item
-                            key="open"
-                            text="Open"
+                            key="planning"
+                            text="Planning"
+                        />
+                        <core:Item
+                            key="inProgress"
+                            text="In Progress"
                         />
                         <core:Item
                             key="completed"
                             text="Completed"
-                        />
-                        <core:Item
-                            key="overdue"
-                            text="OverDue"
-                        />
-                        <core:Item
-                            key="onReview"
-                            text="On Review"
                         />
                     </Select>
                 </form:content>

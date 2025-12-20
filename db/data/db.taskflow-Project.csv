@@ -1,5 +1,11 @@
-ID,name,description,manager_ID,deadline,startDate,clientName,budget,progress,priority,status,createdAt,createdBy,modifiedAt,modifiedBy
-P001,E-Commerce Platform Revamp,Complete redesign and migration of legacy e-commerce system to modern SAP BTP architecture with Fiori UI,U001,2025-06-30,2024-01-15,TechRetail Solutions Pvt Ltd,8500000.00,65,high,inProgress,2024-01-15T09:00:00Z,system,2025-01-05T16:30:00Z,U001
-P002,Internal HR Portal,Development of employee self-service portal with leave management and performance tracking modules,U002,2025-04-15,2024-02-01,Wipro Internal,3200000.00,45,medium,inProgress,2024-02-01T10:30:00Z,system,2025-01-08T14:20:00Z,U002
-P003,Supply Chain Analytics Dashboard,Real-time analytics dashboard for inventory and logistics tracking using CAP and UI5,U008,2025-08-31,2024-03-10,LogiFlow Enterprises,6750000.00,25,high,planning,2024-03-10T10:00:00Z,system,2025-01-02T11:15:00Z,U008
-P004,Customer Feedback System,Mobile-first feedback collection and analysis platform with sentiment tracking,U001,2024-12-20,2024-07-01,ServiceMax India,2100000.00,100,low,completed,2024-07-01T09:00:00Z,system,2024-12-20T17:00:00Z,U001
+ID,name,description,manager_ID,deadline,startDate,client_ID,budget,progress,priority,status,createdAt,createdBy,modifiedAt,modifiedBy
+PROJ001,Website Redesign,Revamp company website,USER001,2025-12-10,2025-01-01,USER004,50000,30,high,inProgress,2025-01-01T06:00:00Z,system,2025-06-01T10:00:00Z,system
+PROJ002,Mobile App,New customer app,USER003,2025-11-20,2025-02-01,USER004,80000,50,high,inProgress,2025-02-01T06:00:00Z,system,2025-06-02T10:00:00Z,system
+PROJ003,HR System,Internal HR system,USER005,2025-10-01,2025-03-10,USER008,60000,40,medium,planning,2025-03-10T06:00:00Z,system,2025-06-03T10:00:00Z,system
+PROJ004,DevOps Setup,CICD implementation,USER007,2025-08-15,2025-04-01,USER008,30000,60,medium,inProgress,2025-04-01T06:00:00Z,system,2025-06-04T10:00:00Z,system
+PROJ005,CRM Integration,Integrate CRM tool,USER005,2025-09-30,2025-04-20,USER010,45000,20,low,hold,2025-04-20T06:00:00Z,system,2025-06-05T10:00:00Z,system
+PROJ006,AI Module,AI analytics module,USER001,2026-01-15,2025-05-01,USER004,120000,10,high,planning,2025-05-01T06:00:00Z,system,2025-06-06T10:00:00Z,system
+PROJ007,Ecommerce Site,Online store,USER001,2025-12-05,2025-05-10,USER008,70000,25,medium,planning,2025-05-10T06:00:00Z,system,2025-06-07T10:00:00Z,system
+PROJ008,Reporting Tool,BI dashboard,USER005,2025-10-20,2025-06-01,USER004,40000,45,medium,inProgress,2025-06-01T06:00:00Z,system,2025-06-08T10:00:00Z,system
+PROJ009,Security Audit,System security audit,USER007,2025-07-30,2025-06-15,USER008,20000,70,high,inProgress,2025-06-15T06:00:00Z,system,2025-06-09T10:00:00Z,system
+PROJ010,Support Portal,Customer support portal,USER001,2025-12-25,2025-07-01,USER004,55000,15,low,planning,2025-07-01T06:00:00Z,system,2025-06-10T10:00:00Z,system

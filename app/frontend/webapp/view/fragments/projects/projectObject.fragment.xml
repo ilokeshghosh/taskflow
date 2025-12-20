@@ -91,7 +91,7 @@
                                 text="Budget"
                             />
                             <Title text="${selectedProject>/budget}" />
-                            <Text text="{selectedProject>/clientName}" />
+                            <Text text="{selectedProject>/client/firstname}" />
                         </VBox>
 
                         <!-- Team Card -->
@@ -264,7 +264,7 @@
                                         <VBox>
                                             <Text text="Client" />
                                             <Title
-                                                text="{selectedProject>/clientName}"
+                                                text="{selectedProject>/client/firstname}"
                                             />
                                         </VBox>
 
@@ -309,10 +309,10 @@
                                 icon="sap-icon://activities"
                                 design="Vertical"
                             >
-                            <!-- Loading Project Tasks Fragments (Dialog) -->
+                                <!-- Loading Project Tasks Fragments (Dialog) -->
                                 <HBox>
                                     <core:Fragment
-                                    id="projectTasksTab"
+                                        id="projectTasksTab"
                                         fragmentName="com.taskflow.dev.frontend.view.fragments.projects.projectTasks"
                                         type="XML"
                                     />

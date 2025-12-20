@@ -298,7 +298,9 @@
                                 />
                                 <!-- Budget Number & Client Name -->
                                 <Title text="${selectedProject>/budget}" />
-                                <Text text="{selectedProject>/clientName}" />
+                                <Text
+                                    text="{selectedProject>/client/firstname}"
+                                />
                             </VBox>
 
                             <!-- Project Team Card -->
@@ -480,7 +482,7 @@
                                             <VBox>
                                                 <Text text="Client" />
                                                 <Title
-                                                    text="{selectedProject>/clientName}"
+                                                    text="{selectedProject>/client/firstname}"
                                                 />
                                             </VBox>
 
@@ -593,7 +595,6 @@
                                                 </Column>
 
                                                 <Column
-                                                    
                                                     demandPopin="true"
                                                     minScreenWidth="Phone"
                                                 >
@@ -601,7 +602,7 @@
                                                 </Column>
 
                                                 <Column
-                                                visible="false"
+                                                    visible="false"
                                                     demandPopin="true"
                                                     minScreenWidth="Phone"
                                                 >
@@ -631,15 +632,17 @@
                                                 >
                                                     <cells>
                                                         <ObjectIdentifier
-                                                            title="{selectedProject>name}"
-                                                            
+                                                            title="{selectedProject>firstname}"
                                                         />
 
                                                         <Button
                                                             text="{selectedProject>role}"
                                                         />
 
-                                                        <Text visible="false" text="8" />
+                                                        <Text
+                                                            visible="false"
+                                                            text="8"
+                                                        />
 
                                                         <ObjectStatus
                                                             inverted="true"

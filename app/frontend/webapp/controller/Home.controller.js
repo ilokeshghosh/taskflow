@@ -99,15 +99,15 @@ sap.ui.define([
             var oBinding = this.getView().getModel().bindList("/Projects", null, null, [
                 new sap.ui.model.Filter("name", "EQ", aSelected[0].getTitle())
             ],
-            {
-                $expand : "members"
-            }
-        
-        );
+                {
+                    $expand: "members,client"
+                }
+
+            );
 
             // this.getView().setBusy(true);
 
-        
+
             oBinding.requestContexts().then(function (aContexts) {
                 if (aContexts.length > 0) {
                     var oProjectData = aContexts[0].getObject();
@@ -205,8 +205,8 @@ sap.ui.define([
         // open quick action menu in projects page 
         onQuickActionMenuPress(oEvent) {
             var oButton = oEvent.getSource();
-            console.log("0. Debug");
             var oSelectedProjectData = oButton.getBindingContext().getObject();
+            console.log("0. Debug", oSelectedProjectData);
             this.getView().setModel(new JSONModel(oSelectedProjectData), "DialogSelectedProject")
 
             if (!this._oPopover) {
@@ -428,19 +428,19 @@ sap.ui.define([
                 })
             })
         },
-        onTaskMarkedAsCompleted(){
+        onTaskMarkedAsCompleted() {
             taskHelper.handleTaskMarkedAsCompleted();
         },
-        onTaskChangeDueDate(){
+        onTaskChangeDueDate() {
             taskHelper.handleTaskDueDate();
         },
-        onTaskChangePriority(){
+        onTaskChangePriority() {
             taskHelper.handleTaskChangePriority();
         },
-        onTaskArchive(){
+        onTaskArchive() {
             taskHelper.handleTaskArchive();
         },
-        onDeleteTask(){
+        onDeleteTask() {
             taskHelper.handleTaskDelete();
         },
         // close edit task function
@@ -471,49 +471,49 @@ sap.ui.define([
 
         },
 
-        onSearchProjects(){
+        onSearchProjects() {
             this.getView().byId("projectCardContainer").setBusy(true);
             var sValue = this.getView().byId("projectSearchField").getValue().trim();
-            console.log("sValue",sValue);
+            console.log("sValue", sValue);
             projectHelper.searchProject(sValue);
 
         },
-        onSorterContainerOpen(oEvt){
-         projectHelper.handleSorterContainerOpen(oEvt);   
+        onSorterContainerOpen(oEvt) {
+            projectHelper.handleSorterContainerOpen(oEvt);
         },
-        onParseP13nState(oEvt){
+        onParseP13nState(oEvt) {
             projectHelper.parseP13nState(oEvt);
         },
-        onSearch(){
+        onSearch() {
             projectHelper.handleProjectFilter();
-            
+
         },
-        onSearchTasks(){
+        onSearchTasks() {
             // taskHelper.handleLoadState(true);
             taskHelper.handleSearchTask();
             // taskHelper.handleSearchCompletedTask();
         },
-        onTasksSorter(){
+        onTasksSorter() {
             taskHelper.handleTasksSort();
         },
-        onTasksFilter(){
+        onTasksFilter() {
 
             taskHelper.handleTasksFilter();
         },
-        onSelectedSearchTasks(){
-            
+        onSelectedSearchTasks() {
+
             taskHelper.handleSelectedSearchTask();
         },
-        onSelectedTasksSorter(){
+        onSelectedTasksSorter() {
             console.log('Task Sorter Invoked')
             taskHelper.handleSelectedTaskSorter();
         },
-        onSelectedTasksFilter(){
+        onSelectedTasksFilter() {
             taskHelper.handleSelectedTaskFilter();
         },
-        getModelData(modelName){
+        getModelData(modelName) {
             console.log("1. Debug");
-            if(modelName){
+            if (modelName) {
                 return this.getView().getModel(modelName);
             }
         }

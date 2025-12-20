@@ -46,13 +46,18 @@ entity Task : managed {
 
 
 entity User : managed {
-    key ID      : String(10);
-        name    : String;
-        type    : userType;
-        role    : String;
-        tasks   : Association to many Task
-                      on tasks.assignedTo = $self;
-        project : Association to Project;
+    key ID        : String(10);
+        email     : String;
+        firstname : String;
+        lastname  : String;
+        password  : String;
+        phone     : String;
+        isActive  : Boolean default true;
+        type      : userType;
+        role      : String;
+        tasks     : Association to many Task
+                        on tasks.assignedTo = $self;
+        project   : Association to Project;
 
 }
 
@@ -65,7 +70,7 @@ entity Project : managed {
         manager     : Association to User;
         deadline    : Date;
         startDate   : Date;
-        clientName  : String;
+        client      : Association to User;
         budget      : Decimal(10, 2) default 0;
         progress    : Integer @assert.range: [
             0,
@@ -77,4 +82,19 @@ entity Project : managed {
         status      : projectStatus;
 
 
+}
+
+entity AuditLog : managed {
+    key ID        : String(10);
+        action    : String;
+        adminId   : Association to User;
+        userId    : Association to User;
+        taskId    : Association to Task;
+        projectId : Association to Project;
+        details   : String;
+        logType   : String enum {
+            information;
+            warning;
+            error;
+        } default 'information';
 }

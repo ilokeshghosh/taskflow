@@ -1,0 +1,41 @@
+### test
+POST  http://localhost:4004/odata/v4/task/Users
+Accept: application/json
+Content-Type: application/json
+
+{
+    "email":"lokesh.ghosh@wipro.com",
+    "firstname":"Lokesh",
+    "lastname":"Ghosh",
+    "phone":"78945612",
+    "password":"token1",
+    "role":"Tester",
+    "type":"member"
+}
+
+####
+# clientUser;
+#     manager;
+#     member;
+
+
+#### Login
+POST  http://localhost:4004/odata/v4/task/login
+Accept: application/json
+Content-Type: application/json
+
+{
+    "email":"lokesh.ghosh@wipro.com",
+    "password":"token1"
+}
+
+### verify token / login without credential
+POST  http://localhost:4004/odata/v4/task/verifyToken
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJVU0VSMzU0NSIsImVtYWlsIjoibG9rZXNoLmdob3NoQHdpcHJvLmNvbSIsImZpcnN0bmFtZSI6Ikxva2VzaCIsImxhc3RuYW1lIjoiR2hvc2giLCJyb2xlIjoiVGVzdGVyIiwidHlwZSI6Im1lbWJlciIsImlhdCI6MTc2NTE5NjIyMywiZXhwIjoxNzY1MjgyNjIzfQ.nDrt5VRP3TJ5BnVsfVFyle1h0MjoMWhlZAp7yp8GIG0
+
+###sdf
+POST  http://localhost:4004/odata/v4/auth/test
+Accept: application/json
+Content-Type: application/json

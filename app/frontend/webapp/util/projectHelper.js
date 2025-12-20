@@ -24,11 +24,11 @@ sap.ui.define([
                 members: null,
                 deadline: sNow,
                 startDate: sNow,
-                clientName: "",
+                client: "",
                 budget: 0,
                 progress: 0,
                 priority: "low",
-                status: "open"
+                status: "planning"
 
             });
 
@@ -69,16 +69,28 @@ sap.ui.define([
         onCreateProjectSubmit() {
             var oModel = _oController.getView().getModel();
             var oBindingList = oModel.bindList("/Projects");
+            var oUserBindingList = oModel.bindList("/Users");
+            // var oUserList = oUserBindingList.getContexts();
             var oInputProjectData = _oController.getView().getModel("createProjectModel").getData();
 
             var sProjectCreateClientInput = _oController.byId("projectCreateClientInput")
             // create project (Odata V4 syntax)
-            oBindingList.create({ ...oInputProjectData, clientName: sProjectCreateClientInput.getSelectedItem().getKey() });
-            // submit all changes (batch update)
-            oModel.submitBatch("$auto").then(function () {
-                MessageBox.success("Project Created Successfully")
-                this._closeCreatProjectDialog();
+            // oBindingList.create({ ...oInputProjectData, client: sProjectCreateClientInput.getSelectedItem().getKey() });
+
+            // console.log("oUserList",oUserList[0].getObject());
+
+            oUserBindingList.requestContexts().then((aContext)=>{
+                console.log("aContext",aContext);
+                aContext.forEach(item=>{
+                    console.log("item",item.getObject());
+                })
             })
+
+            // submit all changes (batch update)
+            // oModel.submitBatch("$auto").then(function () {   
+            //     MessageBox.success("Project Created Successfully")
+            //     this._closeCreatProjectDialog();
+            // })
         },
         // function for closing create project dialog
         _closeCreatProjectDialog() {

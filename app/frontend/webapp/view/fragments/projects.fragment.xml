@@ -147,7 +147,12 @@
                         wrap="Wrap"
                         justifyContent="SpaceAround"
                         width="100%"
-                        items="{/Projects}"
+                        items="{
+                        path:'/Projects',
+                        parameters:{
+                            $expand:'client'
+                        }
+                       }"
                         gap="1rem"
                         class="projectOverViewFlex"
                     >
@@ -281,7 +286,7 @@
                                             >
                                                 <Text text="Client" />
                                                 <Title
-                                                    text="{clientName}"
+                                                    text="{client/firstname}"
                                                     level="H4"
                                                 />
                                             </VBox>
