@@ -1,0 +1,122 @@
+<core:FragmentDefinition
+    xmlns:uxap="sap.uxap"
+    xmlns:cards="sap.f.cards"
+    xmlns:f="sap.f"
+    xmlns="sap.m"
+    xmlns:form="sap.ui.layout.form"
+    xmlns:core="sap.ui.core"
+    xmlns:p13n="sap.m.p13n"
+    xmlns:fb="sap.ui.comp.filterbar"
+>
+    <Dialog
+        title="System Log"
+        icon="sap-icon://inspection"
+        id="systemLog"
+        contentWidth="auto"
+        contentHeight="80%"
+    >
+        <content>
+            <Table
+                items="{path:'/AuditLog',
+                parameters:{
+                    $expand:'projectId,userId,taskId'
+                }
+            }"
+                growing="true"
+                growingThreshold="20"
+                growingScrollToLoad="true"
+                sticky="ColumnHeaders,HeaderToolbar"
+                showSeparators="All"
+            >
+                <headerToolbar>
+                    <OverflowToolbar>
+                        <content>
+                            <!-- <Title text="Products" level="H2"></Title> -->
+                            <Button
+                                icon="sap-icon://excel-attachment"
+                                text="Export"
+                            />
+                        </content>
+                    </OverflowToolbar>
+                </headerToolbar>
+
+                <columns>
+                    <Column>
+                        <Title text="ID" />
+                    </Column>
+
+                    <Column>
+                        <Title text="Action" />
+                    </Column>
+
+                    <Column demandPopin="true">
+                        <Title text="By" />
+                    </Column>
+
+                    <Column demandPopin="true">
+                        <Title text="Task" />
+                    </Column>
+
+                    <Column demandPopin="true">
+                        <Title text="Project" />
+                    </Column>
+
+                    <Column demandPopin="true">
+                        <Title text="Details" />
+                    </Column>
+
+                    <Column>
+                        <Title text="Log Type" />
+                    </Column>
+                </columns>
+
+                <items>
+                    <ColumnListItem
+                        highlight="{= ${logType} === 'error' 
+                                ? 'Error' 
+                                : ${logType} === 'warning' 
+                                    ? 'Warning' 
+                                    : 'Information' }"
+                    >
+                        <cells>
+                            <Text text="{ID}" />
+                            <Text text="{action}" />
+                            <ObjectIdentifier
+                                title="{userId/firstname} {userId/lastname}"
+                                text="{userId/email}"
+                            />
+                            <ObjectIdentifier
+                                title="{= ${taskId/title} || 'NA'}"
+                                text="{taskId_ID}"
+                            />
+                            <ObjectIdentifier
+                                title="{projectId/name}"
+                                text="{projectId_ID}"
+                            />
+                            <Text text="{details}" />
+                            <!-- <Text text="{logType}"></Text> -->
+                            <Button
+                                text="{logType}"
+                                type="{= ${logType} === 'error' 
+                                ? 'Negative' 
+                                : ${logType} === 'warning' 
+                                    ? 'Critical' 
+                                    : 'Neutral' }"
+                            />
+
+                            <!-- ' ${logType} === 'error' ? 'Negative' : ${logType}==='warning' ? 'Critical' : 'Neutral' : 'Neutral' ' -->
+                        </cells>
+                    </ColumnListItem>
+                </items>
+            </Table>
+        </content>
+
+        <endButton>
+            <Button
+                press=".onCloseSystemLog"
+                type="Emphasized"
+                text="close"
+            />
+        </endButton>
+    </Dialog>
+</core:FragmentDefinition>

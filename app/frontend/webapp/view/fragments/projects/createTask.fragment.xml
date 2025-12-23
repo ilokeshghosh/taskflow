@@ -92,7 +92,7 @@
                     >
                         <core:Item
                             key="{ID}"
-                            text="{name}"
+                            text="{firstname}"
                         />
                     </Select>
 

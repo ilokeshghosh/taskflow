@@ -3,8 +3,7 @@
     xmlns:form="sap.ui.layout.form"
     xmlns:core="sap.ui.core"
 >
-   
-    <Panel height="100%">
+    <!-- <Panel height="100%">
         <headerToolbar >
             <OverflowToolbar height="3rem">
                 <HBox width="100%" justifyContent="SpaceBetween" alignItems="Center">
@@ -20,9 +19,53 @@
                 </HBox>
             </OverflowToolbar>
         </headerToolbar>
-        <!-- <Title text="{fragmentModel>/key}" /> -->
+
         <content>
         
         </content>
-    </Panel>
+    </Panel> -->
+
+    <Dialog
+        id="notificationPopover"
+        title="Notification Box"
+        
+       contentWidth="80%"
+    contentHeight="80%"
+    >
+        <content>
+            <!-- <List 
+            items="{notifications>/}"
+            >
+            <items>
+                <ObjectListItem title="[{notifications>action}]" >
+
+                </ObjectListItem>
+            </items>
+            </List> -->
+
+            <NotificationList width="100%" items="{notifications>/}">
+                <items>
+                    <NotificationListItem title="{notifications>projectId/name}"
+                   
+
+                    description="{= ${notifications>action} 
+               + ' · ' 
+               + ${notifications>taskId/title}
+               + ' · ' 
+               + ${notifications>details} }"
+                    showCloseButton="false"
+                    unread="true"
+                    datetime="{notifications>createdAt}"
+                    authorName="{notifications>userId/email}"
+                    priority="None"
+                    authorPicture="{path:'notifications>logType',formatter:'.formatter.formatLogType'}"
+                    />
+                </items>
+            </NotificationList>
+        </content>
+
+        <endButton>
+        <Button press=".onCloseNotification" type="Emphasized" text="Close"></Button>
+        </endButton>
+    </Dialog>
 </core:FragmentDefinition>

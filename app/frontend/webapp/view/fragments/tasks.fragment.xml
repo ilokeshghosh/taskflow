@@ -248,6 +248,7 @@
                                                         <Button
                                                             icon="sap-icon://overflow"
                                                             press=".onPressTaskCard"
+                                                            visible="{= !${currentUser>/roles/0}==='clientUser'}"
                                                         />
                                                     </HBox>
                                                 </VBox>
@@ -264,6 +265,7 @@
                                     text="Add Task"
                                     type="Transparent"
                                     press="handleOpenCreateTaskDialog"
+                                    visible="{= !${currentUser>/roles/0}==='clientUser'}"
                                 />
                             </Toolbar>
                         </Panel>
@@ -415,6 +417,7 @@
                                                         <Button
                                                             icon="sap-icon://overflow"
                                                             press=".onPressTaskCard"
+                                                            visible="{= !${currentUser>/roles/0}==='clientUser'}"
                                                         />
                                                     </HBox>
                                                 </VBox>
@@ -431,6 +434,7 @@
                                     text="Add Task"
                                     type="Transparent"
                                     press="handleOpenCreateTaskDialog"
+                                    visible="{= !${currentUser>/roles/0}==='clientUser'}"
                                 />
                             </Toolbar>
                         </Panel>
@@ -582,6 +586,7 @@
                                                         <Button
                                                             icon="sap-icon://overflow"
                                                             press=".onPressTaskCard"
+                                                            visible="{= !${currentUser>/roles/0}==='clientUser'}"
                                                         />
                                                     </HBox>
                                                 </VBox>
@@ -598,6 +603,7 @@
                                     text="Add Task"
                                     type="Transparent"
                                     press="handleOpenCreateTaskDialog"
+                                    visible="{= !${currentUser>/roles/0}==='clientUser'}"
                                 />
                             </Toolbar>
                         </Panel>
@@ -749,6 +755,7 @@
                                                         <Button
                                                             icon="sap-icon://overflow"
                                                             press=".onPressTaskCard"
+                                                            visible="{= !${currentUser>/roles/0}==='clientUser'}"
                                                         />
                                                     </HBox>
                                                 </VBox>
@@ -765,6 +772,7 @@
                                     text="Add Task"
                                     type="Transparent"
                                     press="handleOpenCreateTaskDialog"
+                                    visible="{= !${currentUser>/roles/0}==='clientUser'}"
                                 />
                             </Toolbar>
                         </Panel>
@@ -916,6 +924,7 @@
                                                         <Button
                                                             icon="sap-icon://overflow"
                                                             press=".onPressTaskCard"
+                                                            visible="{= !${currentUser>/roles/0}==='clientUser'}"
                                                         />
                                                     </HBox>
                                                 </VBox>
@@ -932,6 +941,7 @@
                                     text="Add Task"
                                     type="Transparent"
                                     press="handleOpenCreateTaskDialog"
+                                    visible="{= !${currentUser>/roles/0}==='clientUser'}"
                                 />
                             </Toolbar>
                         </Panel>

@@ -1,0 +1,112 @@
+<core:FragmentDefinition
+    xmlns:filterbar="sap.ui.comp.filterbar"
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:f="sap.f"
+    xmlns:form="sap.ui.layout.form"
+    xmlns:u="sap.ui.unified"
+    xmlns:layout="sap.ui.layout"
+>
+    <Dialog
+        title="On Board Member"
+        id="onBoardMember"
+        icon="sap-icon://walk-me"
+        state="Information"
+        contentWidth="90%"
+        contentHeight="90%"
+        stretch="true"
+    >
+        <List
+            id="memberList"
+            items="{path:'/Users'}"
+            mode="MultiSelect"
+            growing="true"
+            growingThreshold="10"
+            selectionChange="onHandleOnboardSelection"
+        >
+            <headerToolbar>
+                <OverflowToolbar height="auto">
+                    <HBox
+                        width="100%"
+                        justifyContent="SpaceBetween"
+                        alignItems="Center"
+                    >
+                        <HBox>
+                            <SearchField />
+                            <Text visible="false" text="{project_ID}"></Text>
+                        </HBox>
+
+                        <HBox>
+                            <filterbar:FilterBar
+                                useToolbar="false"
+                                id="onboardFilterBar"
+                            >
+                                <filterbar:filterGroupItems>
+                                    <filterbar:FilterGroupItem
+                                        name="role"
+                                        label="Role"
+                                        groupName="Group3"
+                                        visibleInFilterBar="true"
+                                        id="Group3"
+                                    >
+                                        <filterbar:control>
+                                            <Select>
+                                                <core:Item
+                                                    text="some text to be seleected"
+                                                />
+                                            </Select>
+                                        </filterbar:control>
+                                    </filterbar:FilterGroupItem>
+                                </filterbar:filterGroupItems>
+                            </filterbar:FilterBar>
+                        </HBox>
+                    </HBox>
+                </OverflowToolbar>
+            </headerToolbar>
+
+            <items>
+                <StandardListItem
+                    description="{email}"
+                    icon="{avatarUrl}"
+                    title="{firstname} {lastname}"
+                    info="{role}"
+                    highlight="{= ${isActive} === 'Yes' ? 'Success' : 'Error' }"
+                    
+                />
+
+                
+            </items>
+        </List>
+
+        <footer>
+            <OverflowToolbar
+                height="100%"
+                width="100%"
+            >
+                <HBox
+                    width="100%"
+                    alignItems="Center"
+                    justifyContent="End"
+                    wrap="NoWrap"
+                    gap="1rem"
+                >
+                    <Button
+                        id="onBoardButton"
+                        type="Emphasized"
+                        icon="sap-icon://cause"
+                        text="Onboard"
+                        enabled="false"
+                        press="onHandleOnBoard"
+                    />
+
+                    <Button
+                        type="Reject"
+                        icon="sap-icon://decline"
+                        text="Close"
+                        press="onOnBoardClose"
+                    />
+                </HBox>
+            </OverflowToolbar>
+        </footer>
+    </Dialog>
+</core:FragmentDefinition>

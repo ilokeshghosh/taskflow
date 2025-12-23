@@ -57,7 +57,9 @@ entity User : managed {
         role      : String;
         tasks     : Association to many Task
                         on tasks.assignedTo = $self;
-        project   : Association to Project;
+        project   : Association to Project default 'bench';
+        freepool:Boolean default true;
+        avatarUrl:LargeString;
 
 }
 
@@ -93,8 +95,8 @@ entity AuditLog : managed {
         projectId : Association to Project;
         details   : String;
         logType   : String enum {
-            information;
-            warning;
-            error;
-        } default 'information';
+            Information;
+            Warning;
+            Error;
+        } default 'Information';
 }

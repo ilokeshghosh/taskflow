@@ -25,6 +25,43 @@
             "url": "db.sqlite"
           }
         }
+      },
+      "auth": {
+        "[development]": {
+          "kind": "mocked",
+          "users": {
+            "alice@local": {
+              "password": "alice",
+              "roles": [
+                "clientUser"
+              ],
+              "attributes": {
+                "company": "ACME Corp",
+                "department": "IT"
+              }
+            },
+            "bob@local": {
+              "password": "bob",
+              "roles": [
+                "manager"
+              ],
+              "attributes": {
+                "company": "ACME Corp",
+                "department": "SALES"
+              }
+            },
+            "charlie@local": {
+              "password": "charlie",
+              "roles": [
+                "member"
+              ],
+              "attributes": {
+                "company": "ACME Corp",
+                "department": "HR"
+              }
+            }
+          }
+        }
       }
     }
   },

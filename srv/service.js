@@ -3,8 +3,47 @@ const { v4: uuid } = require('uuid');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
+const provisioning=async(userSchema,user)=>{
+    try {
+        const existingUser = await cds.run(
+            SELECT.one.from(userSchema).where({email:user.id})
+        )
+        console.log("user exists",Object.keys(user.roles)[0])
+        if(!existingUser){
+            throw Error("User Does Not Exists in DB");
+        } 
+
+        const userProfile={
+            ID:existingUser.ID,
+            email:existingUser.email,
+            firstname:existingUser.firstname,
+            lastname:existingUser.lastname,
+            phone:existingUser.phone,
+            avatarUrl:existingUser.avatarUrl,
+            isActive:existingUser.isActive,
+            designation:existingUser.role,
+            roles: Object.keys(user?.roles),
+            attributes:user.attributes
+        }
+
+        // console.log("userProfile",userProfile);
+        return userProfile;
+    } catch (error) {
+        console.error(400,error?.message);
+    }
+
+
+}
+
 module.exports = cds.service.impl(async function () {
     const { Users, AuditLog } = this.entities;
+    this.before("*",async(req)=>{
+        const userProfile = await provisioning(Users,req?.user);
+
+        req.user= userProfile;
+
+    })
+
     this.before('CREATE', 'Users', async (req) => {
         const { Users } = this.entities;
         const { email, firstname, lastname, phone, password, role, type } = req.data;
@@ -161,6 +200,12 @@ module.exports = cds.service.impl(async function () {
     //     }
     // })
 
+
+    // this.on("READ","Tasks",(req,next)=>{
+    //     console.log("user data on read",req?.user);
+    //     // next();
+    //     return next();
+    // })
     
 
 
@@ -177,6 +222,15 @@ module.exports = cds.service.impl(async function () {
             modifiedBy: userId
         })
     };
+
+    this.on("getcurrentUser",async(req)=>{
+         try {
+            return req?.user;
+        } catch (error) {
+            console.error(400,error?.message);
+        }
+    })
+   
 
     
 })

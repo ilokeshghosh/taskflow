@@ -92,6 +92,7 @@
                                 type="Active"
                                 title="Create Task"
                                 press="handleOpenCreateTaskDialog"
+                                visible="{= ${currentUser>/roles/0}==='manager' || ${currentUser>/roles/0}==='member'}"
                             />
 
                             <!-- create Project List Item to open create project dialog -->
@@ -101,6 +102,7 @@
                                 type="Active"
                                 title="Create Project"
                                 press="handleOpenCreateProjectDialog"
+                                visible="{= ${currentUser>/roles/0}==='manager' }"
                             />
 
                             <!-- TO BE IMPLEMENTED -->
@@ -110,20 +112,30 @@
                                 iconInset="true"
                                 type="Active"
                                 title="Notifications"
+                                press="onHandleNotification"
                             />
 
                             <!-- TO BE IMPLEMENTED || NEED TO UPDATED || NEEDS TO MAKE DYNAMIC(MUST COMPLY WITH GITHUB REPO VERSION) -->
                             <StandardListItem
-                                class=""
-                                title="Version : 0.0.1"
+                                class="sapUiTinyMarginBottom"
+                                title="{currentUser>/firstname} {currentUser>/lastname}"
+                                info="v0.0.1"
+                                infoState="Information"
+                                infoStateInverted="true"
+                                description="{currentUser>/email}"
+                                
                             >
                                 <avatar>
                                     <!-- TO BE IMPLEMENTED || NEED TO UPDATED || NEED TO MAKE DYNAMIC AS PER USER AVATAR  -->
                                     <Avatar
+                                        press="onAvatarPress"
                                         showBorder="true"
                                         displayShape="Circle"
-                                        src="https://ik.imagekit.io/8fgpvoiai/profile/profile-image-black-white_81gzUNk43.png?updatedAt=1703005079604"
-                                    />
+                                        src="{currentUser>/avatarUrl}"
+                                    >
+                                    <detailBox>
+                                    </detailBox>
+                                    </Avatar>
                                 </avatar>
                             </StandardListItem>
                         </List>
@@ -269,7 +281,7 @@
                                             class="progressLabel"
                                         />
                                         <Text
-                                            text="24 Tasks"
+                                            text="{selectedProject>/tasks@odata.count} Tasks"
                                             class="progressValue"
                                         />
                                     </HBox>
@@ -299,7 +311,7 @@
                                 <!-- Budget Number & Client Name -->
                                 <Title text="${selectedProject>/budget}" />
                                 <Text
-                                    text="{selectedProject>/client/firstname}"
+                                    text="{selectedProject>/client/firstname} {selectedProject>/client/lastname}"
                                 />
                             </VBox>
 
@@ -318,26 +330,23 @@
                                 <f:AvatarGroup
                                     groupType="Group"
                                     avatarDisplaySize="XS"
+                                    items="{selectedProject>/members}"
                                 >
-                                    <f:AvatarGroupItem
-                                        src="https://randomuser.me/api/portraits/men/25.jpg"
-                                    />
-
-                                    <f:AvatarGroupItem
-                                        src="https://randomuser.me/api/portraits/men/26.jpg"
-                                    />
-
-                                    <f:AvatarGroupItem
-                                        src="https://randomuser.me/api/portraits/men/27.jpg"
-                                    />
-
-                                    <f:AvatarGroupItem
-                                        src="https://randomuser.me/api/portraits/men/28.jpg"
-                                    />
+                                    <f:items>
+                                        <f:AvatarGroupItem
+                                            src="{selectedProject>avatarUrl}"
+                                            initials="asdf"
+                                            tooltip="{selectedProject>firstname} {selectedProject>lastname}"
+                                        >
+                                        
+                                        </f:AvatarGroupItem>
+                                    </f:items>
                                 </f:AvatarGroup>
 
                                 <!-- TO BE IMPLEMENTED || Team Member Count || Need to add the number of user assigned to this project -->
-                                <Text text="4 Members" />
+                                <Text
+                                    text="{selectedProject>/members@odata.count} Members"
+                                />
                             </VBox>
 
                             <!-- Project Tasks Card -->
@@ -353,8 +362,15 @@
                                 />
 
                                 <!-- TO BE IMPLEMENTED || Task Count & updated at Details || Add the count of tasks and time of latest added/upated task-->
-                                <Title text="128" />
-                                <Text text="Last Updated: Today" />
+                                <Title
+                                    text="{selectedProject>/tasks@odata.count}"
+                                />
+                                <Text
+                                    text="{
+                                    path: 'selectedProject>/modifiedAt',
+                                    formatter: '.formatter.formatLastUpdated'
+                                }"
+                                />
                             </VBox>
                         </FlexBox>
                     </VBox>
@@ -482,7 +498,7 @@
                                             <VBox>
                                                 <Text text="Client" />
                                                 <Title
-                                                    text="{selectedProject>/client/firstname}"
+                                                    text="{selectedProject>/client/firstname} {selectedProject>/client/lastname}"
                                                 />
                                             </VBox>
 
@@ -514,7 +530,7 @@
                                             <VBox>
                                                 <Text text="Project Manager" />
                                                 <Title
-                                                    text="Manager Should be Here"
+                                                    text="{selectedProject>/manager/firstname} {selectedProject>/manager/lastname}"
                                                 />
                                             </VBox>
                                         </VBox>
@@ -551,6 +567,7 @@
                                         <!-- TO BE IMPLEMENTED || Table for Team Details -->
                                         <Table
                                             class="teamMemberTable"
+                                            id="teamMemberTableID"
                                             items="{
                                                 path: 'selectedProject>/members'
                                             }"
@@ -579,7 +596,8 @@
                                                         <Button
                                                             type="Emphasized"
                                                             icon="sap-icon://add"
-                                                            text="Add Team Member"
+                                                            text="Onboard Member"
+                                                            press=".onHandleOnboardMember"
                                                         />
                                                     </HBox>
                                                 </OverflowToolbar>
@@ -632,7 +650,9 @@
                                                 >
                                                     <cells>
                                                         <ObjectIdentifier
-                                                            title="{selectedProject>firstname}"
+                                                            title="{selectedProject>firstname} {selectedProject>lastname}"
+                                                            text="{selectedProject>email}"
+                                                            
                                                         />
 
                                                         <Button
@@ -646,8 +666,8 @@
 
                                                         <ObjectStatus
                                                             inverted="true"
-                                                            text="Active"
-                                                            state="Success"
+                                                            text="{= ${selectedProject>isActive}===true ? 'Online' : 'Offline'}"
+                                                            state="{= ${selectedProject>isActive}===true ? 'Success' : 'Warning'}"
                                                         />
 
                                                         <OverflowToolbar>
@@ -661,6 +681,7 @@
                                                                 text="Delete"
                                                                 icon="sap-icon://delete"
                                                                 type="Reject"
+                                                                press="onHandleDeleteMember"
                                                             />
                                                         </OverflowToolbar>
                                                     </cells>

@@ -1,0 +1,60 @@
+<core:FragmentDefinition
+    xmlns:filterbar="sap.ui.comp.filterbar"
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:f="sap.f"
+    xmlns:form="sap.ui.layout.form"
+    xmlns:u="sap.ui.unified"
+    xmlns:layout="sap.ui.layout"
+>
+    <Dialog
+        id="onBoardLoadingDialog"
+        class="onBoardLoadingDialogClass"
+        contentWidth="50%"
+        contentHeight="50%"
+        showHeader="false"
+    >
+        <VBox
+            height="100%"
+            width="100%"
+            justifyContent="SpaceBetween"
+            gap="0.1rem"
+        >
+            <!-- loading animation -->
+
+            <HBox
+                class="onBoardLoaderContainer"
+                width="100%"
+                height="85%"
+            >
+                <HBox class="onBoardLoaderFilter">
+                    <Text
+                        class="onBoardingLoaderText"
+                        textAlign="Center"
+                        text="All aboard! Preparing team members…"
+                    />
+                </HBox>
+            </HBox>
+
+            <!-- text and progress bar -->
+            <HBox
+                height="15%"
+                width="100%"
+                class="onBoardContentContainer"
+            >   
+                <VBox class="sapUiSmallMarginBeginEnd" width="100%" height="100%">
+                
+                 <ProgressIndicator
+                    id="onboardMemberProgressIndicator"
+                    displayAnimation="true"
+                    displayOnly="false"
+                    width="100%"
+                    displayValue=""
+                    percentValue="0"
+                />
+                </VBox>
+               
+            </HBox>
+        </VBox>
+    </Dialog>
+</core:FragmentDefinition>

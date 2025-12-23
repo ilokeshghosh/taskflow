@@ -1,7 +1,8 @@
 sap.ui.define([
     "sap/ui/core/UIComponent",
-    "com/taskflow/dev/frontend/model/models"
-], (UIComponent, models) => {
+    "com/taskflow/dev/frontend/model/models",
+    "sap/ui/model/json/JSONModel",
+], (UIComponent, models,JSONModel) => {
     "use strict";
 
     return UIComponent.extend("com.taskflow.dev.frontend.Component", {
@@ -23,7 +24,15 @@ sap.ui.define([
             this.getRouter().initialize();
             // this._isNavExpanded = true;
 
+            this._setCurrentUser()
             
+        },
+
+        async _setCurrentUser(){
+            const response  = await fetch("/odata/v4/task/getcurrentUser");
+            const currentUser = await response.json();
+            console.log("data",currentUser)
+            this.setModel(new JSONModel(currentUser),"currentUser");
         }
     });
 });

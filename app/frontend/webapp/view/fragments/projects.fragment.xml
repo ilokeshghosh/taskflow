@@ -9,7 +9,7 @@
     <Panel height="100%">
         <!-- Project Container -->
         <content>
-            <Panel width="100%">
+            <Panel width="100%" >
                 <!-- Project Container Header Tool Bar || TO BE IMPLEMENTED (add search & filter) -->
                 <headerToolbar>
                     <OverflowToolbar height="auto">
@@ -150,7 +150,16 @@
                         items="{
                         path:'/Projects',
                         parameters:{
-                            $expand:'client'
+                            $expand:{
+                                members:{
+                                    $count:true
+                                },
+                                client:true,
+                                tasks:{
+                                    $count:true
+                                },
+                                manager:true
+                            }
                         }
                        }"
                         gap="1rem"
@@ -188,6 +197,8 @@
                                                 text="{description}"
                                                 class="cardSubtitle sapUiTinyMarginTop"
                                             />
+
+                                            <Text visible="false" text="{modifiedAt}"></Text>
                                         </VBox>
 
                                         <!-- RIGHT : Status Badge -->
@@ -286,7 +297,7 @@
                                             >
                                                 <Text text="Client" />
                                                 <Title
-                                                    text="{client/firstname}"
+                                                    text="{client/firstname} {client/lastname}"
                                                     level="H4"
                                                 />
                                             </VBox>

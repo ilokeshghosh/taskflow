@@ -39,3 +39,23 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJVU0VSM
 POST  http://localhost:4004/odata/v4/auth/test
 Accept: application/json
 Content-Type: application/json
+
+### get tasks
+GET http://localhost:4004/odata/v4/task/Users
+Authorization: Basic john@corp.com:john
+
+### get tasks
+GET http://localhost:4004/odata/v4/task/Tasks
+Authorization: Basic charlie@local:charlie
+
+### get current user
+GET http://localhost:4004/odata/v4/task/getcurrentUser('USER001')
+Authorization: Basic john@corp.com:john
+
+### AUDIT LOG as manager
+GET http://localhost:4004/odata/v4/task/AuditLog
+Authorization: Basic bob@local:bob
+
+### AUDIT LOG as client
+GET http://localhost:4004/odata/v4/task/AuditLog
+Authorization: Basic alice@local:alice

@@ -6,8 +6,9 @@ sap.ui.define([
     "com/taskflow/dev/frontend/util/taskHelper",
     "com/taskflow/dev/frontend/model/formatter",
     "sap/m/MessageBox",
-    "sap/m/MessageToast"
-], (Controller, Fragment, JSONModel, projectHelper, taskHelper, formatter, MessageBox, MessageToast) => {
+    "sap/m/MessageToast",
+    "com/taskflow/dev/frontend/util/userHelper"
+], (Controller, Fragment, JSONModel, projectHelper, taskHelper, formatter, MessageBox, MessageToast, userHelper) => {
     "use strict";
 
 
@@ -39,6 +40,9 @@ sap.ui.define([
         onAfterRendering() {
             projectHelper.init(this);
             taskHelper.init(this);
+            userHelper.init(this);
+
+            this._tester();
         },
 
         // Return the SplitApp object
@@ -100,7 +104,18 @@ sap.ui.define([
                 new sap.ui.model.Filter("name", "EQ", aSelected[0].getTitle())
             ],
                 {
-                    $expand: "members,client"
+                    $expand:{ 
+                        members:{
+                            $count:true,
+                            
+                        },
+                        client:true,
+                        tasks:{
+                            $count:true
+                        },
+                        manager:true
+                    
+                    }
                 }
 
             );
@@ -111,6 +126,9 @@ sap.ui.define([
             oBinding.requestContexts().then(function (aContexts) {
                 if (aContexts.length > 0) {
                     var oProjectData = aContexts[0].getObject();
+
+                    console.log("oProjectData",oProjectData);
+
                     // Navigate to Project Detailed Page
                     this.getSplitAppObj().toDetail(this.createId("projectObject"));
 
@@ -228,7 +246,8 @@ sap.ui.define([
                     title: "Change Status",
                     type: sap.m.ListType.Active,
                     icon: "sap-icon://future",
-                    press: this.onChangeStatus.bind(this)
+                    press: this.onChangeStatus.bind(this),
+                    visible: "{= ${currentUser>/roles/0}==='manager'}"
                 })
 
                 // TO BE IMPLEMENTED || marked as completed action item
@@ -236,7 +255,8 @@ sap.ui.define([
                     title: "Marked as Completed",
                     type: sap.m.ListType.Active,
                     icon: "sap-icon://activity-2",
-                    press: this.onMarkedAsCompleted.bind(this)
+                    press: this.onMarkedAsCompleted.bind(this),
+                    visible: "{= ${currentUser>/roles/0}==='manager'}"
                 })
 
                 // TO BE IMPLEMENTED || put on hold action item
@@ -244,7 +264,8 @@ sap.ui.define([
                     title: "Put on Hold",
                     type: sap.m.ListType.Active,
                     icon: "sap-icon://pause",
-                    press: this.onPutOnHold.bind(this)
+                    press: this.onPutOnHold.bind(this),
+                    visible: "{= ${currentUser>/roles/0}==='manager'}"
                 })
 
                 oList.addItem(item1);
@@ -322,7 +343,9 @@ sap.ui.define([
                     title: "Edit Task",
                     type: sap.m.ListType.Active,
                     icon: "sap-icon://edit",
-                    press: this.onEditTask.bind(this)
+                    press: this.onEditTask.bind(this),
+
+
                 })
 
 
@@ -331,7 +354,8 @@ sap.ui.define([
                     title: "Marked as Completed",
                     type: sap.m.ListType.Active,
                     icon: "sap-icon://activity-2",
-                    press: this.onTaskMarkedAsCompleted.bind(this)
+                    press: this.onTaskMarkedAsCompleted.bind(this),
+
                 })
 
                 // TO BE IMPLEMENTED || change due date quick action item
@@ -339,7 +363,8 @@ sap.ui.define([
                     title: "Change Due Date",
                     type: sap.m.ListType.Active,
                     icon: "sap-icon://future",
-                    press: this.onTaskChangeDueDate.bind(this)
+                    press: this.onTaskChangeDueDate.bind(this),
+
                 })
 
                 // TO BE IMPLEMENTED || change priority quick action item
@@ -347,7 +372,8 @@ sap.ui.define([
                     title: "Change Priority",
                     type: sap.m.ListType.Active,
                     icon: "sap-icon://high-priority",
-                    press: this.onTaskChangePriority.bind(this)
+                    press: this.onTaskChangePriority.bind(this),
+
                 })
 
                 // TO BE IMPLEMENTED || archive task quick action item
@@ -355,7 +381,8 @@ sap.ui.define([
                     title: "Archive Task",
                     type: sap.m.ListType.Active,
                     icon: "sap-icon://fallback",
-                    press: this.onTaskArchive.bind(this)
+                    press: this.onTaskArchive.bind(this),
+
                 })
 
 
@@ -364,7 +391,8 @@ sap.ui.define([
                     title: "Delete Task",
                     type: sap.m.ListType.Active,
                     icon: "sap-icon://delete",
-                    press: this.onDeleteTask.bind(this)
+                    press: this.onDeleteTask.bind(this),
+
                 })
 
 
@@ -516,7 +544,166 @@ sap.ui.define([
             if (modelName) {
                 return this.getView().getModel(modelName);
             }
-        }
+        },
+
+        // user event handlers
+
+        onAvatarPress(oEvent) {
+            userHelper.handleAvatar(oEvent);
+        },
+        onHandleNotification(oEvent) {
+            var oPressedItem = oEvent.getSource();
+            console.log("hieiei");
+            var oView = this.getView();
+
+            if (!this._oPopoverNotification) {
+                // var oList = new sap.m.List({
+                //     inset:false
+                // })
+
+
+                // var item1 = new sap.m.ObjectListItem({
+                //     title:"something is here"
+                // });
+
+
+                // oList.addItem(item1);
+
+
+                // this._oPopoverNotification = new sap.m.Popover({
+                //     title:"Notification Box",
+                //     placement:sap.m.PlacementType.Right,
+                //     content:[oList]
+                // })
+
+
+
+                // this.getView().addDependent(this._oPopoverNotification);
+
+                var oNotificationData = []
+
+                const sUserId = this.getView()
+                    .getModel("currentUser")
+                    .getProperty("/ID");
+
+                var oBinding = oView.getModel().bindList("/AuditLog", null, null, [
+                    new sap.ui.model.Filter("adminId_ID", "EQ", `${sUserId}`),
+
+                ],
+                    {
+                        $expand: {
+                            projectId: {
+                                $select: ["ID", "name"]
+                            },
+                            userId:{
+                                $select: ["ID", "email"]
+                            },
+                            taskId:{
+                                $select: ["ID", "title"]
+                            }
+                        }
+                    }
+                )
+
+                oBinding.requestContexts().then((aContexts) => {
+                    if (aContexts.length > 0) {
+
+                        aContexts.forEach(async (element) => {
+                            const oNotification = element.getObject();
+                            // let sProjectName;
+                            this._getProjectName(element.getObject().projectId_ID).then(names => {
+                                oNotification.projectName = names[0];
+                                // console.log("names",names[0])
+                            })
+                            // oNotification.projectName=sProjectName[0];
+                            // const sChangedBy = 
+                            // console.log("projectName",sProjectName[0]);
+                            oNotificationData.push(element.getObject())
+                        });
+                        console.log("nott", oNotificationData);
+                        // set local model for selected project tasks
+                        oView.setModel(new JSONModel(oNotificationData), "notifications");
+
+                        // Call function that filter all project according to the status
+                        // this._setFilterSelectProjectTasks()
+
+                    } else {
+                        MessageBox.error("No New Notification Found")
+                    }
+                })
+
+
+                this._oPopoverNotification = Fragment.load({
+                    id: oView.getId(),
+                    name: "com.taskflow.dev.frontend.view.fragments.notification",
+                    controller: this
+                }).then(function (oPopover) {
+
+                    oView.addDependent(oPopover);
+                    return oPopover;
+                })
+            }
+
+            this._oPopoverNotification.then((oPopover) => {
+                // oPopover.openBy(oPressedItem)
+                oPopover.open()
+            });
+        },
+        onCloseNotification() {
+            this.getView().byId("notificationPopover").close();
+        },
+        _getProjectName(projectID) {
+            let sProjectName = [];
+            var oView = this.getView();
+            var oBinding = oView.getModel().bindList("/Projects", null, null, [
+                new sap.ui.model.Filter("ID", "EQ", `${projectID}`)
+            ])
+
+
+            return oBinding.requestContexts().then((aContexts) => {
+                if (aContexts.length > 0) {
+
+
+
+
+                    return aContexts.map(element => {
+
+                        // sProjectName.push();
+                        return element.getObject().name;
+
+                    });
+
+
+                    console.log("sprojectname", sProjectName[0])
+                    // set local model for selected project tasks
+                    // oView.setModel(new JSONModel(oNotificationData), "notifications");
+
+                    // Call function that filter all project according to the status
+                    // this._setFilterSelectProjectTasks()
+
+                } else {
+                    // MessageBox.error("No New Notification Found")
+                }
+            })
+
+            // for(let item of sProjectName){
+            //     console.log("item",item);
+            // }
+            // return sProjectName;
+        },
+
+        onHandleOnboardMember(){
+            userHelper.handleOnboardMember(); 
+        },  
+        onHandleDeleteMember(oEvent){
+            userHelper.handleDeleteMember(oEvent);
+        },
+        _tester(){
+            console.log("heohohi",this.getView().getModel("currentUser").getData())
+            // userHelper._setOnboardingBusy(true);
+            
+        },
+        
 
 
     });

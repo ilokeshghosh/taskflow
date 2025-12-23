@@ -84,7 +84,8 @@ sap.ui.define(["sap/ui/core/Fragment", "sap/m/MessageBox", "sap/ui/model/json/JS
             var oDate = new Date();
             var sNow = oDate.toISOString().split('T')[0];
 
-            oModel.submitBatch("$auto").then(function () {
+            oModel.submitBatch("$auto")
+            .then(function (res) {
                 MessageBox.success("Task Created Successfully");
                 // reset the model after task creation
                 var oCreateTaskModel = new JSONModel({
@@ -101,6 +102,8 @@ sap.ui.define(["sap/ui/core/Fragment", "sap/m/MessageBox", "sap/ui/model/json/JS
                 _oController.getView().setModel(oCreateTaskModel, "createTaskModel")
                 _oController.byId("createTaskDialog").close();
                 oModel.refresh();
+            }).catch((error)=>{
+                console.error("error is found at bay",error)
             })
         },
         // function for closing create task dialog

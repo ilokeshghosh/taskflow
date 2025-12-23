@@ -65,7 +65,7 @@
                                         class="progressLabel"
                                     />
                                     <Text
-                                        text="24 Tasks"
+                                        text="{selectedProject>/tasks@odata.count} Tasks"
                                         class="progressValue"
                                     />
                                 </HBox>
@@ -91,7 +91,7 @@
                                 text="Budget"
                             />
                             <Title text="${selectedProject>/budget}" />
-                            <Text text="{selectedProject>/client/firstname}" />
+                            <Text text="{selectedProject>/client/firstname} {selectedProject>/client/lastname}" />
                         </VBox>
 
                         <!-- Team Card -->
@@ -108,25 +108,20 @@
                             <f:AvatarGroup
                                 groupType="Group"
                                 avatarDisplaySize="XS"
+                                items="{selectedProject>/members}"
                             >
-                                <f:AvatarGroupItem
-                                    src="https://randomuser.me/api/portraits/men/25.jpg"
-                                />
-
-                                <f:AvatarGroupItem
-                                    src="https://randomuser.me/api/portraits/men/26.jpg"
-                                />
-
-                                <f:AvatarGroupItem
-                                    src="https://randomuser.me/api/portraits/men/27.jpg"
-                                />
-
-                                <f:AvatarGroupItem
-                                    src="https://randomuser.me/api/portraits/men/28.jpg"
-                                />
+                                <f:items>
+                                    <f:AvatarGroupItem
+                                        src="{selectedProject>avatarUrl}"
+                                        initials="asdf"
+                                        tooltip="{selectedProject>firstname} {selectedProject>lastname}"
+                                    />
+                                </f:items>
                             </f:AvatarGroup>
 
-                            <Text text="4 Members" />
+                            <Text
+                                text="{selectedProject>/members@odata.count} Members"
+                            />
                         </VBox>
 
                         <!-- Tasks Card -->
@@ -139,8 +134,15 @@
                                 width="100%"
                                 text="Tasks"
                             />
-                            <Title text="128" />
-                            <Text text="Last Updated: Today" />
+                            <Title
+                                text="{selectedProject>/tasks@odata.count}"
+                            />
+                            <Text
+                                text="{
+                                    path: 'selectedProject>/modifiedAt',
+                                    formatter: '.formatter.formatLastUpdated'
+                                }"
+                            />
                         </VBox>
                     </FlexBox>
                 </VBox>
@@ -264,7 +266,7 @@
                                         <VBox>
                                             <Text text="Client" />
                                             <Title
-                                                text="{selectedProject>/client/firstname}"
+                                                text="{selectedProject>/client/firstname} {selectedProject>/client/lastname}"
                                             />
                                         </VBox>
 
@@ -296,7 +298,7 @@
                                         <VBox>
                                             <Text text="Project Manager" />
                                             <Title
-                                                text="Manager Should be Here"
+                                                text="{selectedProject>/manager/firstname} {selectedProject>/manager/lastname}"
                                             />
                                         </VBox>
                                     </VBox>
