@@ -16,7 +16,7 @@ sap.ui.define(["sap/ui/core/Fragment", "sap/m/MessageBox", "sap/ui/model/json/JS
             var oButton = oEvent.getSource();
             var getcurrentUser = _oController.getView().getModel("currentUser").getData();
             var isManager = getcurrentUser.roles[0] === "manager";
-            
+
 
             if (!_oController._uPopoverUser) {
                 var oList = new sap.m.List({
@@ -43,13 +43,13 @@ sap.ui.define(["sap/ui/core/Fragment", "sap/m/MessageBox", "sap/ui/model/json/JS
 
                 })
 
-                
+
                 var item4 = new sap.m.StandardListItem({
                     title: "System Log",
                     type: sap.m.ListType.Active,
                     icon: "sap-icon://legend",
                     press: this.onPressSystemLog.bind(this),
-                    visible:isManager
+                    visible: isManager
 
                 })
 
@@ -89,7 +89,7 @@ sap.ui.define(["sap/ui/core/Fragment", "sap/m/MessageBox", "sap/ui/model/json/JS
 
             }
             _oController._uPopoverUser.openBy(oButton);
-            
+
         },
 
         onPressSystemLog() {
@@ -106,7 +106,7 @@ sap.ui.define(["sap/ui/core/Fragment", "sap/m/MessageBox", "sap/ui/model/json/JS
             }
 
             _oController._sDialog.then(oDialog => {
-               
+
                 oDialog.open();
             })
         },
@@ -129,7 +129,7 @@ sap.ui.define(["sap/ui/core/Fragment", "sap/m/MessageBox", "sap/ui/model/json/JS
             }
 
             _oController._xDialog.then(oDialog => {
-               
+
                 oDialog.open();
             })
         },
@@ -137,31 +137,31 @@ sap.ui.define(["sap/ui/core/Fragment", "sap/m/MessageBox", "sap/ui/model/json/JS
             var oView = _oController.getView();
             oView.byId("settingDialog").close();
         },
-        onPressAbout(){
+        onPressAbout() {
             var oView = _oController.getView();
-            console.log("about pressed");
-            if(!_oController.oSystemAboutDialog){
+            
+            if (!_oController.oSystemAboutDialog) {
                 _oController.oSystemAboutDialog = Fragment.load({
-                    id:oView.getId(),
+                    id: oView.getId(),
                     name: "com.taskflow.dev.frontend.view.fragments.utils.systemAbout",
                     controller: this
-                }).then(oDialog=>{
+                }).then(oDialog => {
                     oView.addDependent(oDialog);
                     return oDialog;
                 })
             }
 
-            _oController.oSystemAboutDialog.then(oDialog=>{
+            _oController.oSystemAboutDialog.then(oDialog => {
                 oDialog.open();
             })
 
         },
-        onCloseSystemDialog(){
+        onCloseSystemDialog() {
             _oController.getView().byId("systemAboutDialog").close();
         }
         ,
         handleOnboardMember() {
-            
+
 
             var oView = _oController.getView();
 
@@ -181,7 +181,7 @@ sap.ui.define(["sap/ui/core/Fragment", "sap/m/MessageBox", "sap/ui/model/json/JS
 
                 var oMemberBinding = _oController.getView().byId("memberList").getBinding("items");
 
-               
+
 
                 oMemberBinding.filter(
                     [
@@ -200,7 +200,7 @@ sap.ui.define(["sap/ui/core/Fragment", "sap/m/MessageBox", "sap/ui/model/json/JS
             const oCtx = oItem.getBindingContext();
             const oData = oCtx.getObject();
             if (bSelected) {
-               
+
                 aOnboardMemberDraft.push(oData);
             } else {
                 aOnboardMemberDraft = aOnboardMemberDraft.filter((member) => member.ID !== oData.ID);
@@ -218,7 +218,7 @@ sap.ui.define(["sap/ui/core/Fragment", "sap/m/MessageBox", "sap/ui/model/json/JS
                 bOnBoard.setText(`Onboard`)
                 bOnBoard.setEnabled(false);
             }
-           
+
 
             oView.setModel(new JSONModel(oSelecteMember), "onboardmember");
 
@@ -232,7 +232,7 @@ sap.ui.define(["sap/ui/core/Fragment", "sap/m/MessageBox", "sap/ui/model/json/JS
             this._setOnboardingBusy(true);
             var oView = _oController.getView();
             oView.byId("onBoardMember").close();
-          
+
         },
         _setOnboardingBusy(bOnBoard) {
             var oView = _oController.getView();
@@ -252,7 +252,7 @@ sap.ui.define(["sap/ui/core/Fragment", "sap/m/MessageBox", "sap/ui/model/json/JS
                     oDialog.open();
 
                     const oProgressBar = oView.byId("onboardMemberProgressIndicator");
-                   
+
                     let progress = 0;
                     let index = 0;
                     var oInterval = setInterval(() => {
@@ -272,12 +272,9 @@ sap.ui.define(["sap/ui/core/Fragment", "sap/m/MessageBox", "sap/ui/model/json/JS
 
                         }
 
-
-
                         oProgressBar.setPercentValue(progress);
                         oProgressBar.setDisplayValue(sDisplayText);
                         progress = progress + 2;
-
 
                         if (progress > 100) {
                             clearInterval(oInterval);
@@ -285,9 +282,6 @@ sap.ui.define(["sap/ui/core/Fragment", "sap/m/MessageBox", "sap/ui/model/json/JS
                             oDialog.close();
                         }
                     }, 500);
-
-
-
 
                 })
             } else {
@@ -326,12 +320,9 @@ sap.ui.define(["sap/ui/core/Fragment", "sap/m/MessageBox", "sap/ui/model/json/JS
 
                         }
 
-
-
                         oProgressBar.setPercentValue(progress);
                         oProgressBar.setDisplayValue(sDisplayText);
                         progress = progress + 2;
-
 
                         if (progress > 100) {
                             clearInterval(oInterval);
@@ -341,7 +332,7 @@ sap.ui.define(["sap/ui/core/Fragment", "sap/m/MessageBox", "sap/ui/model/json/JS
                     }, 500);
                 })
             }
-            
+
         },
 
         _getDisplayText(index) {
@@ -375,40 +366,33 @@ sap.ui.define(["sap/ui/core/Fragment", "sap/m/MessageBox", "sap/ui/model/json/JS
             const data = _oController.getView().getModel("selectedProject").getData();
             var oMemberList = _oController.getView().byId("memberList");
             var aSelectedMembers = oMemberList.getSelectedItems();
+            // var oUserBinding = oView.getModel().bindList("/Users");
 
             // important code
             aSelectedMembers.forEach(member => {
                 var oContext = member.getBindingContext();
                 oContext.setProperty("project_ID", data.ID);
                 oContext.setProperty("freepool", false);
-                
+
             })
+            var oModel = aSelectedMembers[0].getBindingContext().getBinding().getModel();
 
-            // _oController.getView().getModel("selectedProject").refresh(true);
-            var oBinding = _oController.byId("memberList").getBinding("items");
-            oBinding.refresh();
-            _oController.onListItemPress();
-            const bOnBoard = _oController.byId("onBoardButton")
-            aOnboardMemberDraft = [];
-            bOnBoard.setText(`Onboard`)
-            bOnBoard.setEnabled(false);
-            return;
+            
 
-
+            oModel.submitBatch("$auto").then(()=>{
+                
+                this._fetchUpdatedProjectData(data.name);
+            })
         },
         handleDeleteMember(oEvent) {
-
-
             var oButton = oEvent.getSource();
-
-
             var oItem = oButton.getParent();
             oItem = oItem.getParent();
 
             var oCtx = oItem.getBindingContext("selectedProject");
             var oSelectedMember = oCtx.getObject();
             _oController.getView().setModel(new JSONModel(oSelectedMember), 'selectedMember');
-            
+
             const message = `
                     Offboarding this member will have the following effects:
 
@@ -439,30 +423,66 @@ sap.ui.define(["sap/ui/core/Fragment", "sap/m/MessageBox", "sap/ui/model/json/JS
             var oView = _oController.getView();
             var oUserBinding = oView.getModel().bindList("/Users");
             var oSelectedMember = oView.getModel("selectedMember").getData();
+            const data = _oController.getView().getModel("selectedProject").getData();
 
             oUserBinding.filter([new sap.ui.model.Filter("ID", "EQ", oSelectedMember.ID)]);
 
-            // oUserBinding.setProperty("freepool",true);
-            // oUserBinding.setProperty("project_ID","bench");
-
-            
-
             oUserBinding.requestContexts().then((aContext) => {
-                
+
                 aContext.forEach(item => {
                     item.setProperty("freepool", true);
                     item.setProperty("project_ID", "bench");
-                    var oBinding = _oController.byId("memberList")?.getBinding("items");
-                  
-                    if(oBinding){
-
-                        oBinding.refresh();
-                    }
-                    _oController.onListItemPress(); 
-                    
                 })
-            })
 
+                var oBinding = _oController.byId("memberList")?.getBinding("items");
+
+                if (oBinding) {
+
+                    oBinding.refresh();
+                }
+
+            })
+            
+            oUserBinding.getModel().submitBatch("$auto").then(() => {
+               
+                console.log("user model updated after offboarding");
+                this._fetchUpdatedProjectData(data.name);
+            })
+        },
+
+        _fetchUpdatedProjectData(sProjectName) {
+            var oBinding = _oController.getView().getModel().bindList(
+                "/Projects",
+                null,
+                null,
+                [new sap.ui.model.Filter("name", "EQ", sProjectName)],
+                {
+                    $expand: "members($count=true),client,tasks($count=true),manager"
+                }
+            );
+
+            oBinding.requestContexts().then(function (aContexts) {
+                if (aContexts.length > 0) {
+                    var oProjectData = aContexts[0].getObject();
+                    
+                    _oController.getView().setModel(new JSONModel(oProjectData), "selectedProject");
+                    _oController.getView().setModel(new JSONModel(oProjectData), "DialogSelectedProject");
+
+                    if (_oController._pDialog) {
+                        _oController._pDialog.then((oDialog) => {
+                            oDialog.setModel(_oController.getView().getModel("DialogSelectedProject"), "selectedProject");
+                            _oController.getView().byId("projectCardContainer").getBinding("items").refresh();
+                            
+                        });
+                    }
+
+                    // Loading all project specific tasks
+                    _oController._loadAllTasks();
+                    _oController.getView().setBusy(false);
+                } else {
+                    MessageBox.error("No project found");
+                }
+            });
         }
     }
 });

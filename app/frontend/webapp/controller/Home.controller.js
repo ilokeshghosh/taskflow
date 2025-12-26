@@ -23,6 +23,8 @@ sap.ui.define([
                 'icon': 'desktop.ico'
             });
             this._setSplitAppMode();
+
+            
         },
 
         // Loading up Project & Task Helper Utils
@@ -31,6 +33,9 @@ sap.ui.define([
             taskHelper.init(this);
             userHelper.init(this);
             this._tester();
+            this.getOwnerComponent().setCurrentUser();
+
+           
         },
         // Return the SplitApp object
         getSplitAppObj: function () {
@@ -71,6 +76,7 @@ sap.ui.define([
         },
         // Project Master Page Navigation
         onListItemPress(oEvent) {
+            
             var oList = this.byId("navItems");
             var aItems = oList.getItems();
             var aSelected = oList.getSelectedItems();
@@ -122,11 +128,16 @@ sap.ui.define([
             var oView = this.getView();
             // Fetch Data of Selected Project
             var oCurrentProjectData = oView.getModel("selectedProject").getData();
+            
 
             // Get all Task Related to the selected project
             var oBinding = oView.getModel().bindList("/Tasks", null, null, [
                 new sap.ui.model.Filter("project_ID", "EQ", `${oCurrentProjectData.ID}`)
-            ])
+            ],
+            {
+                $expand:'assignedTo'
+            }
+            )
             var oProjectTasksData = []
             oBinding.requestContexts().then(function (aContexts) {
                 if (aContexts.length > 0) {
@@ -134,10 +145,12 @@ sap.ui.define([
                     aContexts.forEach(element => {
                         oProjectTasksData.push(element.getObject())
                     });
-                    // set local model for selected project tasks
+
+                   
+                    
                     oView.setModel(new JSONModel(oProjectTasksData), "selectedProjectTasks");
 
-                    // Call function that filter all project according to the status
+                   
                     this._setFilterSelectProjectTasks()
 
                 } else {
@@ -278,7 +291,7 @@ sap.ui.define([
             }
 
             this._pDialog.then((oDialog) => {
-                // set dialog model for selected project data
+                
                 oDialog.setModel(this.getView().getModel("DialogSelectedProject"), "selectedProject");
                 this.getView().setModel(this.getView().getModel("DialogSelectedProject"), "selectedProject")
                 // load all project specific task
@@ -301,6 +314,7 @@ sap.ui.define([
         // close dialog
         onCloseDialog() {
             this.byId("projectObjectDialog").close();
+            // this._pDialog=undefined;
         },
         // Task quick action button (on all task page)
         onPressTaskCard(oEvent) {
@@ -628,7 +642,7 @@ sap.ui.define([
                 //     .getProperty("/ID")
 
                 // oBindingAllNotification.filter([new sap.ui.model.Filter("recipient_ID", "EQ", ID)]);
-                // console.log("allNotificationsList", oBindingAllNotification);
+                
                 this._applyFilterNotification();
 
                 // this._updateNotificationCount();
@@ -642,6 +656,8 @@ sap.ui.define([
 
                 // Then load actual counts
                 this._updateNotificationCount();
+
+               
 
             });
         },
@@ -950,7 +966,7 @@ sap.ui.define([
             const bIsArchived = oBindingData.getProperty("isArchived");
 
             var sSetStatus;
-            console.log('b',bIsArchived);
+            
             if (bIsArchived) {
                 oBindingData.setProperty("isArchived", false);
                 oBindingData.setProperty("archivedAt", null);
@@ -967,11 +983,11 @@ sap.ui.define([
                 this._refreshAllNotifications();
                 this._updateNotificationCount();
                 this.byId("archivedNotificationsList").getBinding("items").refresh();
-                // console.log("oBindingData is archived",oBindingData.getProperty("isArchived"));
+                
                 MessageToast.show(sSetStatus);
             }).catch((oError) => {
             MessageToast.show("Failed to restore notification");
-            console.error("Restore error:", oError);
+           
         });
 
 
@@ -1013,6 +1029,8 @@ sap.ui.define([
                     oNotificationCount.unread = aUnread.length;
                     oNotificationCount.highPriority = aHighPriority.length;
                     oNotificationCount.archived = aArchived.length;
+
+                   
 
 
                     this.getView().setModel(new JSONModel(oNotificationCount), "notificationCount");

@@ -234,8 +234,9 @@
                                                             width="100%"
                                                         >
                                                             <Avatar
-                                                                src="https://ik.imagekit.io/8fgpvoiai/profile/profile-image-black-white_81gzUNk43.png?updatedAt=1703005079604"
+                                                                src="{selectedProjectOpenTasks>assignedTo/avatarUrl}"
                                                                 displaySize="XS"
+                                                                tooltip="{selectedProjectOpenTasks>assignedTo/firstname} {selectedProjectOpenTasks>assignedTo/lastname} ( {selectedProjectOpenTasks>assignedTo/email} )"
                                                             />
                                                         </HBox>
                                                     </VBox>
@@ -390,10 +391,16 @@
                                                         justifyContent="SpaceBetween"
                                                         width="100%"
                                                     >
-                                                        <Avatar
+                                                        <!-- <Avatar
                                                             src="https://ik.imagekit.io/8fgpvoiai/profile/profile-image-black-white_81gzUNk43.png?updatedAt=1703005079604"
                                                             displaySize="XS"
-                                                        />
+                                                        /> -->
+
+                                                        <Avatar
+                                                                src="{selectedProjectCompletedTasks>assignedTo/avatarUrl}"
+                                                                displaySize="XS"
+                                                                tooltip="{selectedProjectCompletedTasks>assignedTo/firstname} {selectedProjectCompletedTasks>assignedTo/lastname} ( {selectedProjectCompletedTasks>assignedTo/email} )"
+                                                            />
                                                     </HBox>
                                                 </VBox>
                                             </f:content>
@@ -545,10 +552,13 @@
                                                         justifyContent="SpaceBetween"
                                                         width="100%"
                                                     >
+                                                       
+
                                                         <Avatar
-                                                            src="https://ik.imagekit.io/8fgpvoiai/profile/profile-image-black-white_81gzUNk43.png?updatedAt=1703005079604"
-                                                            displaySize="XS"
-                                                        />
+                                                                src="{selectedProjectOnreviewTasks>assignedTo/avatarUrl}"
+                                                                displaySize="XS"
+                                                                tooltip="{selectedProjectOnreviewTasks>assignedTo/firstname} {selectedProjectOnreviewTasks>assignedTo/lastname} ( {selectedProjectOnreviewTasks>assignedTo/email} )"
+                                                            />
                                                     </HBox>
                                                 </VBox>
                                             </f:content>
@@ -700,10 +710,11 @@
                                                         justifyContent="SpaceBetween"
                                                         width="100%"
                                                     >
-                                                        <Avatar
-                                                            src="https://ik.imagekit.io/8fgpvoiai/profile/profile-image-black-white_81gzUNk43.png?updatedAt=1703005079604"
-                                                            displaySize="XS"
-                                                        />
+                                                         <Avatar
+                                                                src="{selectedProjectHoldTasks>assignedTo/avatarUrl}"
+                                                                displaySize="XS"
+                                                                tooltip="{selectedProjectHoldTasks>assignedTo/firstname} {selectedProjectHoldTasks>assignedTo/lastname} ( {selectedProjectHoldTasks>assignedTo/email} )"
+                                                            />
                                                     </HBox>
                                                 </VBox>
                                             </f:content>
@@ -856,9 +867,10 @@
                                                         width="100%"
                                                     >
                                                         <Avatar
-                                                            src="https://ik.imagekit.io/8fgpvoiai/profile/profile-image-black-white_81gzUNk43.png?updatedAt=1703005079604"
-                                                            displaySize="XS"
-                                                        />
+                                                                src="{selectedProjectOverdueTasks>assignedTo/avatarUrl}"
+                                                                displaySize="XS"
+                                                                tooltip="{selectedProjectOverdueTasks>assignedTo/firstname} {selectedProjectOverdueTasks>assignedTo/lastname} ( {selectedProjectOverdueTasks>assignedTo/email} )"
+                                                            />
                                                     </HBox>
                                                 </VBox>
                                             </f:content>

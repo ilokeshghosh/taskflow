@@ -241,10 +241,10 @@
                         <StandardListItem
                             title="{selectedProject>/name}"
                             description="{selectedProject>/description}"
-                            info="inProgress"
-                            infoState="Information"
+                            info="{selectedProject>/status}"
+                            infoState="{path:'selectedProject>/status',formatter:'.formatter.formatStatus'}"
                             infoStateInverted="true"
-                            highlight="Error"
+                            highlight="{path:'selectedProject>/priority',formatter:'.formatter.formatPriority'}"
                             wrapping="true"
                         />
 
@@ -381,7 +381,7 @@
                         width="90%"
                     >
                         <!-- Icon Tab Bar Container -->
-                        <IconTabBar class="">
+                        <IconTabBar select=".onFilterSelect" class="">
                             <items>
                                 <!-- Project Overview Details Container -->
                                 <IconTabFilter
@@ -598,6 +598,7 @@
                                                             icon="sap-icon://add"
                                                             text="Onboard Member"
                                                             press=".onHandleOnboardMember"
+                                                            visible="{= ${currentUser>/roles/0}==='manager'}"
                                                         />
                                                     </HBox>
                                                 </OverflowToolbar>
@@ -682,6 +683,7 @@
                                                                 icon="sap-icon://delete"
                                                                 type="Reject"
                                                                 press="onHandleDeleteMember"
+                                                                visible="{= ${currentUser>/roles/0}==='manager' }"
                                                             />
                                                         </OverflowToolbar>
                                                     </cells>

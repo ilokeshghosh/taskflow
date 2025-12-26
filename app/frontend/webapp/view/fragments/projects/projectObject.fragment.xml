@@ -31,7 +31,7 @@
                         info="{selectedProject>/status}"
                         infoState="{path:'selectedProject>/status',formatter:'.formatter.formatStatus'}"
                         infoStateInverted="true"
-                        highlight="Error"
+                        highlight="{path:'selectedProject>/priority',formatter:'.formatter.formatPriority'}"
                         wrapping="true"
                     />
                     <!-- LOWER || card container -->
@@ -80,7 +80,7 @@
                             </VBox>
                         </VBox>
 
-                        <!-- Budget Card -->
+                        <!-- Project Budget Card -->
                         <VBox
                             gap="0.3rem"
                             class="projectDetailsCard"
@@ -331,7 +331,11 @@
                                     class="teamDetailsBox"
                                     width="100%"
                                 >
-                                    <Table class="teamMemberTable">
+                                    <Table class="teamMemberTable"
+                                    items="{
+                                                path: 'selectedProject>/members'
+                                            }"
+                                    >
                                         <headerToolbar>
                                             <OverflowToolbar
                                                 height="auto"
@@ -353,10 +357,12 @@
                                                     </VBox>
 
                                                     <Button
-                                                        type="Emphasized"
-                                                        icon="sap-icon://add"
-                                                        text="Add Team Member"
-                                                    />
+                                                            type="Emphasized"
+                                                            icon="sap-icon://add"
+                                                            text="Onboard Member"
+                                                            press=".onHandleOnboardMember"
+                                                            visible="{= ${currentUser>/roles/0}==='manager'}"
+                                                        />
                                                 </HBox>
                                             </OverflowToolbar>
                                         </headerToolbar>
@@ -404,36 +410,44 @@
                                                 class="teamMemberTableColumnList"
                                                 counter="3"
                                             >
-                                                <cells>
-                                                    <ObjectIdentifier
-                                                        title="Alex"
-                                                        text="alex@mail.com"
-                                                    />
-
-                                                    <Button text="Manager" />
-
-                                                    <Text text="8" />
-
-                                                    <ObjectStatus
-                                                        inverted="true"
-                                                        text="Active"
-                                                        state="Success"
-                                                    />
-
-                                                    <OverflowToolbar>
-                                                        <OverflowToolbarButton
-                                                            tooltip="Discussion"
-                                                            text="Discussion"
-                                                            icon="sap-icon://comment"
+                                                 <cells>
+                                                        <ObjectIdentifier
+                                                            title="{selectedProject>firstname} {selectedProject>lastname}"
+                                                            text="{selectedProject>email}"
+                                                            
                                                         />
-                                                        <OverflowToolbarButton
-                                                            tooltip="Delete"
-                                                            text="Delete"
-                                                            icon="sap-icon://delete"
-                                                            type="Reject"
+
+                                                        <Button
+                                                            text="{selectedProject>role}"
                                                         />
-                                                    </OverflowToolbar>
-                                                </cells>
+
+                                                        <Text
+                                                            visible="false"
+                                                            text="8"
+                                                        />
+
+                                                        <ObjectStatus
+                                                            inverted="true"
+                                                            text="{= ${selectedProject>isActive}===true ? 'Online' : 'Offline'}"
+                                                            state="{= ${selectedProject>isActive}===true ? 'Success' : 'Warning'}"
+                                                        />
+
+                                                        <OverflowToolbar>
+                                                            <OverflowToolbarButton
+                                                                tooltip="Discussion"
+                                                                text="Discussion"
+                                                                icon="sap-icon://comment"
+                                                            />
+                                                            <OverflowToolbarButton
+                                                                tooltip="Delete"
+                                                                text="Delete"
+                                                                icon="sap-icon://delete"
+                                                                type="Reject"
+                                                                press="onHandleDeleteMember"
+                                                                visible="{= ${currentUser>/roles/0}==='manager' }"
+                                                            />
+                                                        </OverflowToolbar>
+                                                    </cells>
                                             </ColumnListItem>
                                         </items>
                                     </Table>

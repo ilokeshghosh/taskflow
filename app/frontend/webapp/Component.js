@@ -24,14 +24,14 @@ sap.ui.define([
             this.getRouter().initialize();
             // this._isNavExpanded = true;
 
-            this._setCurrentUser()
+            this.setCurrentUser()
             
         },
 
-        async _setCurrentUser(){
+        async setCurrentUser(){
             const response  = await fetch("/odata/v4/task/getcurrentUser");
             const currentUser = await response.json();
-            console.log("data",currentUser)
+            // console.log("data",currentUser)
             this.setModel(new JSONModel(currentUser),"currentUser");
         }
     });
