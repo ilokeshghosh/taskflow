@@ -84,7 +84,15 @@ sap.ui.define([], function () {
                 "Last Updated: " +
                 oDate.toLocaleDateString()
             );
+        },
+        hasValue: function (sValue) {
+            
+            if(sValue){
+                return true;
+            }
+            return false;
         }
+
 
     };
 });

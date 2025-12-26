@@ -253,7 +253,7 @@
                                     text="Add Task"
                                     type="Transparent"
                                     press="handleOpenCreateTaskDialog"
-                                     visible="{= !${currentUser>/roles/0}==='clientUser'}"
+                                     visible="{= ${currentUser>/roles/0}==='manager'}"
                                 />
                             </Toolbar>
                         </Panel>

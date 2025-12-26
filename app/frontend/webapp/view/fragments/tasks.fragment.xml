@@ -140,7 +140,12 @@
                                         path: 'status',
                                         operator: 'EQ',
                                         value1: 'open'
-                                    }]
+                                    }],
+                                    parameters:{
+                                        $expand:{
+                                            assignedTo:true
+                                        }
+                                    }
                                 }"
                                     >
                                         <f:Card class="taskPanel">
@@ -241,14 +246,14 @@
                                                         width="100%"
                                                     >
                                                         <Avatar
-                                                            src="https://ik.imagekit.io/8fgpvoiai/profile/profile-image-black-white_81gzUNk43.png?updatedAt=1703005079604"
+                                                            src="{assignedTo/avatarUrl}"
                                                             displaySize="XS"
                                                         />
 
                                                         <Button
                                                             icon="sap-icon://overflow"
                                                             press=".onPressTaskCard"
-                                                            visible="{= !${currentUser>/roles/0}==='clientUser'}"
+                                                            visible="{= ${currentUser>/roles/0}==='manager' || ${currentUser>/roles/0}==='member'}"
                                                         />
                                                     </HBox>
                                                 </VBox>
@@ -265,7 +270,7 @@
                                     text="Add Task"
                                     type="Transparent"
                                     press="handleOpenCreateTaskDialog"
-                                    visible="{= !${currentUser>/roles/0}==='clientUser'}"
+                                    visible="{= ${currentUser>/roles/0}==='manager' || ${currentUser>/roles/0}==='member'}"
                                 />
                             </Toolbar>
                         </Panel>
@@ -309,7 +314,12 @@
                                         path: 'status',
                                         operator: 'EQ',
                                         value1: 'completed'
-                                    }]
+                                    }],
+                                     parameters:{
+                                        $expand:{
+                                            assignedTo:true
+                                        }
+                                    }
                                 }"
                                     >
                                         <f:Card class="taskPanel">
@@ -410,14 +420,14 @@
                                                         width="100%"
                                                     >
                                                         <Avatar
-                                                            src="https://ik.imagekit.io/8fgpvoiai/profile/profile-image-black-white_81gzUNk43.png?updatedAt=1703005079604"
+                                                            src="{assignedTo/avatarUrl}"
                                                             displaySize="XS"
                                                         />
 
                                                         <Button
                                                             icon="sap-icon://overflow"
                                                             press=".onPressTaskCard"
-                                                            visible="{= !${currentUser>/roles/0}==='clientUser'}"
+                                                             visible="{= ${currentUser>/roles/0}==='manager' || ${currentUser>/roles/0}==='member'}"
                                                         />
                                                     </HBox>
                                                 </VBox>
@@ -478,7 +488,12 @@
                                         path: 'status',
                                         operator: 'EQ',
                                         value1: 'onReview'
-                                    }]
+                                    }],
+                                     parameters:{
+                                        $expand:{
+                                            assignedTo:true
+                                        }
+                                    }
                                 }"
                                     >
                                         <f:Card class="taskPanel">
@@ -579,14 +594,14 @@
                                                         width="100%"
                                                     >
                                                         <Avatar
-                                                            src="https://ik.imagekit.io/8fgpvoiai/profile/profile-image-black-white_81gzUNk43.png?updatedAt=1703005079604"
+                                                            src="{assignedTo/avatarUrl}"
                                                             displaySize="XS"
                                                         />
 
                                                         <Button
                                                             icon="sap-icon://overflow"
                                                             press=".onPressTaskCard"
-                                                            visible="{= !${currentUser>/roles/0}==='clientUser'}"
+                                                             visible="{= ${currentUser>/roles/0}==='manager' || ${currentUser>/roles/0}==='member'}"
                                                         />
                                                     </HBox>
                                                 </VBox>
@@ -647,7 +662,12 @@
                                         path: 'status',
                                         operator: 'EQ',
                                         value1: 'hold'
-                                    }]
+                                    }],
+                                    parameters:{
+                                        $expand:{
+                                            assignedTo:true
+                                        }
+                                    }
                                 }"
                                     >
                                         <f:Card class="taskPanel">
@@ -748,14 +768,14 @@
                                                         width="100%"
                                                     >
                                                         <Avatar
-                                                            src="https://ik.imagekit.io/8fgpvoiai/profile/profile-image-black-white_81gzUNk43.png?updatedAt=1703005079604"
+                                                            src="{assignedTo/avatarUrl}"
                                                             displaySize="XS"
                                                         />
 
                                                         <Button
                                                             icon="sap-icon://overflow"
                                                             press=".onPressTaskCard"
-                                                            visible="{= !${currentUser>/roles/0}==='clientUser'}"
+                                                            visible="{= ${currentUser>/roles/0}==='manager' || ${currentUser>/roles/0}==='member'}"
                                                         />
                                                     </HBox>
                                                 </VBox>
@@ -816,7 +836,12 @@
                                         path: 'status',
                                         operator: 'EQ',
                                         value1: 'overdue'
-                                    }]
+                                    }],
+                                    parameters:{
+                                        $expand:{
+                                            assignedTo:true
+                                        }
+                                    }
                                 }"
                                     >
                                         <f:Card class="taskPanel">
@@ -917,14 +942,14 @@
                                                         width="100%"
                                                     >
                                                         <Avatar
-                                                            src="https://ik.imagekit.io/8fgpvoiai/profile/profile-image-black-white_81gzUNk43.png?updatedAt=1703005079604"
+                                                            src="{assignedTo/avatarUrl}"
                                                             displaySize="XS"
                                                         />
 
                                                         <Button
                                                             icon="sap-icon://overflow"
                                                             press=".onPressTaskCard"
-                                                            visible="{= !${currentUser>/roles/0}==='clientUser'}"
+                                                             visible="{= ${currentUser>/roles/0}==='manager' || ${currentUser>/roles/0}==='member'}"
                                                         />
                                                     </HBox>
                                                 </VBox>

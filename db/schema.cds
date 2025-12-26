@@ -3,19 +3,19 @@ namespace db.taskflow;
 using {managed} from '@sap/cds/common';
 
 
-type userType      : String enum {
+type userType             : String enum {
     clientUser;
     manager;
     member;
 };
 
-type priority      : String enum {
+type priority             : String enum {
     high;
     medium;
     low;
 }
 
-type projectStatus : String enum {
+type projectStatus        : String enum {
     planning;
     hold;
     inProgress;
@@ -23,7 +23,7 @@ type projectStatus : String enum {
 }
 
 
-type taskStatus    : String enum {
+type taskStatus           : String enum {
     hold;
     open;
     completed;
@@ -58,8 +58,8 @@ entity User : managed {
         tasks     : Association to many Task
                         on tasks.assignedTo = $self;
         project   : Association to Project default 'bench';
-        freepool:Boolean default true;
-        avatarUrl:LargeString;
+        freepool  : Boolean default true;
+        avatarUrl : LargeString;
 
 }
 
@@ -99,4 +99,48 @@ entity AuditLog : managed {
             Warning;
             Error;
         } default 'Information';
+}
+
+// notification
+type NotificationType     : String enum {
+    INFO;
+    SUCCESS;
+    WARNING;
+    ERROR;
+};
+
+
+type NotificationPriority : String enum {
+    LOW;
+    NORMAL;
+    HIGH;
+};
+
+
+entity Notification : managed {
+    key ID          : String(10);
+
+        recipient   : Association to User;
+
+
+        title       : String(120);
+        message     : String(500);
+
+
+        type        : NotificationType default 'INFO';
+        priority    : NotificationPriority default 'NORMAL';
+
+
+        isRead      : Boolean default false;
+        readAt      : Timestamp;
+        isArchived  : Boolean default false;
+        archivedAt  : Timestamp;
+
+        isDismissed : Boolean default false;
+        dismissedAt : Timestamp;
+
+
+        project     : Association to Project;
+        task        : Association to Task;
+        actor       : Association to User;
 }

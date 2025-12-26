@@ -15,7 +15,8 @@ sap.ui.define(["sap/ui/core/Fragment", "sap/m/MessageBox", "sap/ui/model/json/JS
         handleAvatar(oEvent) {
             var oButton = oEvent.getSource();
             var getcurrentUser = _oController.getView().getModel("currentUser").getData();
-           
+            var isManager = getcurrentUser.roles[0] === "manager";
+            
 
             if (!_oController._uPopoverUser) {
                 var oList = new sap.m.List({
@@ -42,11 +43,13 @@ sap.ui.define(["sap/ui/core/Fragment", "sap/m/MessageBox", "sap/ui/model/json/JS
 
                 })
 
+                
                 var item4 = new sap.m.StandardListItem({
                     title: "System Log",
                     type: sap.m.ListType.Active,
                     icon: "sap-icon://legend",
                     press: this.onPressSystemLog.bind(this),
+                    visible:isManager
 
                 })
 
@@ -59,12 +62,21 @@ sap.ui.define(["sap/ui/core/Fragment", "sap/m/MessageBox", "sap/ui/model/json/JS
 
                 })
 
+                var item6 = new sap.m.StandardListItem({
+                    title: "About",
+                    type: sap.m.ListType.Active,
+                    icon: "sap-icon://hint",
+                    press: this.onPressAbout.bind(this),
+
+                })
+
 
                 // oList.addItem(item1);
                 // oList.addItem(item2);
                 // oList.addItem(item3);
                 oList.addItem(item4);
                 oList.addItem(item5);
+                oList.addItem(item6);
 
 
                 _oController._uPopoverUser = new sap.m.Popover({
@@ -125,6 +137,29 @@ sap.ui.define(["sap/ui/core/Fragment", "sap/m/MessageBox", "sap/ui/model/json/JS
             var oView = _oController.getView();
             oView.byId("settingDialog").close();
         },
+        onPressAbout(){
+            var oView = _oController.getView();
+            console.log("about pressed");
+            if(!_oController.oSystemAboutDialog){
+                _oController.oSystemAboutDialog = Fragment.load({
+                    id:oView.getId(),
+                    name: "com.taskflow.dev.frontend.view.fragments.utils.systemAbout",
+                    controller: this
+                }).then(oDialog=>{
+                    oView.addDependent(oDialog);
+                    return oDialog;
+                })
+            }
+
+            _oController.oSystemAboutDialog.then(oDialog=>{
+                oDialog.open();
+            })
+
+        },
+        onCloseSystemDialog(){
+            _oController.getView().byId("systemAboutDialog").close();
+        }
+        ,
         handleOnboardMember() {
             
 

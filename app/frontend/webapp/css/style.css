@@ -161,6 +161,47 @@ body .give-freely-root {
 
 /* end : onboarding feature css */
 
+.genericStyle.sapMText{
+    font-size: 1rem;
+}
+.notifRead.sapMText{
+    /* border: 2px solid red; */
+    font-weight: normal;
+}
+
+.notifUnRead.sapMText{
+    /* border: 2px solid red; */
+    font-weight: bolder;
+
+}
+
+
+.notificationHeader{
+    /* position: sticky !important; */
+    overflow-y: scroll;
+   
+}
+
+
+.stickyIconTabBar .sapMITH {
+    position: sticky !important;
+    top: 0 !important;
+    z-index: 10 !important;
+
+
+}
+
+/* Ensure proper background */
+.stickyIconTabBar .sapMITBHead {
+    position: sticky !important;
+    top: 0 !important;
+    z-index: 10 !important;
+
+
+}
+
+
+
 /* Mobile First (default styles) */
 /* Extra Small Phone */
 @media (max-width: 400px) {

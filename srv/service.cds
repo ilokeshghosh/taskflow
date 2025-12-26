@@ -80,6 +80,8 @@ service TaskService {
     // }]
     entity AuditLog as projection on db.AuditLog;
 
+    entity Notifications as projection on db.Notification;
+
     action   login(email: String, password: String) returns String;
     action   verifyToken(token: String)             returns String;
 

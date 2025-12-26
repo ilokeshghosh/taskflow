@@ -1,0 +1,213 @@
+<core:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:f="sap.ui.layout.form"
+>
+    <Dialog
+        id="notificationDetailDialog"
+        contentWidth="700px"
+        contentHeight="70vh"
+        resizable="true"
+        draggable="true"
+        verticalScrolling="true"
+    >
+        <customHeader>
+            <Bar>
+                <contentLeft>
+                    <Button
+                        icon="sap-icon://nav-back"
+                        press="onBackToNotificationList"
+                        tooltip="Back to Notifications"
+                    />
+                </contentLeft>
+                <contentMiddle>
+                    <Title
+                        text="{title}"
+                        level="H2"
+                    />
+                </contentMiddle>
+                <contentRight>
+                    <Button
+                        icon="sap-icon://decline"
+                        press="onCloseNotificationDetail"
+                    />
+                </contentRight>
+            </Bar>
+        </customHeader>
+
+        <content>
+            <VBox class="sapUiSmallMargin">
+                <!-- Notification Header Info -->
+                <HBox
+                    justifyContent="SpaceBetween"
+                    alignItems="Center"
+                    class="sapUiSmallMarginBottom"
+                >
+                    <VBox>
+                        <HBox
+                            alignItems="Center"
+                            class="sapUiTinyMarginBottom"
+                        >
+                            <ObjectStatus
+                                text="{type}"
+                                state="{= ${type} === 'SUCCESS' ? 'Success' : ${type} === 'WARNING' ? 'Warning' : 'Information' }"
+                                class="sapUiTinyMarginEnd"
+                            />
+                            <ObjectStatus
+                                text="{priority}"
+                                state="{= ${priority} === 'HIGH' ? 'Error' : ${priority} === 'NORMAL' ? 'Warning' : 'None' }"
+                                inverted="true"
+                            />
+                        </HBox>
+                        <Text
+                            text="{= 'Created: ' + ${createdAt} }"
+                            class="sapUiTinyText"
+                        />
+                    </VBox>
+
+                    <HBox>
+                        <Button
+                            icon="{= ${isRead} ? 'sap-icon://email-read' : 'sap-icon://email' }"
+                            text="{= ${isRead} ? 'Mark Unread' : 'Mark Read' }"
+                            press="onHandleChangeStatus"
+                            type="Transparent"
+                            class="sapUiTinyMarginEnd"
+                        />
+                        <Button
+                            icon="sap-icon://archive"
+                            text="Archive"
+                            press="onArchiveNotification"
+                            type="Transparent"
+                        />
+                    </HBox>
+                </HBox>
+
+                <VBox class="sapUiMediumMarginTop">
+                    <Title
+                        text="Message"
+                        level="H4"
+                        class="sapUiSmallMarginBottom"
+                    />
+                    <Text
+                        text="{message}"
+                        class="sapUiMediumMarginBottom"
+                    />
+                </VBox>
+
+                <!-- Related Information Section -->
+                <VBox class="sapUiMediumMarginTop">
+                    <Title
+                        text="Details"
+                        level="H4"
+                        class="sapUiSmallMarginBottom"
+                    />
+
+                    <f:SimpleForm
+                        editable="false"
+                        layout="ResponsiveGridLayout"
+                        labelSpanXL="4"
+                        labelSpanL="4"
+                        labelSpanM="4"
+                        labelSpanS="12"
+                        emptySpanXL="0"
+                        emptySpanL="0"
+                        emptySpanM="0"
+                        emptySpanS="0"
+                        columnsXL="2"
+                        columnsL="2"
+                        columnsM="1"
+                    >
+                        <f:content>
+                            <Label text="Notification ID" />
+                            <Text text="{ID}" />
+
+                            <Label text="Recipient" />
+                            <Text
+                                text="{recipient/firstname} {recipient/lastname}"
+                            />
+
+                            <Label text="Actor" />
+                            <Text text="{actor/firstname} {actor/lastname}" />
+
+                            <Label
+                                id="projectLabel"
+                                text="Project"
+                            />
+
+                            <Link
+                                text="{project/name}"
+                                press="onNavigateToProject"
+                                id="projectNameLink"
+                            />
+
+                            <Label
+                                text="Task"
+                                id="taskLabel"
+                            />
+                            <Link
+                                text="{task/title}"
+                                press="onNavigateToTask"
+                                id="taskNameLink"
+                            />
+
+                            <Label
+                                text="Read At"
+                                id="readAtLabel"
+                            />
+                            <Text
+                                text="{readAt}"
+                                id="readAtText"
+                            />
+
+                            <Label
+                                text="Archived At"
+                                id="archiveLabel"
+                            />
+                            <Text
+                                text="{archivedAt}"
+                                id="archiveText"
+                            />
+                        </f:content>
+                    </f:SimpleForm>
+                </VBox>
+
+                <!-- Action Buttons -->
+                <VBox class="sapUiLargeMarginTop">
+                    <Title
+                        text="Actions"
+                        level="H4"
+                        class="sapUiSmallMarginBottom"
+                    />
+                    <HBox>
+                        <!-- <Button 
+                            text="View Project" 
+                            press="onNavigateToProject"
+                            type="Emphasized"
+                            visible="{= !!${project_ID} }"
+                            class="sapUiTinyMarginEnd"
+                        /> -->
+                        <!-- <Button 
+                            text="View Task" 
+                            press="onNavigateToTask"
+                            type="Emphasized"
+                            visible="{= !!${task_ID} }"
+                            class="sapUiTinyMarginEnd"
+                        /> -->
+                        <Button
+                            text="Dismiss"
+                            press="onDismissNotification"
+                            type="Reject"
+                        />
+                    </HBox>
+                </VBox>
+            </VBox>
+        </content>
+
+        <beginButton>
+            <Button
+                text="Close"
+                press="onCloseNotificationDetail"
+            />
+        </beginButton>
+    </Dialog>
+</core:FragmentDefinition>

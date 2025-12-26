@@ -22,18 +22,7 @@ sap.ui.define([
                 'tablet': 'tablet-icon.png',
                 'icon': 'desktop.ico'
             });
-
-            // this.oFragmentModel = new JSONModel({
-            //     key: "home"
-            // })
-            // this.getView().setModel(this.oFragmentModel, "fragmentModel");
-            // this._openHomeFragment({ key: "home" });
-
-
             this._setSplitAppMode();
-
-
-
         },
 
         // Loading up Project & Task Helper Utils
@@ -41,10 +30,8 @@ sap.ui.define([
             projectHelper.init(this);
             taskHelper.init(this);
             userHelper.init(this);
-
             this._tester();
         },
-
         // Return the SplitApp object
         getSplitAppObj: function () {
             var result = this.byId("taskflowLadingPage");
@@ -82,18 +69,6 @@ sap.ui.define([
         _setSplitAppMode() {
             this.getSplitAppObj().setMode("ShowHideMode");
         },
-        // onHamburgerPress: function () {
-        //     var oSplitApp = this.getSplitAppObj();
-        //     // Toggle between showing and hiding the master pane
-        //     var isMasterVisible = oSplitApp.getMode() !== "HideMode";
-        //     if (isMasterVisible) {
-        //         oSplitApp.setMode("HideMode");
-        //     } else {
-        //         oSplitApp.setMode("ShowHideMode");
-        //     }
-
-        // },
-
         // Project Master Page Navigation
         onListItemPress(oEvent) {
             var oList = this.byId("navItems");
@@ -104,17 +79,17 @@ sap.ui.define([
                 new sap.ui.model.Filter("name", "EQ", aSelected[0].getTitle())
             ],
                 {
-                    $expand:{ 
-                        members:{
-                            $count:true,
-                            
+                    $expand: {
+                        members: {
+                            $count: true,
+
                         },
-                        client:true,
-                        tasks:{
-                            $count:true
+                        client: true,
+                        tasks: {
+                            $count: true
                         },
-                        manager:true
-                    
+                        manager: true
+
                     }
                 }
 
@@ -127,7 +102,7 @@ sap.ui.define([
                 if (aContexts.length > 0) {
                     var oProjectData = aContexts[0].getObject();
 
-                    console.log("oProjectData",oProjectData);
+
 
                     // Navigate to Project Detailed Page
                     this.getSplitAppObj().toDetail(this.createId("projectObject"));
@@ -224,7 +199,7 @@ sap.ui.define([
         onQuickActionMenuPress(oEvent) {
             var oButton = oEvent.getSource();
             var oSelectedProjectData = oButton.getBindingContext().getObject();
-            console.log("0. Debug", oSelectedProjectData);
+
             this.getView().setModel(new JSONModel(oSelectedProjectData), "DialogSelectedProject")
 
             if (!this._oPopover) {
@@ -314,7 +289,7 @@ sap.ui.define([
         },
         onChangeStatus() {
             projectHelper.handleChangeStatus();
-            // console.log("onChangeStatus");
+
 
         },
         onMarkedAsCompleted() {
@@ -502,7 +477,7 @@ sap.ui.define([
         onSearchProjects() {
             this.getView().byId("projectCardContainer").setBusy(true);
             var sValue = this.getView().byId("projectSearchField").getValue().trim();
-            console.log("sValue", sValue);
+
             projectHelper.searchProject(sValue);
 
         },
@@ -533,14 +508,14 @@ sap.ui.define([
             taskHelper.handleSelectedSearchTask();
         },
         onSelectedTasksSorter() {
-            console.log('Task Sorter Invoked')
+
             taskHelper.handleSelectedTaskSorter();
         },
         onSelectedTasksFilter() {
             taskHelper.handleSelectedTaskFilter();
         },
         getModelData(modelName) {
-            console.log("1. Debug");
+
             if (modelName) {
                 return this.getView().getModel(modelName);
             }
@@ -553,7 +528,7 @@ sap.ui.define([
         },
         onHandleNotification(oEvent) {
             var oPressedItem = oEvent.getSource();
-            console.log("hieiei");
+
             var oView = this.getView();
 
             if (!this._oPopoverNotification) {
@@ -576,8 +551,6 @@ sap.ui.define([
                 //     content:[oList]
                 // })
 
-
-
                 // this.getView().addDependent(this._oPopoverNotification);
 
                 var oNotificationData = []
@@ -595,10 +568,10 @@ sap.ui.define([
                             projectId: {
                                 $select: ["ID", "name"]
                             },
-                            userId:{
+                            userId: {
                                 $select: ["ID", "email"]
                             },
-                            taskId:{
+                            taskId: {
                                 $select: ["ID", "title"]
                             }
                         }
@@ -613,14 +586,14 @@ sap.ui.define([
                             // let sProjectName;
                             this._getProjectName(element.getObject().projectId_ID).then(names => {
                                 oNotification.projectName = names[0];
-                                // console.log("names",names[0])
+
                             })
                             // oNotification.projectName=sProjectName[0];
                             // const sChangedBy = 
-                            // console.log("projectName",sProjectName[0]);
+
                             oNotificationData.push(element.getObject())
                         });
-                        console.log("nott", oNotificationData);
+
                         // set local model for selected project tasks
                         oView.setModel(new JSONModel(oNotificationData), "notifications");
 
@@ -628,10 +601,9 @@ sap.ui.define([
                         // this._setFilterSelectProjectTasks()
 
                     } else {
-                        MessageBox.error("No New Notification Found")
+                        MessageToast.show("No New Notification Found")
                     }
                 })
-
 
                 this._oPopoverNotification = Fragment.load({
                     id: oView.getId(),
@@ -647,6 +619,30 @@ sap.ui.define([
             this._oPopoverNotification.then((oPopover) => {
                 // oPopover.openBy(oPressedItem)
                 oPopover.open()
+
+                // recipient_ID
+                // var oBindingAllNotification = this.getView().byId("allNotificationsList").getBinding("items");
+
+                // var ID = this.getView()
+                //     .getModel("currentUser")
+                //     .getProperty("/ID")
+
+                // oBindingAllNotification.filter([new sap.ui.model.Filter("recipient_ID", "EQ", ID)]);
+                // console.log("allNotificationsList", oBindingAllNotification);
+                this._applyFilterNotification();
+
+                // this._updateNotificationCount();
+
+                this.getView().setModel(new JSONModel({
+                    all: 0,
+                    unread: 0,
+                    highPriority: 0,
+                    archived: 0
+                }), "notificationCount");
+
+                // Then load actual counts
+                this._updateNotificationCount();
+
             });
         },
         onCloseNotification() {
@@ -659,13 +655,8 @@ sap.ui.define([
                 new sap.ui.model.Filter("ID", "EQ", `${projectID}`)
             ])
 
-
             return oBinding.requestContexts().then((aContexts) => {
                 if (aContexts.length > 0) {
-
-
-
-
                     return aContexts.map(element => {
 
                         // sProjectName.push();
@@ -674,7 +665,6 @@ sap.ui.define([
                     });
 
 
-                    console.log("sprojectname", sProjectName[0])
                     // set local model for selected project tasks
                     // oView.setModel(new JSONModel(oNotificationData), "notifications");
 
@@ -686,24 +676,547 @@ sap.ui.define([
                 }
             })
 
-            // for(let item of sProjectName){
-            //     console.log("item",item);
-            // }
-            // return sProjectName;
+
         },
 
-        onHandleOnboardMember(){
-            userHelper.handleOnboardMember(); 
-        },  
-        onHandleDeleteMember(oEvent){
+        onHandleOnboardMember() {
+            userHelper.handleOnboardMember();
+        },
+        onHandleDeleteMember(oEvent) {
             userHelper.handleDeleteMember(oEvent);
         },
-        _tester(){
-            console.log("heohohi",this.getView().getModel("currentUser").getData())
+        _tester() {
+
             // userHelper._setOnboardingBusy(true);
-            
+
         },
-        
+
+        onListUpdateFinished: function (oEvent) {
+            var oList = oEvent.getSource();
+            var aItems = oList.getItems();
+
+            aItems.forEach(function (oItem) {
+                var oContext = oItem.getBindingContext();
+
+                if (!oContext) return;
+
+                var isRead = oContext.getProperty("isRead");
+                var oText = oItem.findElements(true).find(function (oControl) {
+                    return oControl.isA("sap.m.Text");
+                });
+
+                if (oText) {
+                    oText.addStyleClass("genericStyle");
+                    if (isRead) {
+
+                        oText.addStyleClass("notifRead");
+                        oText.removeStyleClass("notifUnRead");
+                    } else {
+                        oText.addStyleClass("notifUnRead");
+                        oText.removeStyleClass("notifRead");
+
+                    }
+
+                }
+            });
+        },
+        onSelectSortButton(oEvent) {
+            this.byId("allNotificationsList").setBusy(true)
+
+            const sSorterKey = this.byId("notificationSorter").getSelectedKey();
+            const oListBinding = this.byId("allNotificationsList").getBinding("items");
+
+
+            if (sSorterKey === "priority") {
+                oListBinding.sort([
+                    new sap.ui.model.Sorter('priority', false)
+                ])
+
+
+                MessageToast.show("Notification Sorted by Priority", {
+                    animationTimingFunction: "linear"
+                })
+            } else if (sSorterKey === "date") {
+                oListBinding.sort([
+                    new sap.ui.model.Sorter('createdAt', true)
+                ])
+
+                MessageToast.show("Notification Sorted by Date", {
+                    animationTimingFunction: "linear"
+                })
+            } else if (sSorterKey === "type") {
+                oListBinding.sort([
+                    new sap.ui.model.Sorter('type', true)
+                ])
+
+                MessageToast.show("Notification Sorted by Type", {
+                    animationTimingFunction: "linear"
+                })
+            }
+
+            this.byId("allNotificationsList").setBusy(false);
+            // allNotificationsList
+        },
+
+        //set read/unread
+        onHandleChangeStatus(oEvent) {
+            const oBindingData = oEvent.getSource().getParent().getParent().getParent().getBindingContext();
+
+            // oBindingData.setProperty()
+            const bPreviousIsRead = oBindingData.getProperty("isRead");
+            var sSetStatus;
+
+            if (bPreviousIsRead) {
+                oBindingData.setProperty("isRead", false);
+                oBindingData.setProperty("readAt", null);
+                sSetStatus = "Marked as Unread"
+            } else {
+                oBindingData.setProperty("isRead", true);
+                oBindingData.setProperty("readAt", new Date().toISOString());
+                sSetStatus = "Marked as Read"
+            }
+
+
+            // var oModel = this.getView().getModel("Notifications");
+
+            // oBindingData.refresh();
+
+            oBindingData.getBinding().getModel().submitBatch("$auto").then(() => {
+                // const oList = this.byId("allNotificationsList");
+                // oList.getBinding("items").refresh();
+                this._refreshAllNotifications();
+                this._updateNotificationCount();
+
+
+                MessageToast.show(sSetStatus);
+            })
+
+
+
+
+        },
+
+        onHandleArchiveNotification(oEvent) {
+            const oBindingData = oEvent.getSource().getParent().getParent().getParent().getBindingContext();
+
+            var sSetStatus;
+
+            const bIsArchived = oBindingData.getProperty("isArchived");
+
+            if (bIsArchived) {
+                MessageToast.show("Already Archived");
+                return;
+            } else {
+                oBindingData.setProperty("isArchived", true);
+                oBindingData.setProperty("archivedAt", new Date().toISOString());
+                sSetStatus = "Archived";
+
+            }
+
+
+            oBindingData.getBinding().getModel().submitBatch("$auto").then(() => {
+
+                // const oList = this.byId("allNotificationsList");
+                // oList.getBinding("items").refresh();
+
+                this._refreshAllNotifications();
+                this._updateNotificationCount();
+
+
+                MessageToast.show(sSetStatus);
+            })
+        },
+        onHandleDismissNotification(oEvent) {
+            const oBindingData = oEvent.getSource().getParent().getParent().getParent().getBindingContext();
+
+            const bIsDismissed = oBindingData.getProperty("isDismissed");
+
+
+            var sSetStatus;
+
+
+            if (bIsDismissed) {
+                MessageToast.show("Already Dismissed");
+                return;
+            } else {
+                oBindingData.setProperty("isDismissed", true);
+                oBindingData.setProperty("dismissedAt", new Date().toISOString());
+                sSetStatus = "Dismissed";
+
+            }
+
+
+            oBindingData.getBinding().getModel().submitBatch("$auto").then(() => {
+                // const oList = this.byId("allNotificationsList");
+                // oList.getBinding("items").refresh();
+
+                this._refreshAllNotifications();
+                this._updateNotificationCount();
+
+                MessageToast.show(sSetStatus);
+            })
+
+        },
+
+        onMarkAllRead(oEvent) {
+
+            const aBindingData = oEvent.getSource().getParent().getParent().getItems();
+
+
+            // const bPreviousIsRead = oBindingData.getProperty("isRead");
+            var sSetStatus;
+
+
+            aBindingData.forEach((item) => {
+                const oItemBindingContext = item.getBindingContext();
+                oItemBindingContext.setProperty("isRead", true)
+                oItemBindingContext.setProperty("readAt", new Date().toISOString());
+
+            })
+            sSetStatus = "All Notification are Marked as Read"
+            const oList = this.byId("unreadNotificationsList");
+            // oList.getBinding("items").refresh();
+            // MessageToast.show(sSetStatus);
+
+
+            oList.getBinding("items").getModel().submitBatch("$auto").then(() => {
+                // const oList = this.byId("unreadNotificationsList");
+                // oList.getBinding("items").refresh();
+
+                this._refreshAllNotifications();
+                this._updateNotificationCount();
+
+
+                MessageToast.show(sSetStatus);
+            })
+
+
+
+        },
+        _refreshAllNotifications() {
+            const aNotificationTables = ["allNotificationsList", "unreadNotificationsList", "highPriorityNotificationsList", "archivedNotificationsList"];
+
+            aNotificationTables.forEach(item => {
+                const oList = this.byId(item);
+                oList.getBinding("items").refresh();
+            })
+        },
+
+        _applyFilterNotification() {
+            var sUserID = this.getView()
+                .getModel("currentUser")
+                .getProperty("/ID")
+            const aNotificationTables = ["allNotificationsList", "unreadNotificationsList", "highPriorityNotificationsList", "archivedNotificationsList"];
+
+            aNotificationTables.forEach(item => {
+                var oBindingAllNotification = this.getView().byId(item).getBinding("items");
+                oBindingAllNotification.filter([new sap.ui.model.Filter("recipient_ID", "EQ", sUserID)]);
+
+            })
+
+
+        },
+        onClearAllArchived(oEvent) {
+            const aBindingData = oEvent.getSource().getParent().getParent().getItems();
+            var sSetStatus;
+
+
+            aBindingData.forEach((item) => {
+                const oItemBindingContext = item.getBindingContext();
+                oItemBindingContext.setProperty("isArchived", false)
+                oItemBindingContext.setProperty("archivedAt", null);
+
+            })
+
+            sSetStatus = "All Notification are Moved from Archive";
+
+            const oList = this.byId("archivedNotificationsList");
+
+            oList.getBinding("items").getModel().submitBatch("$auto").then(() => {
+                // const oList = this.byId("unreadNotificationsList");
+                // oList.getBinding("items").refresh();
+
+                this._refreshAllNotifications();
+                this._updateNotificationCount();
+
+
+                MessageToast.show(sSetStatus);
+            })
+        },
+
+        onRestoreNotification(oEvent) {
+            const oBindingData = oEvent.getSource().getParent().getParent().getParent().getBindingContext();
+
+            const bIsArchived = oBindingData.getProperty("isArchived");
+
+            var sSetStatus;
+            console.log('b',bIsArchived);
+            if (bIsArchived) {
+                oBindingData.setProperty("isArchived", false);
+                oBindingData.setProperty("archivedAt", null);
+                sSetStatus = "Restored";
+                
+            } else {
+                MessageToast.show("Notification already Restored");
+                return;
+            }
+            
+
+            
+            oBindingData.getBinding().getModel().submitBatch("$auto").then(() => {
+                this._refreshAllNotifications();
+                this._updateNotificationCount();
+                this.byId("archivedNotificationsList").getBinding("items").refresh();
+                // console.log("oBindingData is archived",oBindingData.getProperty("isArchived"));
+                MessageToast.show(sSetStatus);
+            }).catch((oError) => {
+            MessageToast.show("Failed to restore notification");
+            console.error("Restore error:", oError);
+        });
+
+
+        },
+        _updateNotificationCount() {
+
+            var sUserID = this.getView()
+                .getModel("currentUser")
+                .getProperty("/ID")
+
+            var oNotificationList = this.getView().getModel().bindList("/Notifications")
+
+            oNotificationList.filter([
+                new sap.ui.model.Filter("recipient_ID", "EQ", sUserID)
+            ]);
+
+            oNotificationList.requestContexts().then((aContexts) => {
+
+                if (aContexts.length > 0) {
+                    var oNotificationCount = {
+                        all: 0,
+                        unread: 0,
+                        highPriority: 0,
+                        archived: 0
+                    }
+
+
+                    var aAllNotification = aContexts.filter((context) => context.getObject().isArchived === false && context.getObject().isDismissed === false);
+
+                    var aUnread = aContexts.filter((context) => context.getObject().isRead === false && context.getObject().isArchived === false && context.getObject().isDismissed === false);
+
+
+                    var aHighPriority = aContexts.filter((context) => context.getObject().priority === "HIGH" && context.getObject().isArchived === false && context.getObject().isDismissed === false);
+
+                    var aArchived = aContexts.filter((context) => context.getObject().isArchived === true && context.getObject().isDismissed === false)
+
+
+                    oNotificationCount.all = aAllNotification.length;
+                    oNotificationCount.unread = aUnread.length;
+                    oNotificationCount.highPriority = aHighPriority.length;
+                    oNotificationCount.archived = aArchived.length;
+
+
+                    this.getView().setModel(new JSONModel(oNotificationCount), "notificationCount");
+
+
+
+                }
+            })
+
+
+
+        },
+
+        onNotificationPress(oEvent) {
+
+
+            var oItem = oEvent.getSource();
+            var oContext = oItem.getBindingContext();
+
+
+            // Load fragment if not loaded
+            if (!this._notificationDetailDialog) {
+                this._notificationDetailDialog = Fragment.load({
+                    id: this.getView().getId(),
+                    name: "com.taskflow.dev.frontend.view.fragments.NotificationDetail",
+                    controller: this
+                }).then(function (oDialog) {
+
+                    this.getView().addDependent(oDialog);
+
+                    return oDialog;
+
+
+
+                }.bind(this));
+            }
+
+
+            this._notificationDetailDialog.then(oDialog => {
+                oDialog.open();
+                oDialog.bindElement(oContext.getPath());
+                this._loadNotificationDetail(oContext);
+                this._oContextBinding = oContext;
+                oContext.setProperty("isRead", true);
+                oContext.setProperty("readAt", new Date().toISOString());
+
+                oEvent.getSource().getBindingContext().getBinding().getModel().submitBatch("$auto").then(() => {
+                    // const oList = this.byId("allNotificationsList");
+                    // oList.getBinding("items").refresh();
+
+                    this._refreshAllNotifications();
+                    this._updateNotificationCount();
+
+
+                    MessageToast.show("Marked as Read");
+                })
+            })
+            // else {
+            //     this._notificationDetailDialog.bindElement({
+            //         path: oContext.getPath(),
+            //         parameters: {
+            //             $expand: "recipient,actor,project,task"
+            //         }
+            //     });
+            //     this._notificationDetailDialog.open();
+
+
+            // }
+
+
+            // Mark as read
+            // oContext.setProperty("isRead", true);
+            // oContext.setProperty("readAt", new Date().toISOString());
+            // this.onHandleChangeStatus(oEvent);
+
+
+
+            // this._refreshAllNotifications();
+            // this._updateNotificationCount();
+        },
+        onBackToNotificationList: function () {
+            var oDialog = this.getView().byId("notificationDetailDialog");
+            if (oDialog) {
+                oDialog.close();
+                oDialog.unbindElement();  // Clear the binding context
+            }
+
+        },
+
+        onCloseNotificationDetail: function () {
+            var oDialog = this.getView().byId("notificationDetailDialog");
+            if (oDialog) {
+                oDialog.close();
+                oDialog.unbindElement();  // Clear the binding context
+            }
+
+        },
+
+        onToggleReadStatus: function (oEvent) {
+            var oContext = this._notificationDetailDialog.getBindingContext();
+            var bIsRead = oContext.getProperty("isRead");
+
+            oContext.setProperty("isRead", !bIsRead);
+            oContext.setProperty("readAt", !bIsRead ? new Date().toISOString() : null);
+
+            this._refreshAllNotifications();
+            this._updateNotificationCount();
+
+            MessageToast.show(bIsRead ? "Marked as Unread" : "Marked as Read");
+        },
+
+        onArchiveNotification: function () {
+            var oContext = this._oContextBinding;
+
+            oContext.setProperty("isArchived", true);
+            oContext.setProperty("archivedAt", new Date().toISOString());
+
+            oContext.getBinding().getModel().submitBatch("$auto").then(() => {
+                this._refreshAllNotifications();
+                this._updateNotificationCount();
+
+                MessageToast.show("Notification archived");
+
+            })
+
+            // this._updateNotificationCount();
+            // this._refreshAllNotifications();
+            this.onCloseNotificationDetail();
+
+        },
+
+
+        onDismissNotification: function () {
+            var oContext = this._oContextBinding;
+
+            oContext.setProperty("isDismissed", true);
+            oContext.setProperty("dismissedAt", new Date().toISOString());
+
+            oContext.getBinding().getModel().submitBatch("$auto").then(() => {
+                this._refreshAllNotifications();
+                this._updateNotificationCount();
+
+                MessageToast.show("Notification Dismissed");
+
+            })
+
+
+            this.onCloseNotificationDetail();
+
+
+        },
+
+        _loadNotificationDetail(oContext) {
+            var oNotificationData = oContext.getObject()
+            var isProjectAvailable = oNotificationData.project;
+            var isTaskAvailable = oNotificationData.task
+
+
+            var projectLabel = this.getView().byId("projectLabel");
+            var projectNameLink = this.getView().byId("projectNameLink");
+
+            if (isProjectAvailable) {
+                projectLabel.setProperty("visible", true);
+                projectNameLink.setProperty("visible", true);
+            }
+
+
+            var taskLabel = this.getView().byId("taskLabel");
+            var taskNameLink = this.getView().byId("taskNameLink");
+
+            if (isTaskAvailable) {
+                taskLabel.setProperty("visible", true);
+                taskNameLink.setProperty("visible", true);
+            } else {
+                taskLabel.setProperty("visible", false);
+                taskNameLink.setProperty("visible", false);
+            }
+
+
+            var readAtLabel = this.getView().byId("readAtLabel");
+            var readAtText = this.getView().byId("readAtText");
+            if (oNotificationData.readAt) {
+                readAtLabel.setProperty("visible", true);
+                readAtText.setProperty("visible", true);
+            } else {
+                readAtLabel.setProperty("visible", false);
+                readAtText.setProperty("visible", false);
+            }
+
+
+            var archiveLabel = this.getView().byId("archiveLabel");
+            var archiveText = this.getView().byId("archiveText");
+            if (oNotificationData.archivedAt) {
+                archiveLabel.setProperty("visible", true);
+                archiveText.setProperty("visible", true);
+            } else {
+                archiveLabel.setProperty("visible", false);
+                archiveText.setProperty("visible", false);
+            }
+
+
+        }
+
+
 
 
     });

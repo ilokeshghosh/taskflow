@@ -1,71 +1,650 @@
 <core:FragmentDefinition
     xmlns="sap.m"
-    xmlns:form="sap.ui.layout.form"
     xmlns:core="sap.ui.core"
+    xmlns:l="sap.ui.layout"
 >
-    <!-- <Panel height="100%">
-        <headerToolbar >
-            <OverflowToolbar height="3rem">
-                <HBox width="100%" justifyContent="SpaceBetween" alignItems="Center">
-                <Title  text="{i18n>notification}" level="H1"/>
-
-                <HBox alignItems="Center" width="90%" justifyContent="End" gap="6px">
-                <core:Icon src="sap-icon://bell" ></core:Icon>
-                <Button class="sapUi-Std-PaddingS" icon="sap-icon://add" type="Emphasized" text="Create Project"></Button>
-                <Avatar class="userAvatar" imageFitType="Cover"  displaySize="XS" src="https://ik.imagekit.io/8fgpvoiai/profile/profile-image-black-white_81gzUNk43.png?updatedAt=1703005079604"></Avatar>
-               
-                </HBox>
-                    
-                </HBox>
-            </OverflowToolbar>
-        </headerToolbar>
-
-        <content>
-        
-        </content>
-    </Panel> -->
-
     <Dialog
         id="notificationPopover"
-        title="Notification Box"
-        
-       contentWidth="80%"
-    contentHeight="80%"
+        title="Notifications"
+        contentWidth="600px"
+        contentHeight="80vh"
+        verticalScrolling="true"
+        resizable="true"
+        draggable="true"
     >
-        <content>
-            <!-- <List 
-            items="{notifications>/}"
-            >
-            <items>
-                <ObjectListItem title="[{notifications>action}]" >
-
-                </ObjectListItem>
-            </items>
-            </List> -->
-
-            <NotificationList width="100%" items="{notifications>/}">
-                <items>
-                    <NotificationListItem title="{notifications>projectId/name}"
-                   
-
-                    description="{= ${notifications>action} 
-               + ' · ' 
-               + ${notifications>taskId/title}
-               + ' · ' 
-               + ${notifications>details} }"
-                    showCloseButton="false"
-                    unread="true"
-                    datetime="{notifications>createdAt}"
-                    authorName="{notifications>userId/email}"
-                    priority="None"
-                    authorPicture="{path:'notifications>logType',formatter:'.formatter.formatLogType'}"
+        <customHeader>
+            <Bar>
+                <contentLeft>
+                    <Title
+                        text="Notifications"
+                        level="H2"
                     />
+                </contentLeft>
+                <contentRight>
+                    <Button
+                        icon="sap-icon://decline"
+                        press="onCloseNotification"
+                    />
+                </contentRight>
+            </Bar>
+        </customHeader>
+
+        <content>
+            <IconTabBar
+                id="notificationTabBar"
+                selectedKey="all"
+                select="onNotificationTabSelect"
+                expandable="false"
+                stretchContentHeight="true"
+                class="stickyIconTabBar notificationHeader"
+                backgroundDesign="Transparent"
+            >
+                <items>
+                    <!-- All Notifications Tab -->
+                    <IconTabFilter
+                        key="all"
+                        text="All"
+                        icon="sap-icon://bell"
+                        count="{notificationCount>/all}"
+                    >
+                        <List
+                            id="allNotificationsList"
+                            items="{
+                                path: '/Notifications',
+                                sorter: {
+                                    path: 'createdAt',
+                                    descending: true
+                                },
+                                parameters:{
+                                    $filter:'isArchived eq false and isDismissed eq false',
+                                    $expand: 'recipient,actor,project,task'
+                                   
+                                }
+                            }"
+                            noDataText="No notifications"
+                            growing="true"
+                            growingThreshold="20"
+                            updateFinished="onListUpdateFinished"
+                        >
+                            <headerToolbar>
+                                <OverflowToolbar>
+                                    <ToolbarSpacer />
+                                    <SegmentedButton
+                                        id="notificationSorter"
+                                        selectionChange="onSelectSortButton"
+                                        selectedKey="date"
+                                    >
+                                        <items>
+                                            <SegmentedButtonItem
+                                                key="date"
+                                                icon="sap-icon://sort"
+                                                text="Date"
+                                            />
+                                            <SegmentedButtonItem
+                                                key="priority"
+                                                icon="sap-icon://flag"
+                                                text="Priority"
+                                            />
+                                            <SegmentedButtonItem
+                                                key="type"
+                                                icon="sap-icon://group"
+                                                text="Type"
+                                            />
+                                        </items>
+                                    </SegmentedButton>
+                                </OverflowToolbar>
+                            </headerToolbar>
+
+                            <items>
+                                <CustomListItem
+                                    class="sapUiSmallMarginTopBottom"
+                                    type="Active"
+                                    press="onNotificationPress"
+                                    id="allNotificationCustomList"
+                                >
+                                    <HBox
+                                        width="100%"
+                                        class="sapUiTinyMarginTopBottom"
+                                        justifyContent="SpaceBetween"
+                                        alignItems="Center"
+                                    >
+                                        <VBox
+                                            width="90%"
+                                            class="sapUiTinyMarginBeginEnd"
+                                        >
+                                            <HBox alignItems="Center">
+                                                <core:Icon
+                                                    src="{= ${isRead}==='Yes' ? 'sap-icon://circle-task' : 'sap-icon://circle-task-2'}"
+                                                    color="{= ${isRead}==='Yes' ? '#6a6d70' : '#0a6ed1'}"
+                                                    size="0.75rem"
+                                                    class="sapUiTinyMarginEnd"
+                                                />
+
+                                                <Text
+                                                    text="{title}"
+                                                    wrapping="true"
+                                                />
+
+                                                <Text
+                                                    text="{isArchived}"
+                                                    visible="false"
+                                                />
+
+                                                <Text
+                                                    text="{isDismissed}"
+                                                    visible="false"
+                                                />
+                                            </HBox>
+
+                                            <Text
+                                                text="{message}"
+                                                maxLines="2"
+                                                class="sapUiSmallMarginTop sapUiTinyMarginBottom"
+                                            />
+
+                                            <HBox>
+                                                <ObjectStatus
+                                                    text="{type}"
+                                                    state="{= ${type} === 'SUCCESS' ? 'Success' : ${type} === 'WARNING' ? 'Warning' : ${type} === 'ERROR' ? 'Error' : 'Information'}"
+                                                    inverted="true"
+                                                    class="sapUiTinyMarginEnd"
+                                                />
+                                                <ObjectStatus
+                                                    text="{priority}"
+                                                    state="{= ${priority} === 'HIGH' ? 'Error' : ${priority} === 'NORMAL' ? 'Information' : 'None'}"
+                                                    class="sapUiTinyMarginEnd"
+                                                />
+                                                <Text
+                                                    text="{path: 'createdAt'}"
+                                                    class="sapUiTinyMarginBegin"
+                                                />
+                                            </HBox>
+                                        </VBox>
+
+                                        <!-- Notification action button -->
+                                        <VBox alignItems="End">
+                                            <!-- mark as read/unread -->
+                                            <Button
+                                                icon="{= ${isRead}==='No' ? 'sap-icon://email-read' : 'sap-icon://email' }"
+                                                type="Transparent"
+                                                tooltip="{= ${isRead}==='No' ? 'Mark As Read' : 'Mark as unread' }"
+                                                press="onHandleChangeStatus"
+                                            />
+
+                                            <!-- archive -->
+                                            <Button
+                                                icon="sap-icon://sap-box"
+                                                type="Transparent"
+                                                tooltip="Archive"
+                                                press="onHandleArchiveNotification"
+                                            />
+
+                                            <!-- dismiss -->
+                                            <Button
+                                                icon="sap-icon://decline"
+                                                type="Transparent"
+                                                press="onHandleDismissNotification"
+                                                tooltip="Dismiss"
+                                            />
+                                        </VBox>
+                                    </HBox>
+                                </CustomListItem>
+                            </items>
+                        </List>
+                    </IconTabFilter>
+
+                    <!-- Unread Tab -->
+                    <IconTabFilter
+                        key="unread"
+                        text="Unread"
+                        count="{notificationCount>/unread}"
+                        iconColor="Critical"
+                        icon="sap-icon://email"
+                    >
+                        <List
+                            id="unreadNotificationsList"
+                            items="{
+                                path: '/Notifications',
+                                filters: [{
+                                    path: 'isRead',
+                                    operator: 'EQ',
+                                    value1: false
+                                },
+                                {
+                                    path:'isArchived',
+                                    operator:'EQ',
+                                    value1:false
+                                },
+                                {
+                                    path:'isDismissed',
+                                    operator:'EQ',
+                                    value1:false
+                                }
+                                ],
+                                sorter: {
+                                    path: 'createdAt',
+                                    descending: true
+                                }
+                            }"
+                            noDataText="No unread notifications"
+                            growing="true"
+                            growingThreshold="20"
+                        >
+                            <headerToolbar>
+                                <OverflowToolbar>
+                                    <Title
+                                        text="Mark all as read"
+                                        level="H6"
+                                    />
+                                    <ToolbarSpacer />
+                                    <Button
+                                        text="Mark All Read"
+                                        icon="sap-icon://accept"
+                                        type="Transparent"
+                                        press="onMarkAllRead"
+                                    />
+                                </OverflowToolbar>
+                            </headerToolbar>
+
+                            <items>
+                                <CustomListItem
+                                    type="Active"
+                                    press="onNotificationPress"
+                                    class="sapUiSmallMarginTopBottom"
+                                >
+                                    <HBox
+                                        width="100%"
+                                        justifyContent="SpaceBetween"
+                                        class="sapUiTinyMarginTopBottom "
+                                        alignItems="Center"
+                                    >
+                                        <VBox
+                                            width="90%"
+                                            class="sapUiTinyMarginBeginEnd"
+                                        >
+                                            <HBox alignItems="Center">
+                                                <core:Icon
+                                                    src="sap-icon://circle-task-2"
+                                                    color="#0a6ed1"
+                                                    size="0.75rem"
+                                                    class="sapUiTinyMarginEnd"
+                                                />
+                                                <Title
+                                                    text="{title}"
+                                                    level="H5"
+                                                    wrapping="true"
+                                                    class="sapUiTextBold"
+                                                />
+
+                                                <Text
+                                                    text="{isArchived} {isDismissed}"
+                                                    visible="false"
+                                                />
+                                            </HBox>
+
+                                            <Text
+                                                text="{message}"
+                                                maxLines="2"
+                                                class="sapUiSmallMarginTop sapUiTinyMarginBottom"
+                                            />
+
+                                            <HBox>
+                                                <ObjectStatus
+                                                    text="{type}"
+                                                    state="{= ${type} === 'SUCCESS' ? 'Success' : ${type} === 'WARNING' ? 'Warning' : ${type} === 'ERROR' ? 'Error' : 'Information'}"
+                                                    inverted="true"
+                                                    class="sapUiTinyMarginEnd"
+                                                />
+                                                <ObjectStatus
+                                                    text="{priority}"
+                                                    state="{= ${priority} === 'HIGH' ? 'Error' : ${priority} === 'NORMAL' ? 'Information' : 'None'}"
+                                                    class="sapUiTinyMarginEnd"
+                                                />
+                                                <Text
+                                                    text="{path: 'createdAt'}"
+                                                    class="sapUiTinyMarginBegin"
+                                                />
+                                            </HBox>
+                                        </VBox>
+
+                                        <VBox alignItems="End">
+                                            <!-- mark as read/unread -->
+                                            <Button
+                                                icon="{= ${isRead}==='No' ? 'sap-icon://email-read' : 'sap-icon://email' }"
+                                                type="Transparent"
+                                                tooltip="{= ${isRead}==='No' ? 'Mark As Read' : 'Mark as unread' }"
+                                                press="onHandleChangeStatus"
+                                            />
+
+                                            <!-- archive -->
+                                            <Button
+                                                icon="sap-icon://sap-box"
+                                                type="Transparent"
+                                                tooltip="Archive"
+                                                press="onHandleArchiveNotification"
+                                            />
+
+                                            <!-- dismiss -->
+                                            <Button
+                                                icon="sap-icon://decline"
+                                                type="Transparent"
+                                                press="onHandleDismissNotification"
+                                                tooltip="Dismiss"
+                                            />
+                                        </VBox>
+                                    </HBox>
+                                </CustomListItem>
+                            </items>
+                        </List>
+                    </IconTabFilter>
+
+                    <!-- High Priority Tab -->
+                    <IconTabFilter
+                        key="highPriority"
+                        text="High Priority"
+                        count="{notificationCount>/highPriority}"
+                        iconColor="Negative"
+                        icon="sap-icon://high-priority"
+                    >
+                        <List
+                            id="highPriorityNotificationsList"
+                            items="{
+                                path: '/Notifications',
+                                filters: [{
+                                    path: 'priority',
+                                    operator: 'EQ',
+                                    value1: 'HIGH'
+                                },
+                                {
+                                    path:'isArchived',
+                                    operator:'EQ',
+                                    value1:false
+                                },
+                                {
+                                    path:'isDismissed',
+                                    operator:'EQ',
+                                    value1:false
+                                }
+                                ],
+                                sorter: {
+                                    path: 'createdAt',
+                                    descending: true
+                                }
+                            }"
+                            noDataText="No high priority notifications"
+                            growing="true"
+                            growingThreshold="20"
+                            updateFinished="onListUpdateFinished"
+                        >
+                            <items>
+                                <CustomListItem
+                                    class="sapUiSmallMarginTopBottom"
+                                    type="Active"
+                                    press="onNotificationPress"
+                                >
+                                    <HBox
+                                        width="100%"
+                                        justifyContent="SpaceBetween"
+                                        class="sapUiTinyMarginTopBottom "
+                                        alignItems="Center"
+                                    >
+                                        <VBox
+                                            width="90%"
+                                            class="sapUiTinyMarginBeginEnd"
+                                        >
+                                            <HBox alignItems="Center">
+                                                <core:Icon
+                                                    src="{= ${isRead}==='No' ? 'sap-icon://warning' : 'sap-icon://message-warning'}"
+                                                    color="#bb0000"
+                                                    size="1rem"
+                                                    class="sapUiTinyMarginEnd"
+                                                />
+                                                <Text
+                                                    text="{title}"
+                                                    wrapping="true"
+                                                />
+
+                                                <Text
+                                                    text="{isArchived}"
+                                                    visible="false"
+                                                />
+
+                                                <Text
+                                                    text="{isDismissed}"
+                                                    visible="false"
+                                                />
+                                            </HBox>
+
+                                            <Text
+                                                text="{message}"
+                                                maxLines="2"
+                                                class="sapUiSmallMarginTop sapUiTinyMarginBottom"
+                                            />
+
+                                            <HBox>
+                                                <ObjectStatus
+                                                    text="{type}"
+                                                    state="{= ${type} === 'SUCCESS' ? 'Success' : ${type} === 'WARNING' ? 'Warning' : ${type} === 'ERROR' ? 'Error' : 'Information'}"
+                                                    inverted="true"
+                                                    class="sapUiTinyMarginEnd"
+                                                />
+                                                <Text
+                                                    text="{path: 'createdAt'}"
+                                                    class="sapUiTinyMarginBegin"
+                                                />
+                                            </HBox>
+                                        </VBox>
+
+                                        <VBox alignItems="End">
+                                            <!-- mark as read/unread -->
+                                            <Button
+                                                icon="{= ${isRead}==='No' ? 'sap-icon://email-read' : 'sap-icon://email' }"
+                                                type="Transparent"
+                                                tooltip="{= ${isRead}==='No' ? 'Mark As Read' : 'Mark as unread' }"
+                                                press="onHandleChangeStatus"
+                                            />
+
+                                            <!-- archive -->
+                                            <Button
+                                                icon="sap-icon://sap-box"
+                                                type="Transparent"
+                                                tooltip="Archive"
+                                                press="onHandleArchiveNotification"
+                                            />
+                                        </VBox>
+                                    </HBox>
+                                </CustomListItem>
+                            </items>
+                        </List>
+                    </IconTabFilter>
+
+                    <!-- Archived Tab -->
+                    <IconTabFilter
+                        key="archived"
+                        text="Archived"
+                        count="{notificationCount>/archived}"
+                        icon="sap-icon://sap-box"
+                    >
+                        <List
+                            id="archivedNotificationsList"
+                            items="{
+                                path: '/Notifications',
+                                parameters: {
+                                    $filter: 'isArchived eq true and isDismissed eq false'
+                                },
+                                sorter: {
+                                    path: 'archivedAt',
+                                    descending: true
+                                }
+                            }"
+                            noDataText="No archived notifications"
+                            growing="true"
+                            growingThreshold="20"
+                        >
+                            <headerToolbar>
+                                <OverflowToolbar>
+                                    <Title
+                                        text="Archived items"
+                                        level="H6"
+                                    />
+                                    <ToolbarSpacer />
+                                    <Button
+                                        text="Clear All"
+                                        icon="sap-icon://delete"
+                                        type="Transparent"
+                                        press="onClearAllArchived"
+                                    />
+                                </OverflowToolbar>
+                            </headerToolbar>
+
+                            <items>
+                                <CustomListItem
+                                    class="sapUiSmallMarginTopBottom"
+                                    type="Inactive"
+                                >
+                                    <HBox
+                                        width="100%"
+                                        justifyContent="SpaceBetween"
+                                        alignItems="Center"
+                                        class="sapUiTinyMarginTopBottom"
+                                    >
+                                        <VBox
+                                            width="85%"
+                                            class="sapUiTinyMarginBeginEnd"
+                                        >
+                                            <Title
+                                                text="{title}"
+                                                level="H6"
+                                                wrapping="true"
+                                            />
+
+                                            <Text
+                                                text="{isArchived} {isDismissed}"
+                                                visible="false"
+                                            />
+
+                                            <Text
+                                                text="{message}"
+                                                maxLines="1"
+                                                class="sapUiTinyMarginTop"
+                                            />
+
+                                            <Text
+                                                text="Archived {path: 'archivedAt'}"
+                                                class="sapUiTinyMarginTop"
+                                            />
+                                        </VBox>
+
+                                        <VBox alignItems="End">
+                                            <Button
+                                                icon="sap-icon://undo"
+                                                type="Transparent"
+                                                tooltip="Restore"
+                                                press="onRestoreNotification"
+                                            />
+
+                                            <!-- dismiss -->
+                                            <Button
+                                                icon="sap-icon://decline"
+                                                type="Transparent"
+                                                press="onHandleDismissNotification"
+                                                tooltip="Dismiss"
+                                            />
+                                        </VBox>
+                                    </HBox>
+                                </CustomListItem>
+                            </items>
+                        </List>
+                    </IconTabFilter>
+
+                    <!-- Settings Tab -->
+                    <IconTabFilter
+                        key="settings"
+                        icon="sap-icon://action-settings"
+                        visible="false"
+                    >
+                        <VBox class="sapUiMediumMargin">
+                            <Title
+                                text="Notification Settings"
+                                level="H4"
+                                class="sapUiMediumMarginBottom"
+                            />
+
+                            <Label
+                                text="Notification Types"
+                                class="sapUiSmallMarginTop"
+                            />
+                            <CheckBox
+                                text="Task Assignments"
+                                selected="true"
+                                class="sapUiTinyMarginTop"
+                            />
+                            <CheckBox
+                                text="Project Updates"
+                                selected="true"
+                                class="sapUiTinyMarginTop"
+                            />
+                            <CheckBox
+                                text="Member Changes"
+                                selected="true"
+                                class="sapUiTinyMarginTop"
+                            />
+                            <CheckBox
+                                text="Offboarding Alerts"
+                                selected="true"
+                                class="sapUiTinyMarginTop"
+                            />
+
+                            <Label
+                                text="Delivery"
+                                class="sapUiMediumMarginTop"
+                            />
+                            <CheckBox
+                                text="Show desktop notifications"
+                                selected="false"
+                                class="sapUiTinyMarginTop"
+                            />
+                            <CheckBox
+                                text="Email notifications for high priority"
+                                selected="true"
+                                class="sapUiTinyMarginTop"
+                            />
+
+                            <Label
+                                text="Auto-Archive"
+                                class="sapUiMediumMarginTop"
+                            />
+                            <Select selectedKey="30">
+                                <items>
+                                    <core:Item
+                                        key="7"
+                                        text="After 7 days"
+                                    />
+                                    <core:Item
+                                        key="30"
+                                        text="After 30 days"
+                                    />
+                                    <core:Item
+                                        key="90"
+                                        text="After 90 days"
+                                    />
+                                    <core:Item
+                                        key="never"
+                                        text="Never"
+                                    />
+                                </items>
+                            </Select>
+                        </VBox>
+                    </IconTabFilter>
                 </items>
-            </NotificationList>
+            </IconTabBar>
         </content>
 
-        <endButton>
-        <Button press=".onCloseNotification" type="Emphasized" text="Close"></Button>
-        </endButton>
+        <beginButton>
+            <Button
+                text="Close"
+                press="onCloseNotification"
+            />
+        </beginButton>
     </Dialog>
 </core:FragmentDefinition>

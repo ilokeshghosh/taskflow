@@ -1,0 +1,291 @@
+<core:FragmentDefinition
+    xmlns:filterbar="sap.ui.comp.filterbar"
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:f="sap.f"
+    xmlns:form="sap.ui.layout.form"
+    xmlns:u="sap.ui.unified"
+    xmlns:layout="sap.ui.layout"
+>
+    <Dialog
+        id="systemAboutDialog"
+        title="About"
+        showHeader="false"
+        contentHeight="70%"
+        contentWidth="70%"
+    >
+        <content>
+            <!-- Outter container -->
+
+            <VBox
+                width="100%"
+                height="100%"
+                gap="2rem"
+                alignItems="Center"
+            >
+                <!-- upper section -->
+                <HBox
+                    width="100%"
+                    height="20%"
+                    class="sapUiSmallMarginTopBottom"
+                >
+                    <!-- upper content container -->
+                    <VBox
+                        height="100%"
+                        width="100%"
+                    >
+                        <!-- top || title & description -->
+                        <HBox
+                            width="100%"
+                            height="80%"
+                        >
+                            <VBox
+                                height="100%"
+                                width="100%"
+                                alignItems="Center"
+                            >
+                                <HBox
+                                    width="100%"
+                                    justifyContent="Center"
+                                    gap="1rem"
+                                    alignItems="Center"
+                                >
+                                    <Image
+                                        width="50px"
+                                        height="50px"
+                                        src="https://ik.imagekit.io/8fgpvoiai/taskFlow/croppedTaskFlow-removebg-preview_0FgIITQmd.png?updatedAt=1762799794592"
+                                    />
+
+                                    <Title text="TASK FLOW" />
+                                </HBox>
+
+                                <Text text="Project Workspace for SAP teams" />
+                            </VBox>
+                        </HBox>
+
+                        <!-- bottom || chips (version and others) -->
+                        <HBox
+                            width="100%"
+                            height="20%"
+                            justifyContent="Center"
+                            gap="1rem"
+                            wrap="Wrap"
+                        >
+                            <Button
+                                text="Version 1.4.2"
+                                type="Ghost"
+                            />
+                            <Button
+                                text="CF: eu10 – prod"
+                                type="Ghost"
+                            />
+                            <Button
+                                text="Last update: 24 Dec 2025"
+                                type="Ghost"
+                            />
+                        </HBox>
+                    </VBox>
+                </HBox>
+
+                <!-- lower section -->
+                <HBox
+                    width="90%"
+                    height="60%"
+                    justifyContent="Center"
+                    gap="2rem"
+                >
+                    <!-- APP INFO -->
+                    <VBox
+                        width="33%"
+                        gap="1rem"
+                    >
+                        <Title
+                            level="H1"
+                            text="App Info"
+                        />
+
+                        <VBox
+                            gap="2rem"
+                            justifyContent="Start"
+                        >
+                            <HBox
+                                gap="0.3rem"
+                                alignItems="Center"
+                                justifyContent="Start"
+                            >
+                                <core:Icon
+                                    size="1.2rem"
+                                    src="sap-icon://document-text"
+                                />
+                                <Text
+                                    textAlign="End"
+                                    text="Application ID: taskflow.app.ui5.proj"
+                                />
+                            </HBox>
+
+                            <HBox
+                                gap="0.3rem"
+                                alignItems="Center"
+                                justifyContent="Start"
+                            >
+                                <core:Icon
+                                    size="1.2rem"
+                                    src="sap-icon://source-code"
+                                />
+                                <Text
+                                    textAlign="End"
+                                    text="UI Version: 1.121.1 (SAPUI5)"
+                                />
+                            </HBox>
+
+                            <HBox
+                                gap="0.3rem"
+                                alignItems="Center"
+                                justifyContent="Start"
+                            >
+                                <core:Icon
+                                    size="1.2rem"
+                                    src="sap-icon://cloud"
+                                />
+                                <Text
+                                    textAlign="End"
+                                    text="BTP Subaccount: taskflow-prod-eu10"
+                                />
+                            </HBox>
+
+                            <HBox
+                                gap="0.3rem"
+                                alignItems="Center"
+                                justifyContent="Start"
+                            >
+                                <core:Icon
+                                    size="1.2rem"
+                                    src="sap-icon://world"
+                                />
+                                <Text
+                                    textAlign="End"
+                                    text="Region: Europe (eu10)"
+                                />
+                            </HBox>
+                        </VBox>
+                    </VBox>
+
+                    <!-- System Status -->
+                    <VBox
+                        width="33%"
+                        gap="1rem"
+                    >
+                        <Title
+                            level="H1"
+                            text="System Status"
+                        />
+
+                        <VBox
+                            width="60%"
+                            gap="1rem"
+                        >
+                            <Button
+                                width="100%"
+                                text="API Gateway · Operational"
+                                tooltip="API Gateway: Operational · avg latency 120 ms"
+                            />
+
+                            <Button
+                                width="100%"
+                                text="CAP Service · Operational"
+                                tooltip="CAP Service (Projects): Operational · last error: 0 in 24h"
+                            />
+
+                            <Button
+                                width="100%"
+                                text="Database · Operational"
+                                tooltip="Database (HANA Cloud): Operational · backup: OK"
+                            />
+
+                            <Button
+                                width="100%"
+                                text="Auth · Operational"
+                                tooltip="Auth (XSUAA): Operational · token lifetime 12 h"
+                            />
+
+                            <Button
+                                width="100%"
+                                type="Attention"
+                                text="File Storage · Degraded"
+                                tooltip="File Storage (Documents): Degraded · slow uploads in last hour"
+                            />
+                        </VBox>
+                    </VBox>
+
+                    <!-- Support -->
+                    <VBox
+                        width="33%"
+                        gap="1rem"
+                    >
+                        <Title
+                            level="H1"
+                            text="Support"
+                        />
+
+                        <VBox
+                            gap="2rem"
+                            justifyContent="Start"
+                        >
+                            <HBox
+                                gap="0.5rem"
+                                alignItems="Center"
+                                justifyContent="Start"
+                            >
+                                <core:Icon
+                                    size="1.2rem"
+                                    src="sap-icon://education"
+                                />
+                                <Text
+                                    textAlign="End"
+                                    text="Documentation"
+                                />
+                            </HBox>
+
+                            <HBox
+                                gap="0.5rem"
+                                alignItems="Center"
+                                justifyContent="Start"
+                            >
+                                <core:Icon
+                                    size="1.2rem"
+                                    src="sap-icon://notes"
+                                />
+                                <Text text="Release Notes" />
+                            </HBox>
+
+                            <HBox
+                                gap="0.5rem"
+                                alignItems="Center"
+                                justifyContent="Start"
+                            >
+                                <core:Icon
+                                    size="1.2rem"
+                                    src="sap-icon://question-mark"
+                                />
+                                <Text text="Contact Support" />
+                            </HBox>
+                        </VBox>
+                    </VBox>
+                </HBox>
+
+                <!-- footer signature text -->
+                <HBox height="5%">
+                    <Text text="© 2026 Powered by SAP BTP" />
+                </HBox>
+            </VBox>
+        </content>
+
+        <endButton>
+            <Button
+                press="onCloseSystemDialog"
+                text="Close"
+                type="Emphasized"
+            />
+        </endButton>
+    </Dialog>
+</core:FragmentDefinition>
