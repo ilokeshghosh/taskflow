@@ -34,6 +34,7 @@ sap.ui.define([
             userHelper.init(this);
             this._tester();
             this.getOwnerComponent().setCurrentUser();
+            this.getOwnerComponent().setcurrentUserSettings();
 
            
         },
@@ -713,6 +714,7 @@ sap.ui.define([
 
             aItems.forEach(function (oItem) {
                 var oContext = oItem.getBindingContext();
+                console.log("con",oContext.getProperty("title"))
 
                 if (!oContext) return;
 
@@ -720,7 +722,7 @@ sap.ui.define([
                 var oText = oItem.findElements(true).find(function (oControl) {
                     return oControl.isA("sap.m.Text");
                 });
-
+                console.log("isread",isRead);
                 if (oText) {
                     oText.addStyleClass("genericStyle");
                     if (isRead) {
@@ -926,6 +928,7 @@ sap.ui.define([
 
             aNotificationTables.forEach(item => {
                 var oBindingAllNotification = this.getView().byId(item).getBinding("items");
+                console.log("oBindingAllNotification",oBindingAllNotification)
                 oBindingAllNotification.filter([new sap.ui.model.Filter("recipient_ID", "EQ", sUserID)]);
 
             })

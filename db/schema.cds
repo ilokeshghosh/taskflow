@@ -144,3 +144,51 @@ entity Notification : managed {
         task        : Association to Task;
         actor       : Association to User;
 }
+
+
+
+entity UserSettings : managed {
+    key ID      : String(10);
+    user        : Association to User;
+    
+
+    // Appearance Settings
+    theme          : String(20) default 'light';  // light, dark, auto
+    language       : String(10) default 'en';
+
+    // Notification Preferences
+    digestFrequency        : String(20) default 'daily';  // none, daily, weekly
+
+}
+
+entity SystemInfo {
+    key ID                  : String(10) default 'SYSTEM';
+    
+    // App Info Section
+    applicationName         : String(100);
+    tagline                : String(200);
+    version                : String(20);
+    cloudFoundrySpace      : String(50);
+    lastUpdate             : Date;
+    
+    // App Info Details
+    applicationID          : String(100);
+    uiVersion             : String(50);
+    btpSubaccount         : String(100);
+    region                : String(50);
+    
+    // System Status Section
+    apiGatewayStatus      : String(20);  // Operational, Degraded, Down
+    capServiceStatus      : String(20);
+    databaseStatus        : String(20);
+    authStatus            : String(20);
+    fileStorageStatus     : String(20);
+    
+    // Support Section
+    documentationUrl      : String(500);
+    releaseNotesUrl       : String(500);
+    contactSupportUrl     : String(500);
+    
+    // Footer
+    copyrightText         : String(100);
+}

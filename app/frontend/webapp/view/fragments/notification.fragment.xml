@@ -205,22 +205,9 @@
                             id="unreadNotificationsList"
                             items="{
                                 path: '/Notifications',
-                                filters: [{
-                                    path: 'isRead',
-                                    operator: 'EQ',
-                                    value1: false
+                                 parameters: {
+                                    $filter: 'isRead eq false and isArchived eq false and isDismissed eq false'
                                 },
-                                {
-                                    path:'isArchived',
-                                    operator:'EQ',
-                                    value1:false
-                                },
-                                {
-                                    path:'isDismissed',
-                                    operator:'EQ',
-                                    value1:false
-                                }
-                                ],
                                 sorter: {
                                     path: 'createdAt',
                                     descending: true
@@ -229,6 +216,7 @@
                             noDataText="No unread notifications"
                             growing="true"
                             growingThreshold="20"
+                            updateFinished="onListUpdateFinished"
                         >
                             <headerToolbar>
                                 <OverflowToolbar>
@@ -350,22 +338,9 @@
                             id="highPriorityNotificationsList"
                             items="{
                                 path: '/Notifications',
-                                filters: [{
-                                    path: 'priority',
-                                    operator: 'EQ',
-                                    value1: 'HIGH'
+                                parameters: {
+                                    $filter: 'priority eq \'HIGH\' and isArchived eq false and isDismissed eq false'
                                 },
-                                {
-                                    path:'isArchived',
-                                    operator:'EQ',
-                                    value1:false
-                                },
-                                {
-                                    path:'isDismissed',
-                                    operator:'EQ',
-                                    value1:false
-                                }
-                                ],
                                 sorter: {
                                     path: 'createdAt',
                                     descending: true

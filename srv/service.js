@@ -36,7 +36,7 @@ const provisioning=async(userSchema,user)=>{
 }
 
 module.exports = cds.service.impl(async function () {
-    const { Users, AuditLog } = this.entities;
+    const { Users, AuditLog,UserSettings } = this.entities;
     this.before("*",async(req)=>{
         const userProfile = await provisioning(Users,req?.user);
 
@@ -226,6 +226,18 @@ module.exports = cds.service.impl(async function () {
     this.on("getcurrentUser",async(req)=>{
          try {
             return req?.user;
+        } catch (error) {
+            console.error(400,error?.message);
+        }
+    })
+
+    this.on("getcurrentUserSettings",async(req)=>{
+        console.log("req",req.user);
+        try {
+            const userSettings = await SELECT.one.from(UserSettings).where({ user_ID:req.user.ID });
+
+            console.log("userSettings",userSettings);
+            return userSettings;
         } catch (error) {
             console.error(400,error?.message);
         }

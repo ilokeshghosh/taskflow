@@ -13,6 +13,8 @@
         showHeader="false"
         contentHeight="70%"
         contentWidth="70%"
+
+        binding="{/SystemInfo('SYSTEM')}"
     >
         <content>
             <!-- Outter container -->
@@ -22,7 +24,10 @@
                 height="100%"
                 gap="2rem"
                 alignItems="Center"
-            >
+
+                
+               
+            >   
                 <!-- upper section -->
                 <HBox
                     width="100%"
@@ -56,10 +61,10 @@
                                         src="https://ik.imagekit.io/8fgpvoiai/taskFlow/croppedTaskFlow-removebg-preview_0FgIITQmd.png?updatedAt=1762799794592"
                                     />
 
-                                    <Title text="TASK FLOW" />
+                                    <Title text="{applicationName}" />
                                 </HBox>
 
-                                <Text text="Project Workspace for SAP teams" />
+                                <Text text="{tagline}" />
                             </VBox>
                         </HBox>
 
@@ -72,15 +77,15 @@
                             wrap="Wrap"
                         >
                             <Button
-                                text="Version 1.4.2"
+                                text="Version {version}"
                                 type="Ghost"
                             />
                             <Button
-                                text="CF: eu10 – prod"
+                                text="CF: {cloudFoundrySpace}"
                                 type="Ghost"
                             />
                             <Button
-                                text="Last update: 24 Dec 2025"
+                                text="Last update: {lastUpdate}"
                                 type="Ghost"
                             />
                         </HBox>
@@ -119,7 +124,7 @@
                                 />
                                 <Text
                                     textAlign="End"
-                                    text="Application ID: taskflow.app.ui5.proj"
+                                    text="Application ID: {applicationID}"
                                 />
                             </HBox>
 
@@ -134,7 +139,7 @@
                                 />
                                 <Text
                                     textAlign="End"
-                                    text="UI Version: 1.121.1 (SAPUI5)"
+                                    text="UI Version: {uiVersion}"
                                 />
                             </HBox>
 
@@ -147,10 +152,7 @@
                                     size="1.2rem"
                                     src="sap-icon://cloud"
                                 />
-                                <Text
-                                    textAlign="End"
-                                    text="BTP Subaccount: taskflow-prod-eu10"
-                                />
+                                <Text text="Subaccount : {btpSubaccount}"></Text>
                             </HBox>
 
                             <HBox
@@ -164,7 +166,7 @@
                                 />
                                 <Text
                                     textAlign="End"
-                                    text="Region: Europe (eu10)"
+                                    text="Region: Europe (region)"
                                 />
                             </HBox>
                         </VBox>
@@ -186,32 +188,33 @@
                         >
                             <Button
                                 width="100%"
-                                text="API Gateway · Operational"
+                                text="API Gateway · {apiGatewayStatus}"
                                 tooltip="API Gateway: Operational · avg latency 120 ms"
+                                type="{path:'',formatter:'.formatter.formatSystemStatus'}"
                             />
 
                             <Button
                                 width="100%"
-                                text="CAP Service · Operational"
+                                text="CAP Service · {capServiceStatus}"
                                 tooltip="CAP Service (Projects): Operational · last error: 0 in 24h"
                             />
 
                             <Button
                                 width="100%"
-                                text="Database · Operational"
+                                text="Database · {databaseStatus}"
                                 tooltip="Database (HANA Cloud): Operational · backup: OK"
                             />
 
                             <Button
                                 width="100%"
-                                text="Auth · Operational"
+                                text="Auth · {authStatus}"
                                 tooltip="Auth (XSUAA): Operational · token lifetime 12 h"
                             />
 
                             <Button
                                 width="100%"
-                                type="Attention"
-                                text="File Storage · Degraded"
+                                type="{= ${fileStorageStatus}==='Down' ? 'Reject' : ${fileStorageStatus}==='Degraded' ? 'Attention' : 'Default' }"
+                                text="File Storage · {fileStorageStatus}"
                                 tooltip="File Storage (Documents): Degraded · slow uploads in last hour"
                             />
                         </VBox>
@@ -231,51 +234,39 @@
                             gap="2rem"
                             justifyContent="Start"
                         >
-                            <HBox
-                                gap="0.5rem"
-                                alignItems="Center"
-                                justifyContent="Start"
-                            >
-                                <core:Icon
-                                    size="1.2rem"
-                                    src="sap-icon://education"
-                                />
-                                <Text
-                                    textAlign="End"
-                                    text="Documentation"
-                                />
-                            </HBox>
+                           
+                            <Link 
+                            icon="sap-icon://education"
+                            text="Documentation"
+                            target="_blank"
+                            href="{documentationUrl}"
+                            ></Link>
 
-                            <HBox
-                                gap="0.5rem"
-                                alignItems="Center"
-                                justifyContent="Start"
-                            >
-                                <core:Icon
-                                    size="1.2rem"
-                                    src="sap-icon://notes"
-                                />
-                                <Text text="Release Notes" />
-                            </HBox>
 
-                            <HBox
-                                gap="0.5rem"
-                                alignItems="Center"
-                                justifyContent="Start"
+                            <Link 
+                            icon="sap-icon://notes"
+                            text="Release Notes"
+                            target="_blank"
+                            href="{releaseNotesUrl}"
+                            ></Link>
+
+                            <Link
+                               
+                                icon="sap-icon://question-mark"
+                                text="Contact Support"
+                                href="{contactSupportUrl}"
+                                target="_blank"
                             >
-                                <core:Icon
-                                    size="1.2rem"
-                                    src="sap-icon://question-mark"
-                                />
-                                <Text text="Contact Support" />
-                            </HBox>
+                                
+                                
+                            </Link>
                         </VBox>
                     </VBox>
                 </HBox>
 
                 <!-- footer signature text -->
                 <HBox height="5%">
-                    <Text text="© 2026 Powered by SAP BTP" />
+                    <Text text="{copyrightText}" />
                 </HBox>
             </VBox>
         </content>

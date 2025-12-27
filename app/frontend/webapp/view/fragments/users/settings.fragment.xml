@@ -3,58 +3,434 @@
     xmlns:core="sap.ui.core"
     xmlns:f="sap.f"
     xmlns:form="sap.ui.layout.form"
-    xmlns:u="sap.ui.unified"
     xmlns:layout="sap.ui.layout"
 >
-    <Dialog 
-    title="User Settings"
-    icon="sap-icon://action-settings"
-    id="settingDialog"
+    <Dialog
+        id="settingDialog"
+        contentWidth="800px"
+        contentHeight="auto"
+        resizable="true"
+        draggable="true"
+        showHeader="false"
+        verticalScrolling="true"
     >
-    
+        <customHeader>
+            <Bar>
+                <contentLeft>
+                    <Title
+                        text="User Settings"
+                        level="H2"
+                    />
+                </contentLeft>
+                <contentRight>
+                    <Button
+                        icon="sap-icon://decline"
+                        type="Transparent"
+                        press="onCloseSetting"
+                        tooltip="Close"
+                    />
+                </contentRight>
+            </Bar>
+        </customHeader>
+
         <content>
-        <IconTabBar headerMode="Inline">
-        
-            <items>
-            <IconTabFilter 
-                text="User Information"
-                icon="sap-icon://account"
+            <IconTabBar
+                id="settingsIconTabBar"
+                headerMode="Inline"
+                stretchContentHeight="false"
+                class="sapUiResponsiveContentPadding"
             >
-                <Text text="some text here"></Text>
-            </IconTabFilter>
+                <items>
+                    <!-- Profile Tab - Bound to User entity -->
+                    <IconTabFilter
+                        key="profile"
+                        text="Profile"
+                        icon="sap-icon://account"
+                    >
+                        <VBox
+                            backgroundDesign="Solid"
+                            direction="ColumnReverse"
+                            class=""
+                        >
+                            <form:SimpleForm
+                                id="profileForm"
+                                editable="true"
+                                layout="ResponsiveGridLayout"
+                                labelSpanXL="4"
+                                labelSpanL="4"
+                                labelSpanM="4"
+                                labelSpanS="12"
+                                adjustLabelSpan="false"
+                                emptySpanXL="0"
+                                emptySpanL="0"
+                                emptySpanM="0"
+                                emptySpanS="0"
+                                columnsXL="1"
+                                columnsL="1"
+                                columnsM="1"
+                            >
+                                <form:content>
+                                    <core:Title text="Personal Information" />
 
-            <IconTabFilter 
-                text="Appearance"
-                icon="sap-icon://palette"
-            >
-                <Text text="Appearance things goes here"></Text>
-            </IconTabFilter>
+                                    <Label
+                                        text="First Name"
+                                        required="true"
+                                    />
+                                    <Input
+                                        value="{currentUser>/firstname}"
+                                        placeholder="Enter your first name"
+                                        required="true"
+                                    />
 
+                                    <Label
+                                        text="Last Name"
+                                        required="true"
+                                    />
+                                    <Input
+                                        value="{currentUser>/lastname}"
+                                        placeholder="Enter your last name"
+                                        required="true"
+                                    />
 
-            <IconTabFilter 
-                text="Security"
-                icon="sap-icon://locked"
-            >
-                <Text text="Security Feature Goes here"></Text>
-            </IconTabFilter>
+                                    <Label text="Email" />
+                                    <Input
+                                        value="{currentUser>/email}"
+                                        type="Email"
+                                        enabled="false"
+                                    />
 
+                                    <core:Title text="Contact Information" />
 
-            <IconTabFilter 
-                text="About"
-                icon="sap-icon://hint"
-            >
-                <Text text="Application About SEction goes here"></Text>
-            </IconTabFilter>
-            </items>
-        </IconTabBar>
+                                    <Label text="Phone Number" />
+                                    <Input
+                                        value="{currentUser>/phone}"
+                                        placeholder="+91 9876543210"
+                                        type="Tel"
+                                    />
+
+                                    <core:Title
+                                        text="Professional Information"
+                                    />
+
+                                    <Label text="Role" />
+                                    <Text text="{currentUser>/designation}" />
+
+                                    <Label text="User Type" />
+                                    <Text text="{currentUser>/roles/0}" />
+                                </form:content>
+                            </form:SimpleForm>
+
+                            <!-- Avatar Section -->
+                            <VBox
+                                alignItems="Center"
+                                class="sapUiLargeMarginTop"
+                            >
+                                <Label
+                                    text="Profile Picture"
+                                    class="sapUiSmallMarginBottom"
+                                />
+                                <Avatar
+                                    src="{currentUser>/avatarUrl}"
+                                    displaySize="L"
+                                    class="sapUiSmallMarginBottom"
+                                />
+                                <Button
+                                    text="Change Avatar"
+                                    icon="sap-icon://camera"
+                                    type="Ghost"
+                                    enabled="false"
+                                />
+                            </VBox>
+                        </VBox>
+                    </IconTabFilter>
+
+                    <!-- Appearance Tab - Bound to UserSettings -->
+                    <IconTabFilter
+                        key="appearance"
+                        text="Appearance"
+                        icon="sap-icon://palette"
+                    >
+                        <VBox class="sapUiMediumMargin">
+                            <form:SimpleForm
+                                id="appearanceForm"
+                                editable="true"
+                                layout="ResponsiveGridLayout"
+                                labelSpanXL="4"
+                                labelSpanL="4"
+                                labelSpanM="4"
+                                labelSpanS="12"
+                                adjustLabelSpan="false"
+                                emptySpanXL="0"
+                                emptySpanL="0"
+                                emptySpanM="0"
+                                emptySpanS="0"
+                                columnsXL="1"
+                                columnsL="1"
+                                columnsM="1"
+                            >
+                                <form:content>
+                                    <core:Title text="Display Settings" />
+
+                                    <Label text="Theme" />
+                                    <Select
+                                        id="themeSelect"
+                                        selectedKey="{userSettings>/theme}"
+                                        width="100%"
+                                    >
+                                        <items>
+                                            <core:Item
+                                                key="light"
+                                                text="Light"
+                                            />
+                                            <core:Item
+                                                key="dark"
+                                                text="Dark"
+                                            />
+                                            <!-- <core:Item
+                                                key="auto"
+                                                text="Auto (System)"
+                                            /> -->
+                                        </items>
+                                    </Select>
+
+                                    <Label text="Language" />
+                                    <Select
+                                        id="languageSelect"
+                                        selectedKey="{userSettings>/language}"
+                                        width="100%"
+                                    >
+                                        <items>
+                                            <core:Item
+                                                key="en"
+                                                text="English"
+                                            />
+                                            <core:Item
+                                                key="de"
+                                                text="Deutsch"
+                                            />
+                                            <core:Item
+                                                key="es"
+                                                text="Español"
+                                            />
+                                            <core:Item
+                                                key="fr"
+                                                text="Français"
+                                            />
+                                            <core:Item
+                                                key="ja"
+                                                text="日本語"
+                                            />
+                                            <core:Item
+                                                key="zh"
+                                                text="中文"
+                                            />
+                                        </items>
+                                    </Select>
+
+                                    <core:Title text="Notifications" />
+
+                                    <Label text="Digest Frequency" />
+                                    <Select
+                                        id="digestSelect"
+                                        selectedKey="{userSettings>/digestFrequency}"
+                                        width="100%"
+                                    >
+                                        <items>
+                                            <core:Item
+                                                key="none"
+                                                text="None - No digest emails"
+                                            />
+                                            <core:Item
+                                                key="daily"
+                                                text="Daily - Once per day"
+                                            />
+                                            <core:Item
+                                                key="weekly"
+                                                text="Weekly - Once per week"
+                                            />
+                                        </items>
+                                    </Select>
+                                </form:content>
+                            </form:SimpleForm>
+
+                            <!-- Preview Section -->
+                            <VBox class="sapUiMediumMarginTop">
+                                <Label
+                                    text="Current Settings"
+                                    class="sapUiSmallMarginBottom"
+                                />
+                                <Panel
+                                    headerText="Preview"
+                                    class="sapUiResponsiveMargin"
+                                    width="auto"
+                                >
+                                    <content>
+                                        <VBox class="sapUiSmallMargin">
+                                            <HBox
+                                                justifyContent="SpaceBetween"
+                                                class="sapUiTinyMarginBottom"
+                                            >
+                                                <Label text="Theme:" />
+                                                <Text
+                                                    text="{userSettings>/theme}"
+                                                />
+                                            </HBox>
+                                            <HBox
+                                                justifyContent="SpaceBetween"
+                                                class="sapUiTinyMarginBottom"
+                                            >
+                                                <Label text="Language:" />
+                                                <Text
+                                                    text="{userSettings>/language}"
+                                                />
+                                            </HBox>
+                                            <HBox justifyContent="SpaceBetween">
+                                                <Label text="Digest:" />
+                                                <Text
+                                                    text="{userSettings>/digestFrequency}"
+                                                />
+                                            </HBox>
+                                        </VBox>
+                                    </content>
+                                </Panel>
+                            </VBox>
+                        </VBox>
+                    </IconTabFilter>
+
+                    <!-- Security Tab -->
+                    <IconTabFilter
+                        key="security"
+                        text="Security"
+                        icon="sap-icon://locked"
+                    >
+                        <VBox
+                            class="sapUiMediumMargin"
+                            alignItems="Center"
+                        >
+                            <layout:VerticalLayout width="400px">
+                                <MessageStrip
+                                    text="Security features will be available in a future update."
+                                    type="Information"
+                                    showIcon="true"
+                                    class="sapUiMediumMarginBottom"
+                                />
+
+                                <VBox
+                                    alignItems="Center"
+                                    class="sapUiLargeMarginTop"
+                                >
+                                    <core:Icon
+                                        src="sap-icon://locked"
+                                        size="5rem"
+                                        color="#0854A0"
+                                        class="sapUiMediumMarginBottom"
+                                    />
+                                    <Title
+                                        text="Security Settings"
+                                        level="H3"
+                                    />
+                                    <Text
+                                        text="Password management, two-factor authentication, and session management coming soon."
+                                        textAlign="Center"
+                                        class="sapUiSmallMarginTop"
+                                    />
+                                </VBox>
+                            </layout:VerticalLayout>
+                        </VBox>
+                    </IconTabFilter>
+
+                    <!-- About Tab -->
+                    <IconTabFilter
+                        key="about"
+                        text="About"
+                        icon="sap-icon://hint"
+                    >
+                        <VBox
+                            class="sapUiMediumMargin"
+                            alignItems="Center"
+                        >
+                            <layout:VerticalLayout width="400px">
+                                <VBox
+                                    alignItems="Center"
+                                    class="sapUiMediumMarginBottom"
+                                >
+                                    <core:Icon
+                                        src="sap-icon://information"
+                                        size="5rem"
+                                        color="#0854A0"
+                                        class="sapUiMediumMarginBottom"
+                                    />
+                                    <Title
+                                        text="Application Information"
+                                        level="H3"
+                                    />
+                                </VBox>
+
+                                <Button
+                                    text="View System Information"
+                                    icon="sap-icon://sys-monitor"
+                                    type="Emphasized"
+                                    width="100%"
+                                    press="onOpenSystemDialog"
+                                    class="sapUiSmallMarginBottom"
+                                />
+
+                                <VBox class="sapUiMediumMarginTop">
+                                    <Label
+                                        text="User Information"
+                                        class="sapUiSmallMarginBottom"
+                                    />
+                                    <form:SimpleForm
+                                        editable="false"
+                                        layout="ResponsiveGridLayout"
+                                        labelSpanXL="5"
+                                        labelSpanL="5"
+                                        labelSpanM="5"
+                                        labelSpanS="12"
+                                    >
+                                        <form:content>
+                                            <Label text="User ID" />
+                                            <Text text="{currentUser>/ID}" />
+
+                                            <Label text="Name" />
+                                            <Text
+                                                text="{currentUser>/firstname} {currentUser>/lastname}"
+                                            />
+
+                                            <Label text="Email" />
+                                            <Text text="{currentUser>/email}" />
+
+                                            <Label text="Status" />
+                                            <ObjectStatus
+                                                text="{= ${currentUser>/isActive} ? 'Active' : 'Inactive' }"
+                                                state="{= ${currentUser>/isActive} ? 'Success' : 'Error' }"
+                                            />
+                                        </form:content>
+                                    </form:SimpleForm>
+                                </VBox>
+                            </layout:VerticalLayout>
+                        </VBox>
+                    </IconTabFilter>
+                </items>
+            </IconTabBar>
         </content>
 
         <beginButton>
-        <Button text="Save" icon="sap-icon://save" type="Emphasized"></Button>
+            <Button
+                text="Save Changes"
+                icon="sap-icon://save"
+                type="Emphasized"
+                press="onSaveUserSettings"
+            />
         </beginButton>
+
         <endButton>
-            <Button press="onCloseSetting" text="Cancel" icon="sap-icon://cancel" type="Transparent"></Button>
+            <Button
+                text="Cancel"
+                icon="sap-icon://decline"
+                type="Transparent"
+                press="onCloseSetting"
+            />
         </endButton>
     </Dialog>
-
 </core:FragmentDefinition>

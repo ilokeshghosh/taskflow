@@ -66,7 +66,7 @@ sap.ui.define(["sap/ui/core/Fragment", "sap/m/MessageBox", "sap/ui/model/json/JS
                     title: "About",
                     type: sap.m.ListType.Active,
                     icon: "sap-icon://hint",
-                    press: this.onPressAbout.bind(this),
+                    press: this.onOpenSystemDialog.bind(this),
 
                 })
 
@@ -129,16 +129,124 @@ sap.ui.define(["sap/ui/core/Fragment", "sap/m/MessageBox", "sap/ui/model/json/JS
             }
 
             _oController._xDialog.then(oDialog => {
-
+                this._loadUserSettings();
                 oDialog.open();
             })
         },
-        onCloseSetting() {
-            var oView = _oController.getView();
-            oView.byId("settingDialog").close();
+        // onCloseSetting() {
+        //     console.log("something something")
+        //     var oView = _oController.getView();
+        //     oView.byId("settingDialog").close();
+        // },
+        _loadUserSettings: function () {
+            const sUserId = _oController.getView().getModel("currentUser").getProperty("/ID");
+
+            const oModel = _oController.getView().getModel();
+            const oBinding = oModel.bindList("/UserSettings", null, null, [
+                new sap.ui.model.Filter("user_ID", "EQ", sUserId)
+            ]);
+
+            oBinding.requestContexts().then((aContexts) => {
+                if (aContexts.length > 0) {
+                    const oUserSettings = aContexts[0].getObject();
+
+                    // Create JSON model for UserSettings
+                    const oUserSettingsModel = new JSONModel(oUserSettings);
+                    _oController.getView().setModel(oUserSettingsModel, "userSettings");
+
+                    // Store context for later updates
+                    _oController._userSettingsContext = aContexts[0];
+                } else {
+                    // Create default settings if none exist
+                    _oController._createDefaultUserSettings(sUserId);
+                }
+            }).catch((error) => {
+                console.error("Error loading user settings:", error);
+                MessageBox.error("Failed to load user settings");
+            });
+        }, _createDefaultUserSettings: function (sUserId) {
+            const oModel = _oController.getView().getModel();
+            const oListBinding = oModel.bindList("/UserSettings");
+
+            const oContext = oListBinding.create({
+                user_ID: sUserId,
+                theme: "light",
+                language: "en",
+                digestFrequency: "daily"
+            });
+
+            oModel.submitBatch("$auto").then(() => {
+                MessageToast.show("Default settings created");
+                this._loadUserSettings();
+            }).catch((error) => {
+                console.error("Error creating settings:", error);
+                MessageBox.error("Failed to create default settings");
+            });
         },
-        onPressAbout() {
-            var oView = _oController.getView();
+        onSaveUserSettings: function () {
+            const oModel = _oController.getView().getModel();
+            const oUserModel = _oController.getView().getModel("currentUser");
+            const oUserSettingsModel = _oController.getView().getModel("userSettings");
+
+            // Get current user ID
+            const sUserId = oUserModel.getProperty("/ID");
+
+            // Update User entity (Profile data)
+            const oUserBinding = oModel.bindList("/Users", null, null, [
+                new sap.ui.model.Filter("ID", "EQ", sUserId)
+            ]);
+
+            oUserBinding.requestContexts().then((aUserContexts) => {
+                if (aUserContexts.length > 0) {
+                    const oUserContext = aUserContexts[0];
+
+                    // Update user profile fields
+                    oUserContext.setProperty("firstname", oUserModel.getProperty("/firstname"));
+                    oUserContext.setProperty("lastname", oUserModel.getProperty("/lastname"));
+                    oUserContext.setProperty("phone", oUserModel.getProperty("/phone"));
+                }
+
+                // Update UserSettings entity
+                if (_oController._userSettingsContext) {
+                    const oSettingsData = oUserSettingsModel.getData();
+
+                    _oController._userSettingsContext.setProperty("theme", oSettingsData.theme);
+                    _oController._userSettingsContext.setProperty("language", oSettingsData.language);
+                    _oController._userSettingsContext.setProperty("digestFrequency", oSettingsData.digestFrequency);
+                }
+
+                // Submit all changes
+                return oModel.submitBatch("$auto");
+            }).then(() => {
+                MessageToast.show("Settings saved successfully");
+
+                // Refresh current user model
+                _oController.getOwnerComponent().setCurrentUser();
+                _oController.getOwnerComponent().setcurrentUserSettings();
+
+                _oController.getView().byId("settingDialog").close();
+            }).catch((error) => {
+                MessageBox.error("Failed to save settings");
+                console.error("Save error:", error);
+            });
+        },
+
+        onCloseSetting: function () {
+            
+            if (_oController._xDialog) {
+                // Reset changes
+                _oController.getView().getModel().resetChanges();
+
+                // Reload original data
+                this._loadUserSettings();
+
+                _oController.getView().byId("settingDialog").close();
+            }
+        },
+
+        onOpenSystemDialog: function () {
+            // Your existing system dialog code
+           var oView = _oController.getView();
             
             if (!_oController.oSystemAboutDialog) {
                 _oController.oSystemAboutDialog = Fragment.load({
@@ -154,8 +262,12 @@ sap.ui.define(["sap/ui/core/Fragment", "sap/m/MessageBox", "sap/ui/model/json/JS
             _oController.oSystemAboutDialog.then(oDialog => {
                 oDialog.open();
             })
-
         },
+
+
+
+
+        // end: user settings code
         onCloseSystemDialog() {
             _oController.getView().byId("systemAboutDialog").close();
         }
@@ -377,10 +489,10 @@ sap.ui.define(["sap/ui/core/Fragment", "sap/m/MessageBox", "sap/ui/model/json/JS
             })
             var oModel = aSelectedMembers[0].getBindingContext().getBinding().getModel();
 
-            
 
-            oModel.submitBatch("$auto").then(()=>{
-                
+
+            oModel.submitBatch("$auto").then(() => {
+
                 this._fetchUpdatedProjectData(data.name);
             })
         },
@@ -442,9 +554,9 @@ sap.ui.define(["sap/ui/core/Fragment", "sap/m/MessageBox", "sap/ui/model/json/JS
                 }
 
             })
-            
+
             oUserBinding.getModel().submitBatch("$auto").then(() => {
-               
+
                 console.log("user model updated after offboarding");
                 this._fetchUpdatedProjectData(data.name);
             })
@@ -464,7 +576,7 @@ sap.ui.define(["sap/ui/core/Fragment", "sap/m/MessageBox", "sap/ui/model/json/JS
             oBinding.requestContexts().then(function (aContexts) {
                 if (aContexts.length > 0) {
                     var oProjectData = aContexts[0].getObject();
-                    
+
                     _oController.getView().setModel(new JSONModel(oProjectData), "selectedProject");
                     _oController.getView().setModel(new JSONModel(oProjectData), "DialogSelectedProject");
 
@@ -472,7 +584,7 @@ sap.ui.define(["sap/ui/core/Fragment", "sap/m/MessageBox", "sap/ui/model/json/JS
                         _oController._pDialog.then((oDialog) => {
                             oDialog.setModel(_oController.getView().getModel("DialogSelectedProject"), "selectedProject");
                             _oController.getView().byId("projectCardContainer").getBinding("items").refresh();
-                            
+
                         });
                     }
 

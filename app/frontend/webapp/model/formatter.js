@@ -91,6 +91,19 @@ sap.ui.define([], function () {
                 return true;
             }
             return false;
+        },
+
+        formatSystemStatus:function(sValue){
+            
+            // Operational, Degraded, Down
+
+            const StatusMap={
+                Operational:"Default",
+                Degraded : "Attention",
+                Down:"Reject"
+            }
+
+            return StatusMap[sValue];
         }
 
 

@@ -8,6 +8,8 @@
         title="Project Details"
         class="projectObject"
         id="projectObjectDialog"
+        contentHeight="90%"
+        contentWidth="90%"
     >
         <content>
             <!-- Project Object Container -->

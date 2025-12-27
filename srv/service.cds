@@ -82,11 +82,19 @@ service TaskService {
 
     entity Notifications as projection on db.Notification;
 
+
+    entity SystemInfo as projection on db.SystemInfo;
+
+    entity UserSettings as projection on db.UserSettings;
+
     action   login(email: String, password: String) returns String;
     action   verifyToken(token: String)             returns String;
 
 
     function getcurrentUser(ID: String)             returns String;
+
+
+    function getcurrentUserSettings()returns String;
 
 
 }
