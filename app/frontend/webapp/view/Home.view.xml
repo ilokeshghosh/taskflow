@@ -563,7 +563,7 @@
                                     <!-- Loading Project Tasks Fragment (Non-dialog Fragment) -->
                                     <HBox>
                                         <core:Fragment
-                                            id="projectTasksDialog"
+                                            id="projectTasksNonDialog"
                                             fragmentName="com.taskflow.dev.frontend.view.fragments.projects.projectTasks"
                                             type="XML"
                                         />

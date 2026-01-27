@@ -32,9 +32,9 @@ body .give-freely-root {
     padding: 0;
 }
 
-.sapMPanel.openTaskPanel {
+/* .sapMPanel.openTaskPanel {
     border: 2px solid;
-}
+} */
 
 .sapMFlexBox>.projectDetailsCard {
     border-radius: 0.5rem !important;
@@ -200,6 +200,33 @@ body .give-freely-root {
 
 }
 
+.taskPanel{
+    /* border: 2px solid yellow; */
+    height: 400px !important;
+}
+/* redesign task cards */
+.taskPanelCard.sapFCard{
+    border-radius: 1rem !important;
+    /* border: 2px solid red; */
+    height: 100% !important;
+    background-color: var(--sapButton_Active_Background) !important;
+    width: 100% !important;
+}
+
+
+/* .taskPanel.taskPanelContent{
+    border:  2px solid green !important;
+} */
+
+.cardVbox{
+    margin: 10px 0px !important;
+}
+.cardVbox>.sapMFlexItem{
+    margin: 0 auto;
+    
+    /* border: 2px solid blue !important; */
+    width: 95% !important;
+}
 
 
 /* Mobile First (default styles) */

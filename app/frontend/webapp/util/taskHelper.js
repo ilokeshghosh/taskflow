@@ -30,7 +30,12 @@ sap.ui.define(["sap/ui/core/Fragment", "sap/m/MessageBox", "sap/ui/model/json/JS
             _sorOrderAsc = true;
             _selectTasksSortOrderAsc = true;
             _oController.getView().setModel(oCreateTaskModel, "createTaskModel")
+
+            this.handleTaskCardVisibility();
+            // this.handleProjectTaskCardVisibility();
         },
+
+
         // open create project dialog to handle task creation
         handleCreateTask() {
             var oView = _oController.getView();
@@ -85,26 +90,26 @@ sap.ui.define(["sap/ui/core/Fragment", "sap/m/MessageBox", "sap/ui/model/json/JS
             var sNow = oDate.toISOString().split('T')[0];
 
             oModel.submitBatch("$auto")
-            .then(function (res) {
-                MessageBox.success("Task Created Successfully");
-                // reset the model after task creation
-                var oCreateTaskModel = new JSONModel({
-                    ID: "",
-                    title: "",
-                    description: "",
-                    priority: "low",
-                    dueDate: "",
-                    assignedTo_ID: "",
-                    status: "open",
-                    project_ID: ""
-                });
+                .then(function (res) {
+                    MessageBox.success("Task Created Successfully");
+                    // reset the model after task creation
+                    var oCreateTaskModel = new JSONModel({
+                        ID: "",
+                        title: "",
+                        description: "",
+                        priority: "low",
+                        dueDate: "",
+                        assignedTo_ID: "",
+                        status: "open",
+                        project_ID: ""
+                    });
 
-                _oController.getView().setModel(oCreateTaskModel, "createTaskModel")
-                _oController.byId("createTaskDialog").close();
-                oModel.refresh();
-            }).catch((error)=>{
-                console.error("error is found at bay",error)
-            })
+                    _oController.getView().setModel(oCreateTaskModel, "createTaskModel")
+                    _oController.byId("createTaskDialog").close();
+                    oModel.refresh();
+                }).catch((error) => {
+                    console.error("error is found at bay", error)
+                })
         },
         // function for closing create task dialog
         _closeCreateTaskDialog() {
@@ -567,55 +572,181 @@ sap.ui.define(["sap/ui/core/Fragment", "sap/m/MessageBox", "sap/ui/model/json/JS
                 oView.byId("changeTaskPriorityDialog").close();
             })
         },
-        onCancelTaskPriority(){
+        onCancelTaskPriority() {
             var oView = _oController.getView();
             oView.byId("changeTaskPriorityDialog").close();
         },
-        handleTaskArchive(){
+        handleTaskArchive() {
             console.log("handleTaskArchive");
             var oView = _oController.getView();
 
-            if(!this._aDialog){
+            if (!this._aDialog) {
                 this._aDialog = Fragment.load({
-                    id:oView.getId(),
-                    name:"com.taskflow.dev.frontend.view.fragments.tasks.archiveTask",
-                    controller:this
-                }).then(oDialog=>{
+                    id: oView.getId(),
+                    name: "com.taskflow.dev.frontend.view.fragments.tasks.archiveTask",
+                    controller: this
+                }).then(oDialog => {
                     oView.addDependent(oDialog);
                     return oDialog;
                 })
             }
 
-            this._aDialog.then(oDialog=>{
+            this._aDialog.then(oDialog => {
                 oDialog.open();
             })
         },
-        onArchiveTask(){
+        onArchiveTask() {
             console.log("archive Task");
             var oView = _oController.getView();
             var oModel = oView.getModel();
             var oSelectedTaskContextBinding = _oController._selectedTask;
             oSelectedTaskContextBinding.setProperty("isArchived", true);
 
-            oModel.submitBatch("$auto").then(()=>{
+            oModel.submitBatch("$auto").then(() => {
                 MessageToast.show("Task is Archived");
                 oView.byId("archiveTaskDialog").close();
             })
         },
-        onArchiveCancel(){
+        onArchiveCancel() {
             _oController.getView().byId("archiveTaskDialog").close();
         },
-        handleTaskDelete(){
-             var oSelectedTaskContextBinding = _oController._selectedTask;
-            console.log("oSelectedTaskContextBinding",oSelectedTaskContextBinding)
+        handleTaskDelete() {
+            var oSelectedTaskContextBinding = _oController._selectedTask;
+            console.log("oSelectedTaskContextBinding", oSelectedTaskContextBinding)
             oSelectedTaskContextBinding.delete().then(
-                function(){
+                function () {
                     MessageBox.success("Deleted Successfully");
                 },
-                function(oError){
-                    MessageBox.error("Delete Failed "+oError.message);
+                function (oError) {
+                    MessageBox.error("Delete Failed " + oError.message);
                 }
             )
+        },
+        handleTaskCardVisibility() {
+            console.log('ehy')
+            const aBindingContainers = ['openTasksCardsContainer', 'completedTasksCardsContainer', 'onReviewTasksCardsContainer', 'holdTasksCardsContainer', 'overdueTasksCardsContainer'];
+
+
+            aBindingContainers.forEach(item => {
+                const oBinding = _oController.getView().byId(item).getBinding("items");
+
+                oBinding.attachDataReceived(() => {
+                    const aData = oBinding.getContexts().map(ctx => ctx.getObject());
+
+                    console.log('visible true', aData.length)
+                    if (aData.length <= 0) {
+                        _oController.getView().byId(`Scroll${item}`).setProperty("visible", false);
+
+                        _oController.getView().byId(`${item}Alternate`).setProperty("visible", true);
+                    }
+                });
+
+
+            })
+
+
+
+
+
+            // oBinding.requestContexts().then((aContexts)=>{
+            //     console.log('context',aContexts)
+            // })
+
+        },
+
+        // onFilterSelect(){
+        //     console.log("filter select called")
+        // },
+        handleProjectTaskCardVisibility(sDialogPrefix,{ projectOpenTasks,
+            projectHoldTasks,
+            projectCompletedTasks,
+            projectOverdueTasks,
+            projectOnreviewTasks }) {
+            console.log('ehy PROJECTS')
+            // sDialogPrefix = "projectTasksNonDialog--";
+            const aBindingContainers = ['ProjectopenTasksCardsContainer', 'ProjectcompletedTasksCardsContainer', 'ProjectonReviewTasksCardsContainer', 'ProjectholdTasksCardsContainer', 'ProjectoverdueTasksCardsContainer'];
+
+            console.log('projectOnreviewTasks.length', projectOnreviewTasks)
+
+            // console.log('item', _oController.getView().byId("projectTasksDialog--ProjectopenTasksCardsContainer").getBinding("items"))
+            // projectTasksTab
+
+
+            // aBindingContainers.forEach(item => {
+            //     const oBinding = _oController.getView().byId(`${sDialogPrefix}${item}`).getBinding("items");
+
+
+
+            //     // console.log('visible true ON PROJECTS', oBinding.getMetadata())
+
+            //     console.log('visible true ON PROJECTS', )
+
+            //     oBinding.attachDataReceived(() => {
+            //         const oData = oBinding.getContexts()[0].getObject();
+            //         if (oData) {
+
+            //         }
+            //     });
+
+
+            // })
+            console.log('Everytime', _oController.getView().byId(`${sDialogPrefix}ScrollProjectopenTasksCardsContainer`))
+            if (projectOpenTasks.length <= 0) {
+                _oController.getView().byId(`${sDialogPrefix}ScrollProjectopenTasksCardsContainer`).setProperty("visible", false);
+                _oController.getView().byId(`${sDialogPrefix}ProjectopenTasksCardsContainerAlternate`).setProperty("visible", true);
+                console.log('Everytime')
+            } else {
+                _oController.getView().byId(`${sDialogPrefix}ScrollProjectopenTasksCardsContainer`).setProperty("visible", true);
+                _oController.getView().byId(`${sDialogPrefix}ProjectopenTasksCardsContainerAlternate`).setProperty("visible", false);
+            }
+
+
+            if (projectHoldTasks.length <= 0) {
+                _oController.getView().byId(`${sDialogPrefix}ScrollProjectholdTasksCardsContainer`).setProperty("visible", false);
+                _oController.getView().byId(`${sDialogPrefix}ProjectholdTasksCardsContainerAlternate`).setProperty("visible", true);
+            } else {
+                _oController.getView().byId(`${sDialogPrefix}ScrollProjectholdTasksCardsContainer`).setProperty("visible", true);
+                _oController.getView().byId(`${sDialogPrefix}ProjectholdTasksCardsContainerAlternate`).setProperty("visible", false);
+            }
+
+            if (projectCompletedTasks.length <= 0) {
+                _oController.getView().byId(`${sDialogPrefix}ScrollProjectcompletedTasksCardsContainer`).setProperty("visible", false);
+                _oController.getView().byId(`${sDialogPrefix}ProjectcompletedTasksCardsContainerAlternate`).setProperty("visible", true);
+            } else {
+                _oController.getView().byId(`${sDialogPrefix}ScrollProjectcompletedTasksCardsContainer`).setProperty("visible", true);
+                _oController.getView().byId(`${sDialogPrefix}ProjectcompletedTasksCardsContainerAlternate`).setProperty("visible", false);
+            }
+
+
+            if (projectOverdueTasks.length <= 0) {
+                _oController.getView().byId(`${sDialogPrefix}ScrollProjectoverdueTasksCardsContainer`).setProperty("visible", false);
+                _oController.getView().byId(`${sDialogPrefix}ProjectoverdueTasksCardsContainerAlternate`).setProperty("visible", true);
+            } else {
+                _oController.getView().byId(`${sDialogPrefix}ScrollProjectoverdueTasksCardsContainer`).setProperty("visible", true);
+                _oController.getView().byId(`${sDialogPrefix}ProjectoverdueTasksCardsContainerAlternate`).setProperty("visible", false);
+            }
+
+
+            if (projectOnreviewTasks.length <= 0) {
+                _oController.getView().byId(`${sDialogPrefix}ScrollProjectonReviewTasksCardsContainer`).setProperty("visible", false);
+                _oController.getView().byId(`${sDialogPrefix}ProjectonReviewTasksCardsContainerAlternate`).setProperty("visible", true);
+            } else {
+                _oController.getView().byId(`${sDialogPrefix}ScrollProjectonReviewTasksCardsContainer`).setProperty("visible", true);
+                _oController.getView().byId(`${sDialogPrefix}ProjectonReviewTasksCardsContainerAlternate`).setProperty("visible", false);
+            }
+
+
+
+
+
+
+
+
+
+            // oBinding.requestContexts().then((aContexts)=>{
+            //     console.log('context',aContexts)
+            // })
+
         }
 
     };

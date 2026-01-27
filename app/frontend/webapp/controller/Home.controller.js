@@ -11,6 +11,7 @@ sap.ui.define([
 ], (Controller, Fragment, JSONModel, projectHelper, taskHelper, formatter, MessageBox, MessageToast, userHelper) => {
     "use strict";
 
+    this.sDialogPrefix = "";
 
     return Controller.extend("com.taskflow.dev.frontend.controller.Home", {
         // initialize formatter
@@ -77,7 +78,7 @@ sap.ui.define([
         },
         // Project Master Page Navigation
         onListItemPress(oEvent) {
-
+            this.sDialogPrefix = "projectTasksNonDialog--";
             var oList = this.byId("navItems");
             var aItems = oList.getItems();
             var aSelected = oList.getSelectedItems();
@@ -215,9 +216,18 @@ sap.ui.define([
             // set model for review tasks
             oView.setModel(new JSONModel(aProjectOnreviewTasks.length >= 1 ? aProjectOnreviewTasks : [{ title: "NO TASKS ON REVIEW" }]), "selectedProjectOnreviewTasks");
 
+            taskHelper.handleProjectTaskCardVisibility(this.sDialogPrefix,{
+                projectOpenTasks: aProjectOpenTasks,
+                projectHoldTasks: aProjectHoldTasks,
+                projectCompletedTasks: aProjectCompletedTasks,
+                projectOverdueTasks: aProjectOverdueTasks,
+                projectOnreviewTasks: aProjectOnreviewTasks
+            });
+
         },
         // open quick action menu in projects page 
         onQuickActionMenuPress(oEvent) {
+            this.sDialogPrefix = "projectTasksTab--";
             var oButton = oEvent.getSource();
             var oSelectedProjectData = oButton.getBindingContext().getObject();
             console.log('binding data', oSelectedProjectData);
@@ -730,6 +740,8 @@ sap.ui.define([
             // });
 
             // oBinding.refresh();
+
+            
         },
 
         onListUpdateFinished: function (oEvent) {
@@ -1258,6 +1270,20 @@ sap.ui.define([
                 archiveText.setProperty("visible", false);
             }
 
+
+        },
+
+        onFilterSelect(oEvent) {
+            const oItem = oEvent.getParameter("item");
+            const sText = oItem.getText();
+
+            // console.log("item id:", oItem.getId());
+            // console.log("item key:", oItem.getKey());
+            
+            // console.log("item text:", oItem.getText());
+            if (sText === "Tasks") {
+                // taskHelper.handleProjectTaskCardVisibility();
+            }
 
         }
 

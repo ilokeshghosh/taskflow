@@ -155,8 +155,9 @@
                     width="90%"
                 >
                     <IconTabBar
-                        class=""
+                        class="something"
                         select=".onFilterSelect"
+                        id="projectDetailsIconTabBar"
                     >
                         <items>
                             <!-- Project Overview Tab Filter -->
@@ -165,6 +166,7 @@
                                 icon="sap-icon://document-text"
                                 design="Vertical"
                                 class=""
+                                key="projectOverviewTabFilter"
                             >
                                 <HBox
                                     wrap="Wrap"
@@ -312,6 +314,8 @@
                                 text="Tasks"
                                 icon="sap-icon://activities"
                                 design="Vertical"
+                                key="projectTasksTabFilter"
+                                id="projectTasksTabFilter"
                             >
                                 <!-- Loading Project Tasks Fragments (Dialog) -->
                                 <HBox>
@@ -328,6 +332,7 @@
                                 text="Team"
                                 icon="sap-icon://group"
                                 design="Vertical"
+                                key="projectTeamTabFilter"
                             >
                                 <HBox
                                     class="teamDetailsBox"
@@ -461,6 +466,7 @@
                                 text="Discussions"
                                 icon="sap-icon://discussion-2"
                                 design="Vertical"
+                                key="projectDiscussionsTabFilter"
                             >
                                 <BusyIndicator text="FEATURE COMING SOON" />
                             </IconTabFilter>
@@ -470,6 +476,7 @@
                                 text="Analytics"
                                 icon="sap-icon://compare"
                                 design="Vertical"
+                                key="projectAnalyticsTabFilter"
                             >
                                 <BusyIndicator text="FEATURE COMING SOON" />
                             </IconTabFilter>

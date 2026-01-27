@@ -10,7 +10,7 @@ const provisioning = async (userSchema, user) => {
         const existingUser = await cds.run(
             SELECT.one.from(userSchema).where({ email: user.id })
         )
-        console.log("user exists", Object.keys(user.roles)[0])
+
         if (!existingUser) {
             throw Error("User Does Not Exists in DB");
         }
@@ -56,7 +56,7 @@ module.exports = cds.service.impl(async function () {
         if (!email || !firstname || !lastname || !password) {
             return req.error(400, 'Email, firstName, lastName and password are required');
         }
-        console.log("Users", Users)
+       
         const existingUser = await cds.run(
             SELECT.one.from(Users).where({ email })
         )
@@ -163,7 +163,7 @@ module.exports = cds.service.impl(async function () {
         if(!userId){
             req.error(400,"Invalid User");
         }
-        console.log(userId)
+        
         req.query.where({
             project_ID:{
                 in: SELECT.from(User_Project).columns("project_ID").where({user_ID:userId})
@@ -173,9 +173,9 @@ module.exports = cds.service.impl(async function () {
     })
 
 
-    this.after('READ','Tasks',async(req,res)=>{
-        console.log("ress",res)
-    })
+    // this.after('READ','Tasks',async(req,res)=>{
+    //     console.log("ress",res)
+    // })
     // Authentication Logics
     // this.on("login", async (req, res) => {
     //     const { email, password } = req.data;
@@ -284,11 +284,11 @@ module.exports = cds.service.impl(async function () {
     })
 
     this.on("getcurrentUserSettings", async (req) => {
-        console.log("req", req.user);
+        // console.log("req", req.user);
         try {
             const userSettings = await SELECT.one.from(UserSettings).where({ user_ID: req.user.ID });
 
-            console.log("userSettings", userSettings);
+            // console.log("userSettings", userSettings);
             return userSettings;
         } catch (error) {
             console.error(400, error?.message);

@@ -1,87 +1,38 @@
-<core:FragmentDefinition
-    xmlns:uxap="sap.uxap"
+<core:FragmentDefinition xmlns:uxap="sap.uxap"
     xmlns:cards="sap.f.cards"
     xmlns:f="sap.f"
     xmlns="sap.m"
     xmlns:form="sap.ui.layout.form"
     xmlns:core="sap.ui.core"
     xmlns:p13n="sap.m.p13n"
-    xmlns:fb="sap.ui.comp.filterbar"
->
+    xmlns:fb="sap.ui.comp.filterbar">
     <Panel height="100%">
         <content>
             <Panel class="taskPanelContainer">
                 <!-- TO BE IMPLEMENTED || header / filter / view type section  -->
                 <headerToolbar>
                     <OverflowToolbar height="auto">
-                        <HBox
-                            justifyContent="SpaceBetween"
-                            width="100%"
-                            alignItems="Center"
-                            wrap="Wrap"
-                        >
+                        <HBox justifyContent="SpaceBetween" width="100%" alignItems="Center" wrap="Wrap">
                             <!-- Search and Sort Container -->
-                            <HBox
-                                gap="1rem"
-                                alignItems="Start"
-                                width="auto"
-                                height="auto"
-                            >
-                                <SearchField
-                                    id="selectedTasksSearchInputField"
-                                    placeholder="Search.."
-                                    liveChange=".onSelectedSearchTasks"
-                                />
+                            <HBox gap="1rem" alignItems="Start" width="auto" height="auto">
+                                <SearchField id="selectedTasksSearchInputField" placeholder="Search.." liveChange=".onSelectedSearchTasks" />
 
-                                <Button
-                                    type="Transparent"
-                                    icon="sap-icon://sort"
-                                    press="onSelectedTasksSorter"
-                                    tooltip="Sort by ue date"
-                                />
+                                <Button type="Transparent" icon="sap-icon://sort" press="onSelectedTasksSorter" tooltip="Sort by ue date" />
                             </HBox>
 
                             <!-- Filter Container (Status / Priority) -->
-                            <HBox
-                                width="auto"
-                                height="auto"
-                            >
-                                <fb:FilterBar
-                                    id="selectedTasksFilterBar"
-                                    persistencyKey="tasksPersistencyKey"
-                                    useToolbar="false"
-                                    search=".onSelectedTasksFilter"
-                                >
+                            <HBox width="auto" height="auto">
+                                <fb:FilterBar id="selectedTasksFilterBar" persistencyKey="tasksPersistencyKey" useToolbar="false" search=".onSelectedTasksFilter">
                                     <fb:filterGroupItems>
                                         <!-- priority filter -->
-                                        <fb:FilterGroupItem
-                                            name="priority"
-                                            label="Priority"
-                                            groupName="Group1"
-                                            visibleInFilterBar="true"
-                                            id="Group5"
-                                        >
+                                        <fb:FilterGroupItem name="priority" label="Priority" groupName="Group1" visibleInFilterBar="true" id="Group5">
                                             <fb:control>
-                                                <Select
-                                                    id="selectedTaskPrioritySelect"
-                                                >
+                                                <Select id="selectedTaskPrioritySelect">
                                                     <items>
-                                                        <core:Item
-                                                            key="X"
-                                                            text="All"
-                                                        />
-                                                        <core:Item
-                                                            key="high"
-                                                            text="High"
-                                                        />
-                                                        <core:Item
-                                                            key="medium"
-                                                            text="Medium"
-                                                        />
-                                                        <core:Item
-                                                            key="low"
-                                                            text="Low"
-                                                        />
+                                                        <core:Item key="X" text="All" />
+                                                        <core:Item key="high" text="High" />
+                                                        <core:Item key="medium" text="Medium" />
+                                                        <core:Item key="low" text="Low" />
                                                     </items>
                                                 </Select>
                                             </fb:control>
@@ -94,150 +45,66 @@
                 </headerToolbar>
 
                 <content>
-                    <FlexBox
-                        gap="1rem"
-                        justifyContent="SpaceAround"
-                        wrap="Wrap"
-                    >
+                    <FlexBox gap="1rem" justifyContent="SpaceAround" wrap="Wrap">
                         <!-- Open Card -->
-                        <Panel
-                            class="sapUiMediumMarginTop openTaskPanel taskPanel border1"
-                        >
+                        <Panel class="sapUiMediumMarginTop openTaskPanel taskPanel border1">
                             <headerToolbar>
                                 <OverflowToolbar class="sapUiSmallMarginTop">
-                                    <HBox
-                                        width="100%"
-                                        justifyContent="SpaceBetween"
-                                    >
-                                        <Title
-                                            text="Open"
-                                            level="H2"
-                                            textAlign="End"
-                                        />
+                                    <HBox width="100%" justifyContent="SpaceBetween">
+                                        <HBox alignItems="Center" gap="1rem">
+                                            <core:Icon src="sap-icon://color-fill" color="#0a6ed1"></core:Icon>
+
+                                            <Title text="Open" level="H2" textAlign="End" />
+
+                                        </HBox>
+
+                                        <Button icon="sap-icon://add" text="Add Task" type="Transparent" press="handleOpenCreateTaskDialog" visible="{= ${currentUser>/roles/0}==='manager' || ${currentUser>/roles/0}==='member'}" />
                                     </HBox>
                                 </OverflowToolbar>
                             </headerToolbar>
 
                             <content>
-                                <ScrollContainer
-                                    height="380px"
-                                    width="100%"
-                                    horizontal="false"
-                                    vertical="true"
-                                    class="padding1rem border1 "
-                                >
-                                    <VBox
-                                        id="selectedOpenTasksCardsContainer"
-                                        gap="1rem"
-                                        class="sapUiTinyMarginBegin sapUiTinyMarginTop"
-                                        justifyContent="Center"
-                                        alignItems="Center"
-                                        width="90%"
-                                        items="{selectedProjectOpenTasks>/}"
-                                    >
+                                <ScrollContainer  id="ScrollProjectopenTasksCardsContainer" height="380px" width="100%" horizontal="false" vertical="true" class="padding1rem border1 ">
+                                    <VBox id="ProjectopenTasksCardsContainer" gap="1rem" class="sapUiTinyMarginBegin sapUiTinyMarginTop openTasksCardContainer cardVbox" justifyContent="Center" alignItems="Start" width="100%" items="{selectedProjectOpenTasks>/}">
                                         <items>
-                                            <f:Card class="taskPanel">
+                                            <f:Card class="taskPanelCard">
                                                 <f:content>
-                                                    <VBox
-                                                        class="sapUiTinyMargin"
-                                                        width="100%"
-                                                        gap="1rem"
-                                                    >
+                                                    <VBox class="sapUiTinyMargin taskPanelContent" width="100%" gap="1rem">
                                                         <!-- title / priority section -->
-                                                        <HBox
-                                                            width="100%"
-                                                            justifyContent="SpaceBetween"
-                                                        >
+                                                        <HBox width="100%" justifyContent="SpaceBetween">
                                                             <VBox gap="0.5rem">
-                                                                <Title
-                                                                    text="{selectedProjectOpenTasks>title}"
-                                                                    level="H5"
-                                                                />
-                                                                <Text
-                                                                    text="{selectedProjectOpenTasks>description}"
-                                                                />
+                                                                <Title text="{selectedProjectOpenTasks>title}" level="H5" />
+                                                                <Text text="{selectedProjectOpenTasks>description}" />
                                                             </VBox>
 
                                                             <!-- RIGHT : priority Badge -->
-                                                            <ObjectStatus
-                                                                text="{selectedProjectOpenTasks>priority}"
-                                                                state="{path:'selectedProjectOpenTasks>priority',formatter:'.formatter.formatPriority'}"
-                                                                class="statusBadge"
-                                                                inverted="true"
-                                                            />
+                                                            <ObjectStatus text="{selectedProjectOpenTasks>priority}" state="{path:'selectedProjectOpenTasks>priority',formatter:'.formatter.formatPriority'}" class="statusBadge" inverted="true" />
                                                         </HBox>
 
                                                         <!-- progress (not used) -->
-                                                        <VBox
-                                                            class="progressSection "
-                                                            justifyContent="End"
-                                                            visible="false"
-                                                        >
-                                                            <HBox
-                                                                justifyContent="SpaceBetween"
-                                                                alignItems="Center"
-                                                                class=""
-                                                            >
-                                                                <Text
-                                                                    text="Progress"
-                                                                    class="progressLabel"
-                                                                />
-                                                                <Text
-                                                                    text="65%"
-                                                                    class="progressValue"
-                                                                />
+                                                        <VBox class="progressSection " justifyContent="End" visible="false">
+                                                            <HBox justifyContent="SpaceBetween" alignItems="Center" class="">
+                                                                <Text text="Progress" class="progressLabel" />
+                                                                <Text text="65%" class="progressValue" />
                                                             </HBox>
 
-                                                            <ProgressIndicator
-                                                                percentValue="65"
-                                                                class="progressBar"
-                                                                width="100%"
-                                                                displayAnimation="true"
-                                                                displayOnly="true"
-                                                            />
+                                                            <ProgressIndicator percentValue="65" class="progressBar" width="100%" displayAnimation="true" displayOnly="true" />
                                                         </VBox>
 
                                                         <!-- date / other details -->
                                                         <HBox>
-                                                            <Button
-                                                                enabled="false"
-                                                                type="Transparent"
-                                                                icon="sap-icon://calendar"
-                                                                text="{selectedProjectOpenTasks>dueDate}"
-                                                            />
+                                                            <Button enabled="false" type="Transparent" icon="sap-icon://calendar" text="{selectedProjectOpenTasks>dueDate}" />
 
-                                                            <Button
-                                                                enabled="false"
-                                                                type="Transparent"
-                                                                icon="sap-icon://attachment"
-                                                                text="2"
-                                                            />
+                                                            <Button enabled="false" type="Transparent" icon="sap-icon://attachment" text="2" />
 
-                                                            <Button
-                                                                enabled="false"
-                                                                type="Transparent"
-                                                                icon="sap-icon://discussion"
-                                                                text="5"
-                                                            />
+                                                            <Button enabled="false" type="Transparent" icon="sap-icon://discussion" text="5" />
 
-                                                            <Button
-                                                                enabled="false"
-                                                                type="Transparent"
-                                                                icon="sap-icon://activity-2"
-                                                                text="5"
-                                                            />
+                                                            <Button enabled="false" type="Transparent" icon="sap-icon://activity-2" text="5" />
                                                         </HBox>
 
                                                         <!-- team member / overflow button -->
-                                                        <HBox
-                                                            justifyContent="SpaceBetween"
-                                                            width="100%"
-                                                        >
-                                                            <Avatar
-                                                                src="{selectedProjectOpenTasks>assignedTo/avatarUrl}"
-                                                                displaySize="XS"
-                                                                tooltip="{selectedProjectOpenTasks>assignedTo/firstname} {selectedProjectOpenTasks>assignedTo/lastname} ( {selectedProjectOpenTasks>assignedTo/email} )"
-                                                            />
+                                                        <HBox justifyContent="SpaceBetween" width="100%">
+                                                            <Avatar src="{selectedProjectOpenTasks>assignedTo/avatarUrl}" displaySize="XS" tooltip="{selectedProjectOpenTasks>assignedTo/firstname} {selectedProjectOpenTasks>assignedTo/lastname} ( {selectedProjectOpenTasks>assignedTo/email} )" />
                                                         </HBox>
                                                     </VBox>
                                                 </f:content>
@@ -245,650 +112,372 @@
                                         </items>
                                     </VBox>
                                 </ScrollContainer>
+
+
+                                <f:Card id="ProjectopenTasksCardsContainerAlternate"  width="90%" height="40%" class="sapUiSmallMarginBegin sapUiTinyMarginTop sapUiTinyMarginBottom">
+
+                                    <f:content>
+                                        <IllustratedMessage enableVerticalResponsiveness="false" title="No Open Task" illustrationType="sapIllus-NoActivities">
+                                            <additionalContent>
+                                                <Button icon="sap-icon://add" text="Add Task" type="Emphasized" press="handleOpenCreateTaskDialog" visible="{= ${currentUser>/roles/0}==='manager' || ${currentUser>/roles/0}==='member'}" />
+                                            </additionalContent>
+                                        </IllustratedMessage>
+                                    </f:content>
+                                </f:Card>
                             </content>
 
                             <!-- footer -->
-                            <Toolbar style="Clear">
-                                <Button
-                                    icon="sap-icon://add"
-                                    text="Add Task"
-                                    type="Transparent"
-                                    press="handleOpenCreateTaskDialog"
-                                     visible="{= ${currentUser>/roles/0}==='manager'}"
-                                />
-                            </Toolbar>
+                            <!-- <Toolbar style="Clear">
+                                <Button icon="sap-icon://add" text="Add Task" type="Transparent" press="handleOpenCreateTaskDialog" visible="{= ${currentUser>/roles/0}==='manager'}" />
+                            </Toolbar> -->
                         </Panel>
 
                         <!-- Completed Card -->
-                        <Panel
-                            class="sapUiMediumMarginTop taskPanel openTaskPanel border1"
-                            visible="true"
-                        >
+                        <Panel class="sapUiMediumMarginTop taskPanel openTaskPanel border1" visible="true">
                             <headerToolbar>
                                 <OverflowToolbar class="sapUiSmallMarginTop">
-                                    <HBox
-                                        width="100%"
-                                        justifyContent="SpaceBetween"
-                                    >
-                                        <Title
-                                            text="Completed"
-                                            level="H2"
-                                            textAlign="End"
-                                        />
+                                    <HBox width="100%" justifyContent="SpaceBetween">
+
+                                        <HBox alignItems="Center" gap="1rem">
+                                            <core:Icon src="sap-icon://color-fill" color="#107e3e"></core:Icon>
+
+                                            <Title text="Completed" level="H2" textAlign="End" />
+
+                                        </HBox>
+
+                                        <Button icon="sap-icon://add" text="Add Task" type="Transparent" press="handleOpenCreateTaskDialog" visible="{= ${currentUser>/roles/0}==='manager' || ${currentUser>/roles/0}==='member'}" />
+
                                     </HBox>
                                 </OverflowToolbar>
                             </headerToolbar>
 
                             <content>
-                                <ScrollContainer
-                                    height="380px"
-                                    width="100%"
-                                    horizontal="false"
-                                    vertical="true"
-                                >
-                                    <VBox
-                                        id="selectedHoldTasksCardsContainer"
-                                        gap="1rem"
-                                        class="sapUiTinyMarginBegin sapUiTinyMarginTop"
-                                        justifyContent="Center"
-                                        width="90%"
-                                        items="{selectedProjectCompletedTasks>/}"
-                                    >
-                                        <f:Card class="taskPanel">
+                                <ScrollContainer visible="true" id="ScrollProjectcompletedTasksCardsContainer" height="380px" width="100%" horizontal="false" vertical="true">
+                                    <VBox id="ProjectcompletedTasksCardsContainer" gap="1rem" class="sapUiTinyMarginBegin sapUiTinyMarginTop openTasksCardContainer cardVbox" justifyContent="Center" width="100%" alignItems="Start" items="{selectedProjectCompletedTasks>/}">
+                                        <f:Card class="taskPanelCard">
                                             <f:content>
-                                                <VBox
-                                                    class=" sapUiTinyMargin"
-                                                    width="100%"
-                                                    gap="1rem"
-                                                >
+                                                <VBox class=" sapUiTinyMargin taskPanelContent" width="100%" gap="1rem">
                                                     <!-- title / priority section -->
-                                                    <HBox
-                                                        width="100%"
-                                                        justifyContent="SpaceBetween"
-                                                    >
+                                                    <HBox width="100%" justifyContent="SpaceBetween">
                                                         <VBox gap="0.5rem">
-                                                            <Title
-                                                                text="{selectedProjectCompletedTasks>title}"
-                                                                level="H5"
-                                                            />
-                                                            <Text
-                                                                text="{selectedProjectCompletedTasks>description}"
-                                                            />
+                                                            <Title text="{selectedProjectCompletedTasks>title}" level="H5" />
+                                                            <Text text="{selectedProjectCompletedTasks>description}" />
                                                         </VBox>
 
                                                         <!-- RIGHT : priority Badge -->
-                                                        <ObjectStatus
-                                                            text="{selectedProjectCompletedTasks>priority}"
-                                                            state="{path:'selectedProjectCompletedTasks>priority',formatter:'.formatter.formatPriority'}"
-                                                            class="statusBadge"
-                                                            inverted="true"
-                                                        />
+                                                        <ObjectStatus text="{selectedProjectCompletedTasks>priority}" state="{path:'selectedProjectCompletedTasks>priority',formatter:'.formatter.formatPriority'}" class="statusBadge" inverted="true" />
                                                     </HBox>
 
                                                     <!-- progress (not used) -->
-                                                    <VBox
-                                                        class="progressSection "
-                                                        justifyContent="End"
-                                                        visible="false"
-                                                    >
-                                                        <HBox
-                                                            justifyContent="SpaceBetween"
-                                                            alignItems="Center"
-                                                            class=""
-                                                        >
-                                                            <Text
-                                                                text="Progress"
-                                                                class="progressLabel"
-                                                            />
-                                                            <Text
-                                                                text="65%"
-                                                                class="progressValue"
-                                                            />
+                                                    <VBox class="progressSection " justifyContent="End" visible="false">
+                                                        <HBox justifyContent="SpaceBetween" alignItems="Center" class="">
+                                                            <Text text="Progress" class="progressLabel" />
+                                                            <Text text="65%" class="progressValue" />
                                                         </HBox>
 
-                                                        <ProgressIndicator
-                                                            percentValue="65"
-                                                            class="progressBar"
-                                                            width="100%"
-                                                            displayAnimation="true"
-                                                            displayOnly="true"
-                                                        />
+                                                        <ProgressIndicator percentValue="65" class="progressBar" width="100%" displayAnimation="true" displayOnly="true" />
                                                     </VBox>
 
                                                     <!-- date / other details -->
                                                     <HBox>
-                                                        <Button
-                                                            enabled="false"
-                                                            type="Transparent"
-                                                            icon="sap-icon://calendar"
-                                                            text="{selectedProjectCompletedTasks>dueDate}"
-                                                        />
+                                                        <Button enabled="false" type="Transparent" icon="sap-icon://calendar" text="{selectedProjectCompletedTasks>dueDate}" />
 
-                                                        <Button
-                                                            enabled="false"
-                                                            type="Transparent"
-                                                            icon="sap-icon://attachment"
-                                                            text="2"
-                                                        />
+                                                        <Button enabled="false" type="Transparent" icon="sap-icon://attachment" text="2" />
 
-                                                        <Button
-                                                            enabled="false"
-                                                            type="Transparent"
-                                                            icon="sap-icon://discussion"
-                                                            text="5"
-                                                        />
+                                                        <Button enabled="false" type="Transparent" icon="sap-icon://discussion" text="5" />
 
-                                                        <Button
-                                                            enabled="false"
-                                                            type="Transparent"
-                                                            icon="sap-icon://activity-2"
-                                                            text="5"
-                                                        />
+                                                        <Button enabled="false" type="Transparent" icon="sap-icon://activity-2" text="5" />
                                                     </HBox>
 
                                                     <!-- team member / overflow button -->
-                                                    <HBox
-                                                        justifyContent="SpaceBetween"
-                                                        width="100%"
-                                                    >
-                                                        <!-- <Avatar
-                                                            src="https://ik.imagekit.io/8fgpvoiai/profile/profile-image-black-white_81gzUNk43.png?updatedAt=1703005079604"
-                                                            displaySize="XS"
-                                                        /> -->
+                                                    <HBox justifyContent="SpaceBetween" width="100%">
+                                                        <!-- <Avatar src="https://ik.imagekit.io/8fgpvoiai/profile/profile-image-black-white_81gzUNk43.png?updatedAt=1703005079604" displaySize="XS" /> -->
 
-                                                        <Avatar
-                                                                src="{selectedProjectCompletedTasks>assignedTo/avatarUrl}"
-                                                                displaySize="XS"
-                                                                tooltip="{selectedProjectCompletedTasks>assignedTo/firstname} {selectedProjectCompletedTasks>assignedTo/lastname} ( {selectedProjectCompletedTasks>assignedTo/email} )"
-                                                            />
+                                                        <Avatar src="{selectedProjectCompletedTasks>assignedTo/avatarUrl}" displaySize="XS" tooltip="{selectedProjectCompletedTasks>assignedTo/firstname} {selectedProjectCompletedTasks>assignedTo/lastname} ( {selectedProjectCompletedTasks>assignedTo/email} )" />
                                                     </HBox>
                                                 </VBox>
                                             </f:content>
                                         </f:Card>
                                     </VBox>
                                 </ScrollContainer>
+
+                                <f:Card id="ProjectcompletedTasksCardsContainerAlternate" visible="false" width="90%" height="40%" class="sapUiSmallMarginBegin sapUiTinyMarginTop sapUiTinyMarginBottom">
+
+                                    <f:content>
+                                        <IllustratedMessage enableVerticalResponsiveness="false" title="No Completed Task" illustrationType="sapIllus-NoActivities">
+                                            <additionalContent>
+                                                <Button icon="sap-icon://add" text="Add Task" type="Emphasized" press="handleOpenCreateTaskDialog" visible="{= ${currentUser>/roles/0}==='manager' || ${currentUser>/roles/0}==='member'}" />
+                                            </additionalContent>
+                                        </IllustratedMessage>
+                                    </f:content>
+                                </f:Card>
                             </content>
 
                             <!-- footer -->
-                            <Toolbar style="Clear">
-                                <Button
-                                    icon="sap-icon://add"
-                                    text="Add Task"
-                                    type="Transparent"
-                                    press="handleOpenCreateTaskDialog"
-                                     visible="{= !${currentUser>/roles/0}==='clientUser'}"
-                                />
-                            </Toolbar>
+                            <!-- <Toolbar style="Clear">
+                                <Button icon="sap-icon://add" text="Add Task" type="Transparent" press="handleOpenCreateTaskDialog" visible="{= !${currentUser>/roles/0}==='clientUser'}" />
+                            </Toolbar> -->
                         </Panel>
 
                         <!-- in/on review Card-->
-                        <Panel
-                            class="sapUiMediumMarginTop taskPanel openTaskPanel border1"
-                            visible="true"
-                        >
+                        <Panel class="sapUiMediumMarginTop taskPanel openTaskPanel border1" visible="true">
                             <headerToolbar>
                                 <OverflowToolbar class="sapUiSmallMarginTop">
-                                    <HBox
-                                        width="100%"
-                                        justifyContent="SpaceBetween"
-                                    >
-                                        <Title
-                                            text="On Review"
-                                            level="H2"
-                                            textAlign="End"
-                                        />
+                                    <HBox width="100%" justifyContent="SpaceBetween">
+
+
+                                        <HBox alignItems="Center" gap="1rem">
+                                            <core:Icon src="sap-icon://color-fill" color="#6a6d70"></core:Icon>
+
+                                            <Title text="On Review" level="H2" textAlign="End" />
+
+                                        </HBox>
+
+
+                                        <Button icon="sap-icon://add" text="Add Task" type="Transparent" press="handleOpenCreateTaskDialog" visible="{= ${currentUser>/roles/0}==='manager' || ${currentUser>/roles/0}==='member'}" />
                                     </HBox>
                                 </OverflowToolbar>
                             </headerToolbar>
 
                             <content>
-                                <ScrollContainer
-                                    height="380px"
-                                    width="100%"
-                                    horizontal="false"
-                                    vertical="true"
-                                >
-                                    <VBox
-                                        gap="1rem"
-                                        class="sapUiTinyMarginBegin sapUiTinyMarginTop"
-                                        justifyContent="Center"
-                                        width="90%"
-                                        items="{selectedProjectOnreviewTasks>/}"
-                                    >
-                                        <f:Card class="taskPanel">
+                                <ScrollContainer visible="true" id="ScrollProjectonReviewTasksCardsContainer" height="380px" width="100%" horizontal="false" vertical="true">
+                                    <VBox gap="1rem" class="sapUiTinyMarginBegin sapUiTinyMarginTop openTasksCardContainer cardVbox"  justifyContent="Center" width="90%" alignItems="Start" items="{selectedProjectOnreviewTasks>/}">
+                                        <f:Card class="taskPanelCard">
                                             <f:content>
-                                                <VBox
-                                                    class="sapUiTinyMargin"
-                                                    width="100%"
-                                                    gap="1rem"
-                                                >
+                                                <VBox class="sapUiTinyMargin taskPanelContent" width="100%" gap="1rem">
                                                     <!-- title / priority section -->
-                                                    <HBox
-                                                        width="100%"
-                                                        justifyContent="SpaceBetween"
-                                                    >
+                                                    <HBox width="100%" justifyContent="SpaceBetween">
                                                         <VBox gap="0.5rem">
-                                                            <Title
-                                                                text="{selectedProjectOnreviewTasks>title}"
-                                                                level="H5"
-                                                            />
-                                                            <Text
-                                                                text="{selectedProjectOnreviewTasks>description}"
-                                                            />
+                                                            <Title text="{selectedProjectOnreviewTasks>title}" level="H5" />
+                                                            <Text text="{selectedProjectOnreviewTasks>description}" />
                                                         </VBox>
 
                                                         <!-- RIGHT : priority Badge -->
-                                                        <ObjectStatus
-                                                            text="{selectedProjectOnreviewTasks>priority}"
-                                                            state="{path:'selectedProjectOnreviewTasks>priority',formatter:'.formatter.formatPriority'}"
-                                                            class="statusBadge"
-                                                            inverted="true"
-                                                        />
+                                                        <ObjectStatus text="{selectedProjectOnreviewTasks>priority}" state="{path:'selectedProjectOnreviewTasks>priority',formatter:'.formatter.formatPriority'}" class="statusBadge" inverted="true" />
                                                     </HBox>
 
                                                     <!-- progress (not used) -->
-                                                    <VBox
-                                                        class="progressSection "
-                                                        justifyContent="End"
-                                                        visible="false"
-                                                    >
-                                                        <HBox
-                                                            justifyContent="SpaceBetween"
-                                                            alignItems="Center"
-                                                            class=""
-                                                        >
-                                                            <Text
-                                                                text="Progress"
-                                                                class="progressLabel"
-                                                            />
-                                                            <Text
-                                                                text="65%"
-                                                                class="progressValue"
-                                                            />
+                                                    <VBox class="progressSection " justifyContent="End" visible="false">
+                                                        <HBox justifyContent="SpaceBetween" alignItems="Center" class="">
+                                                            <Text text="Progress" class="progressLabel" />
+                                                            <Text text="65%" class="progressValue" />
                                                         </HBox>
 
-                                                        <ProgressIndicator
-                                                            percentValue="65"
-                                                            class="progressBar"
-                                                            width="100%"
-                                                            displayAnimation="true"
-                                                            displayOnly="true"
-                                                        />
+                                                        <ProgressIndicator percentValue="65" class="progressBar" width="100%" displayAnimation="true" displayOnly="true" />
                                                     </VBox>
 
                                                     <!-- date / other details -->
                                                     <HBox>
-                                                        <Button
-                                                            enabled="false"
-                                                            type="Transparent"
-                                                            icon="sap-icon://calendar"
-                                                            text="{selectedProjectOnreviewTasks>dueDate}"
-                                                        />
+                                                        <Button enabled="false" type="Transparent" icon="sap-icon://calendar" text="{selectedProjectOnreviewTasks>dueDate}" />
 
-                                                        <Button
-                                                            enabled="false"
-                                                            type="Transparent"
-                                                            icon="sap-icon://attachment"
-                                                            text="2"
-                                                        />
+                                                        <Button enabled="false" type="Transparent" icon="sap-icon://attachment" text="2" />
 
-                                                        <Button
-                                                            enabled="false"
-                                                            type="Transparent"
-                                                            icon="sap-icon://discussion"
-                                                            text="5"
-                                                        />
+                                                        <Button enabled="false" type="Transparent" icon="sap-icon://discussion" text="5" />
 
-                                                        <Button
-                                                            enabled="false"
-                                                            type="Transparent"
-                                                            icon="sap-icon://activity-2"
-                                                            text="5"
-                                                        />
+                                                        <Button enabled="false" type="Transparent" icon="sap-icon://activity-2" text="5" />
                                                     </HBox>
 
                                                     <!-- team member / overflow button -->
-                                                    <HBox
-                                                        justifyContent="SpaceBetween"
-                                                        width="100%"
-                                                    >
-                                                       
+                                                    <HBox justifyContent="SpaceBetween" width="100%">
 
-                                                        <Avatar
-                                                                src="{selectedProjectOnreviewTasks>assignedTo/avatarUrl}"
-                                                                displaySize="XS"
-                                                                tooltip="{selectedProjectOnreviewTasks>assignedTo/firstname} {selectedProjectOnreviewTasks>assignedTo/lastname} ( {selectedProjectOnreviewTasks>assignedTo/email} )"
-                                                            />
+
+                                                        <Avatar src="{selectedProjectOnreviewTasks>assignedTo/avatarUrl}" displaySize="XS" tooltip="{selectedProjectOnreviewTasks>assignedTo/firstname} {selectedProjectOnreviewTasks>assignedTo/lastname} ( {selectedProjectOnreviewTasks>assignedTo/email} )" />
                                                     </HBox>
                                                 </VBox>
                                             </f:content>
                                         </f:Card>
                                     </VBox>
                                 </ScrollContainer>
+
+                                <f:Card id="ProjectonReviewTasksCardsContainerAlternate" visible="false" width="90%" height="40%" class="sapUiSmallMarginBegin sapUiTinyMarginTop sapUiTinyMarginBottom">
+
+                                    <f:content>
+                                        <IllustratedMessage enableVerticalResponsiveness="false" title="No Task is On Review" illustrationType="sapIllus-NoActivities">
+                                            <additionalContent>
+                                                <Button icon="sap-icon://add" text="Add Task" type="Emphasized" press="handleOpenCreateTaskDialog" visible="{= ${currentUser>/roles/0}==='manager' || ${currentUser>/roles/0}==='member'}" />
+                                            </additionalContent>
+                                        </IllustratedMessage>
+                                    </f:content>
+                                </f:Card>
                             </content>
 
                             <!-- footer -->
-                            <Toolbar style="Clear">
-                                <Button
-                                    icon="sap-icon://add"
-                                    text="Add Task"
-                                    type="Transparent"
-                                    press="handleOpenCreateTaskDialog"
-                                     visible="{= !${currentUser>/roles/0}==='clientUser'}"
-                                />
-                            </Toolbar>
+                            <!-- <Toolbar style="Clear">
+                                <Button icon="sap-icon://add" text="Add Task" type="Transparent" press="handleOpenCreateTaskDialog" visible="{= !${currentUser>/roles/0}==='clientUser'}" />
+                            </Toolbar> -->
                         </Panel>
 
                         <!-- Hold Card -->
-                        <Panel
-                            class="sapUiMediumMarginTop taskPanel openTaskPanel border1"
-                            visible="true"
-                        >
+                        <Panel class="sapUiMediumMarginTop taskPanel openTaskPanel border1" visible="true">
                             <headerToolbar>
                                 <OverflowToolbar class="sapUiSmallMarginTop">
-                                    <HBox
-                                        width="100%"
-                                        justifyContent="SpaceBetween"
-                                    >
-                                        <Title
-                                            text="Hold"
-                                            level="H2"
-                                            textAlign="End"
-                                        />
+                                     <HBox width="100%" justifyContent="SpaceBetween">
+
+                                        <HBox alignItems="Center" gap="1rem">
+                                            <core:Icon src="sap-icon://color-fill" color="#e9730c"></core:Icon>
+
+                                            <Title text="Hold" level="H2" textAlign="End" />
+
+                                        </HBox>
+
+
+
+                                        <Button icon="sap-icon://add" text="Add Task" type="Transparent" press="handleOpenCreateTaskDialog" visible="{= ${currentUser>/roles/0}==='manager' || ${currentUser>/roles/0}==='member'}" />
                                     </HBox>
                                 </OverflowToolbar>
                             </headerToolbar>
 
                             <content>
-                                <ScrollContainer
-                                    height="380px"
-                                    width="100%"
-                                    horizontal="false"
-                                    vertical="true"
-                                >
-                                    <VBox
-                                        gap="1rem"
-                                        class="sapUiTinyMarginBegin sapUiTinyMarginTop"
-                                        justifyContent="Center"
-                                        width="90%"
-                                        items="{selectedProjectHoldTasks>/}"
-                                    >
-                                        <f:Card class="taskPanel">
+                                <ScrollContainer visible="true" id="ScrollProjectholdTasksCardsContainer" height="380px" width="100%" horizontal="false" vertical="true">
+                                    <VBox gap="1rem" class="sapUiTinyMarginBegin sapUiTinyMarginTop openTasksCardContainer cardVbox" justifyContent="Center" alignItems="Start" width="100%" items="{selectedProjectHoldTasks>/}">
+                                        <f:Card class="taskPanelCard">
                                             <f:content>
-                                                <VBox
-                                                    class="sapUiTinyMargin"
-                                                    width="100%"
-                                                    gap="1rem"
-                                                >
+                                                <VBox class="sapUiTinyMargin taskPanelContent" width="100%" gap="1rem">
                                                     <!-- title / priority section -->
-                                                    <HBox
-                                                        width="100%"
-                                                        justifyContent="SpaceBetween"
-                                                    >
+                                                    <HBox width="100%" justifyContent="SpaceBetween">
                                                         <VBox gap="0.5rem">
-                                                            <Title
-                                                                text="{selectedProjectHoldTasks>title}"
-                                                                level="H5"
-                                                            />
-                                                            <Text
-                                                                text="{selectedProjectHoldTasks>description}"
-                                                            />
+                                                            <Title text="{selectedProjectHoldTasks>title}" level="H5" />
+                                                            <Text text="{selectedProjectHoldTasks>description}" />
                                                         </VBox>
 
                                                         <!-- RIGHT : priority Badge -->
-                                                        <ObjectStatus
-                                                            text="{selectedProjectHoldTasks>priority}"
-                                                            state="{path:'selectedProjectHoldTasks>priority',formatter:'.formatter.formatPriority'}"
-                                                            class="statusBadge"
-                                                            inverted="true"
-                                                        />
+                                                        <ObjectStatus text="{selectedProjectHoldTasks>priority}" state="{path:'selectedProjectHoldTasks>priority',formatter:'.formatter.formatPriority'}" class="statusBadge" inverted="true" />
                                                     </HBox>
 
                                                     <!-- progress (not used) -->
-                                                    <VBox
-                                                        class="progressSection "
-                                                        justifyContent="End"
-                                                        visible="false"
-                                                    >
-                                                        <HBox
-                                                            justifyContent="SpaceBetween"
-                                                            alignItems="Center"
-                                                            class=""
-                                                        >
-                                                            <Text
-                                                                text="Progress"
-                                                                class="progressLabel"
-                                                            />
-                                                            <Text
-                                                                text="65%"
-                                                                class="progressValue"
-                                                            />
+                                                    <VBox class="progressSection " justifyContent="End" visible="false">
+                                                        <HBox justifyContent="SpaceBetween" alignItems="Center" class="">
+                                                            <Text text="Progress" class="progressLabel" />
+                                                            <Text text="65%" class="progressValue" />
                                                         </HBox>
 
-                                                        <ProgressIndicator
-                                                            percentValue="65"
-                                                            class="progressBar"
-                                                            width="100%"
-                                                            displayAnimation="true"
-                                                            displayOnly="true"
-                                                        />
+                                                        <ProgressIndicator percentValue="65" class="progressBar" width="100%" displayAnimation="true" displayOnly="true" />
                                                     </VBox>
 
                                                     <!-- date / other details -->
                                                     <HBox>
-                                                        <Button
-                                                            enabled="false"
-                                                            type="Transparent"
-                                                            icon="sap-icon://calendar"
-                                                            text="{selectedProjectHoldTasks>dueDate}"
-                                                        />
+                                                        <Button enabled="false" type="Transparent" icon="sap-icon://calendar" text="{selectedProjectHoldTasks>dueDate}" />
 
-                                                        <Button
-                                                            enabled="false"
-                                                            type="Transparent"
-                                                            icon="sap-icon://attachment"
-                                                            text="2"
-                                                        />
+                                                        <Button enabled="false" type="Transparent" icon="sap-icon://attachment" text="2" />
 
-                                                        <Button
-                                                            enabled="false"
-                                                            type="Transparent"
-                                                            icon="sap-icon://discussion"
-                                                            text="5"
-                                                        />
+                                                        <Button enabled="false" type="Transparent" icon="sap-icon://discussion" text="5" />
 
-                                                        <Button
-                                                            enabled="false"
-                                                            type="Transparent"
-                                                            icon="sap-icon://activity-2"
-                                                            text="5"
-                                                        />
+                                                        <Button enabled="false" type="Transparent" icon="sap-icon://activity-2" text="5" />
                                                     </HBox>
 
                                                     <!-- team member / overflow button -->
-                                                    <HBox
-                                                        justifyContent="SpaceBetween"
-                                                        width="100%"
-                                                    >
-                                                         <Avatar
-                                                                src="{selectedProjectHoldTasks>assignedTo/avatarUrl}"
-                                                                displaySize="XS"
-                                                                tooltip="{selectedProjectHoldTasks>assignedTo/firstname} {selectedProjectHoldTasks>assignedTo/lastname} ( {selectedProjectHoldTasks>assignedTo/email} )"
-                                                            />
+                                                    <HBox justifyContent="SpaceBetween" width="100%">
+                                                        <Avatar src="{selectedProjectHoldTasks>assignedTo/avatarUrl}" displaySize="XS" tooltip="{selectedProjectHoldTasks>assignedTo/firstname} {selectedProjectHoldTasks>assignedTo/lastname} ( {selectedProjectHoldTasks>assignedTo/email} )" />
                                                     </HBox>
                                                 </VBox>
                                             </f:content>
                                         </f:Card>
                                     </VBox>
                                 </ScrollContainer>
+
+                                <f:Card id="ProjectholdTasksCardsContainerAlternate" visible="false" width="90%" height="40%" class="sapUiSmallMarginBegin sapUiTinyMarginTop sapUiTinyMarginBottom">
+
+                                    <f:content>
+                                        <IllustratedMessage enableVerticalResponsiveness="false" title="No Tasks on Hold" illustrationType="sapIllus-NoActivities">
+                                            <additionalContent>
+                                                <Button icon="sap-icon://add" text="Add Task" type="Emphasized" press="handleOpenCreateTaskDialog" visible="{= ${currentUser>/roles/0}==='manager' || ${currentUser>/roles/0}==='member'}" />
+                                            </additionalContent>
+                                        </IllustratedMessage>
+                                    </f:content>
+                                </f:Card>
                             </content>
 
                             <!-- footer -->
-                            <Toolbar style="Clear">
-                                <Button
-                                    icon="sap-icon://add"
-                                    text="Add Task"
-                                    type="Transparent"
-                                    press="handleOpenCreateTaskDialog"
-                                     visible="{= !${currentUser>/roles/0}==='clientUser'}"
-                                />
-                            </Toolbar>
+                            <!-- <Toolbar style="Clear">
+                                <Button icon="sap-icon://add" text="Add Task" type="Transparent" press="handleOpenCreateTaskDialog" visible="{= !${currentUser>/roles/0}==='clientUser'}" />
+                            </Toolbar> -->
                         </Panel>
 
                         <!-- Overdue Card-->
-                        <Panel
-                            class="sapUiMediumMarginTop taskPanel openTaskPanel border1"
-                            visible="true"
-                        >
+                        <Panel class="sapUiMediumMarginTop taskPanel openTaskPanel border1" visible="true">
                             <headerToolbar>
                                 <OverflowToolbar class="sapUiSmallMarginTop">
-                                    <HBox
-                                        width="100%"
-                                        justifyContent="SpaceBetween"
-                                    >
-                                        <Title
-                                            text="Overdue"
-                                            level="H2"
-                                            textAlign="End"
-                                        />
+                                    <HBox width="100%" justifyContent="SpaceBetween">
+
+
+                                        <HBox alignItems="Center" gap="1rem">
+                                            <core:Icon src="sap-icon://color-fill" color="#bb0000"></core:Icon>
+
+                                            <Title text="Overdue" level="H2" textAlign="End" />
+
+                                        </HBox>
+
+                                        <Button icon="sap-icon://add" text="Add Task" type="Transparent" press="handleOpenCreateTaskDialog" visible="{= ${currentUser>/roles/0}==='manager' || ${currentUser>/roles/0}==='member'}" />
                                     </HBox>
                                 </OverflowToolbar>
                             </headerToolbar>
 
                             <content>
-                                <ScrollContainer
-                                    height="380px"
-                                    width="100%"
-                                    horizontal="false"
-                                    vertical="true"
-                                >
-                                    <VBox
-                                        gap="1rem"
-                                        class="sapUiTinyMarginBegin sapUiTinyMarginTop"
-                                        justifyContent="Center"
-                                        width="90%"
-                                        items="{selectedProjectOverdueTasks>/}"
-                                    >
-                                        <f:Card class="taskPanel">
+                                <ScrollContainer id="ScrollProjectoverdueTasksCardsContainer" height="380px" width="100%" horizontal="false" vertical="true">
+                                    <VBox gap="1rem" class="sapUiTinyMarginBegin sapUiTinyMarginTop openTasksCardContainer cardVbox" justifyContent="Center" width="100%" alignItems="Start" items="{selectedProjectOverdueTasks>/}">
+                                        <f:Card class="taskPanelCard">
                                             <f:content>
-                                                <VBox
-                                                    class=" sapUiTinyMargin"
-                                                    width="100%"
-                                                    gap="1rem"
-                                                >
+                                                <VBox class="sapUiTinyMargin taskPanelContent" width="100%" gap="1rem">
                                                     <!-- title / priority section -->
-                                                    <HBox
-                                                        width="100%"
-                                                        justifyContent="SpaceBetween"
-                                                    >
+                                                    <HBox width="100%" justifyContent="SpaceBetween">
                                                         <VBox gap="0.5rem">
-                                                            <Title
-                                                                text="{selectedProjectOverdueTasks>title}"
-                                                                level="H5"
-                                                            />
-                                                            <Text
-                                                                text="{selectedProjectOverdueTasks>description}"
-                                                            />
+                                                            <Title text="{selectedProjectOverdueTasks>title}" level="H5" />
+                                                            <Text text="{selectedProjectOverdueTasks>description}" />
                                                         </VBox>
 
                                                         <!-- RIGHT : priority Badge -->
-                                                        <ObjectStatus
-                                                            text="{selectedProjectOverdueTasks>priority}"
-                                                            state="{path:'selectedProjectOverdueTasks>priority',formatter:'.formatter.formatPriority'}"
-                                                            class="statusBadge"
-                                                            inverted="true"
-                                                        />
+                                                        <ObjectStatus text="{selectedProjectOverdueTasks>priority}" state="{path:'selectedProjectOverdueTasks>priority',formatter:'.formatter.formatPriority'}" class="statusBadge" inverted="true" />
                                                     </HBox>
 
                                                     <!-- progress (not used) -->
-                                                    <VBox
-                                                        class="progressSection "
-                                                        justifyContent="End"
-                                                        visible="false"
-                                                    >
-                                                        <HBox
-                                                            justifyContent="SpaceBetween"
-                                                            alignItems="Center"
-                                                            class=""
-                                                        >
-                                                            <Text
-                                                                text="Progress"
-                                                                class="progressLabel"
-                                                            />
-                                                            <Text
-                                                                text="65%"
-                                                                class="progressValue"
-                                                            />
+                                                    <VBox class="progressSection " justifyContent="End" visible="false">
+                                                        <HBox justifyContent="SpaceBetween" alignItems="Center" class="">
+                                                            <Text text="Progress" class="progressLabel" />
+                                                            <Text text="65%" class="progressValue" />
                                                         </HBox>
 
-                                                        <ProgressIndicator
-                                                            percentValue="65"
-                                                            class="progressBar"
-                                                            width="100%"
-                                                            displayAnimation="true"
-                                                            displayOnly="true"
-                                                        />
+                                                        <ProgressIndicator percentValue="65" class="progressBar" width="100%" displayAnimation="true" displayOnly="true" />
                                                     </VBox>
 
                                                     <!-- date / other details -->
                                                     <HBox>
-                                                        <Button
-                                                            enabled="false"
-                                                            type="Transparent"
-                                                            icon="sap-icon://calendar"
-                                                            text="{selectedProjectOverdueTasks>dueDate}"
-                                                        />
+                                                        <Button enabled="false" type="Transparent" icon="sap-icon://calendar" text="{selectedProjectOverdueTasks>dueDate}" />
 
-                                                        <Button
-                                                            enabled="false"
-                                                            type="Transparent"
-                                                            icon="sap-icon://attachment"
-                                                            text="2"
-                                                        />
+                                                        <Button enabled="false" type="Transparent" icon="sap-icon://attachment" text="2" />
 
-                                                        <Button
-                                                            enabled="false"
-                                                            type="Transparent"
-                                                            icon="sap-icon://discussion"
-                                                            text="5"
-                                                        />
+                                                        <Button enabled="false" type="Transparent" icon="sap-icon://discussion" text="5" />
 
-                                                        <Button
-                                                            enabled="false"
-                                                            type="Transparent"
-                                                            icon="sap-icon://activity-2"
-                                                            text="5"
-                                                        />
+                                                        <Button enabled="false" type="Transparent" icon="sap-icon://activity-2" text="5" />
                                                     </HBox>
 
                                                     <!-- team member / overflow button -->
-                                                    <HBox
-                                                        justifyContent="SpaceBetween"
-                                                        width="100%"
-                                                    >
-                                                        <Avatar
-                                                                src="{selectedProjectOverdueTasks>assignedTo/avatarUrl}"
-                                                                displaySize="XS"
-                                                                tooltip="{selectedProjectOverdueTasks>assignedTo/firstname} {selectedProjectOverdueTasks>assignedTo/lastname} ( {selectedProjectOverdueTasks>assignedTo/email} )"
-                                                            />
+                                                    <HBox justifyContent="SpaceBetween" width="100%">
+                                                        <Avatar src="{selectedProjectOverdueTasks>assignedTo/avatarUrl}" displaySize="XS" tooltip="{selectedProjectOverdueTasks>assignedTo/firstname} {selectedProjectOverdueTasks>assignedTo/lastname} ( {selectedProjectOverdueTasks>assignedTo/email} )" />
                                                     </HBox>
                                                 </VBox>
                                             </f:content>
                                         </f:Card>
                                     </VBox>
                                 </ScrollContainer>
+
+
+
+                                <f:Card id="ProjectoverdueTasksCardsContainerAlternate" visible="false" width="90%" height="40%" class="sapUiSmallMarginBegin sapUiTinyMarginTop sapUiTinyMarginBottom">
+
+                                    <f:content>
+                                        <IllustratedMessage enableVerticalResponsiveness="false" title="No Overdue Task" illustrationType="sapIllus-NoActivities">
+                                            <additionalContent>
+                                                <Button icon="sap-icon://add" text="Add Task" type="Emphasized" press="handleOpenCreateTaskDialog" visible="{= ${currentUser>/roles/0}==='manager' || ${currentUser>/roles/0}==='member'}" />
+                                            </additionalContent>
+                                        </IllustratedMessage>
+                                    </f:content>
+                                </f:Card>
                             </content>
 
                             <!-- footer -->
-                            <Toolbar style="Clear">
-                                <Button
-                                    icon="sap-icon://add"
-                                    text="Add Task"
-                                    type="Transparent"
-                                    press="handleOpenCreateTaskDialog"
-                                     visible="{= !${currentUser>/roles/0}==='clientUser'}"
-                                />
-                            </Toolbar>
+                            <!-- <Toolbar style="Clear">
+                                <Button icon="sap-icon://add" text="Add Task" type="Transparent" press="handleOpenCreateTaskDialog" visible="{= !${currentUser>/roles/0}==='clientUser'}" />
+                            </Toolbar> -->
                         </Panel>
                     </FlexBox>
                 </content>
