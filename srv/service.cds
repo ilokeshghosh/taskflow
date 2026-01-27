@@ -27,7 +27,7 @@ service TaskService {
             to   : 'clientUser'
         }
     ]
-    entity Tasks    as projection on db.Task;
+    entity Tasks         as projection on db.Task;
 
 
     @restrict: [
@@ -50,7 +50,9 @@ service TaskService {
         }
 
     ]
-    entity Projects as projection on db.Project;
+    entity Projects      as projection on db.Project;
+
+    entity User_Project as projection on db.User_Project;
 
 
     @restrict: [
@@ -58,7 +60,8 @@ service TaskService {
             grant: [
                 'READ',
                 'UPDATE',
-                'DELETE'],
+                'DELETE'
+            ],
             to   : 'manager'
         },
         {
@@ -71,21 +74,22 @@ service TaskService {
         }
 
     ]
-    entity Users    as projection on db.User;
+    entity Users         as projection on db.User;
 
 
     // @restrict: [{
     //     grant: ['READ'],
     //     to   : 'manager'
     // }]
-    entity AuditLog as projection on db.AuditLog;
+    entity AuditLog      as projection on db.AuditLog;
 
     entity Notifications as projection on db.Notification;
 
 
-    entity SystemInfo as projection on db.SystemInfo;
+    entity SystemInfo    as projection on db.SystemInfo;
 
-    entity UserSettings as projection on db.UserSettings;
+    entity UserSettings  as projection on db.UserSettings;
+
 
     action   login(email: String, password: String) returns String;
     action   verifyToken(token: String)             returns String;
@@ -94,7 +98,7 @@ service TaskService {
     function getcurrentUser(ID: String)             returns String;
 
 
-    function getcurrentUserSettings()returns String;
+    function getcurrentUserSettings()               returns String;
 
 
 }

@@ -57,7 +57,7 @@ entity User : managed {
         role      : String;
         tasks     : Association to many Task
                         on tasks.assignedTo = $self;
-        project   : Association to Project default 'bench';
+        projects   : Association to many User_Project on projects.user = $self;
         freepool  : Boolean default true;
         avatarUrl : LargeString;
 
@@ -67,8 +67,7 @@ entity Project : managed {
     key ID          : String(10);
         name        : String;
         description : String;
-        members     : Association to many User
-                          on members.project = $self;
+        members     : Association to many User_Project on members.project = $self;
         manager     : Association to User;
         deadline    : Date;
         startDate   : Date;
@@ -84,6 +83,12 @@ entity Project : managed {
         status      : projectStatus;
 
 
+}
+
+entity User_Project  {
+    key ID: Integer;
+    user : Association to User;
+    project : Association to Project;
 }
 
 entity AuditLog : managed {

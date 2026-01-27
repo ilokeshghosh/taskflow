@@ -24,7 +24,7 @@ sap.ui.define([
             });
             this._setSplitAppMode();
 
-            
+
         },
 
         // Loading up Project & Task Helper Utils
@@ -36,7 +36,7 @@ sap.ui.define([
             this.getOwnerComponent().setCurrentUser();
             this.getOwnerComponent().setcurrentUserSettings();
 
-           
+
         },
         // Return the SplitApp object
         getSplitAppObj: function () {
@@ -77,7 +77,7 @@ sap.ui.define([
         },
         // Project Master Page Navigation
         onListItemPress(oEvent) {
-            
+
             var oList = this.byId("navItems");
             var aItems = oList.getItems();
             var aSelected = oList.getSelectedItems();
@@ -89,6 +89,9 @@ sap.ui.define([
                     $expand: {
                         members: {
                             $count: true,
+                            $expand: {
+                                user: true
+                            }
 
                         },
                         client: true,
@@ -101,6 +104,10 @@ sap.ui.define([
                 }
 
             );
+
+            // apply filter
+
+
 
             // this.getView().setBusy(true);
 
@@ -129,15 +136,15 @@ sap.ui.define([
             var oView = this.getView();
             // Fetch Data of Selected Project
             var oCurrentProjectData = oView.getModel("selectedProject").getData();
-            
+
 
             // Get all Task Related to the selected project
             var oBinding = oView.getModel().bindList("/Tasks", null, null, [
                 new sap.ui.model.Filter("project_ID", "EQ", `${oCurrentProjectData.ID}`)
             ],
-            {
-                $expand:'assignedTo'
-            }
+                {
+                    $expand: 'assignedTo'
+                }
             )
             var oProjectTasksData = []
             oBinding.requestContexts().then(function (aContexts) {
@@ -147,11 +154,11 @@ sap.ui.define([
                         oProjectTasksData.push(element.getObject())
                     });
 
-                   
-                    
+
+
                     oView.setModel(new JSONModel(oProjectTasksData), "selectedProjectTasks");
 
-                   
+
                     this._setFilterSelectProjectTasks()
 
                 } else {
@@ -213,6 +220,7 @@ sap.ui.define([
         onQuickActionMenuPress(oEvent) {
             var oButton = oEvent.getSource();
             var oSelectedProjectData = oButton.getBindingContext().getObject();
+            console.log('binding data', oSelectedProjectData);
 
             this.getView().setModel(new JSONModel(oSelectedProjectData), "DialogSelectedProject")
 
@@ -292,7 +300,7 @@ sap.ui.define([
             }
 
             this._pDialog.then((oDialog) => {
-                
+
                 oDialog.setModel(this.getView().getModel("DialogSelectedProject"), "selectedProject");
                 this.getView().setModel(this.getView().getModel("DialogSelectedProject"), "selectedProject")
                 // load all project specific task
@@ -643,7 +651,7 @@ sap.ui.define([
                 //     .getProperty("/ID")
 
                 // oBindingAllNotification.filter([new sap.ui.model.Filter("recipient_ID", "EQ", ID)]);
-                
+
                 this._applyFilterNotification();
 
                 // this._updateNotificationCount();
@@ -658,7 +666,7 @@ sap.ui.define([
                 // Then load actual counts
                 this._updateNotificationCount();
 
-               
+
 
             });
         },
@@ -703,9 +711,25 @@ sap.ui.define([
             userHelper.handleDeleteMember(oEvent);
         },
         _tester() {
-
+            const sUserId = this.getView()
+                .getModel("currentUser")
+                .getProperty("/ID");
             // userHelper._setOnboardingBusy(true);
+            // const oBinding = this.getView().byId("projectCardContainer").getBinding("items");
 
+            // const oFilter = new sap.ui.model.Filter({
+            //     path: "members/user/ID",
+            //     operator: sap.ui.model.FilterOperator.EQ,
+            //     value1: sUserId
+            // })
+            // oBinding.filter([oFilter])
+            // console.log("oBinding data", oBinding.getContexts());
+
+            // oBinding.changeParameters({
+            //     $filter: `members/any(m: m/user/ID eq '${sUserId}')`
+            // });
+
+            // oBinding.refresh();
         },
 
         onListUpdateFinished: function (oEvent) {
@@ -714,7 +738,7 @@ sap.ui.define([
 
             aItems.forEach(function (oItem) {
                 var oContext = oItem.getBindingContext();
-                console.log("con",oContext.getProperty("title"))
+                console.log("con", oContext.getProperty("title"))
 
                 if (!oContext) return;
 
@@ -722,7 +746,7 @@ sap.ui.define([
                 var oText = oItem.findElements(true).find(function (oControl) {
                     return oControl.isA("sap.m.Text");
                 });
-                console.log("isread",isRead);
+                console.log("isread", isRead);
                 if (oText) {
                     oText.addStyleClass("genericStyle");
                     if (isRead) {
@@ -928,7 +952,7 @@ sap.ui.define([
 
             aNotificationTables.forEach(item => {
                 var oBindingAllNotification = this.getView().byId(item).getBinding("items");
-                console.log("oBindingAllNotification",oBindingAllNotification)
+                console.log("oBindingAllNotification", oBindingAllNotification)
                 oBindingAllNotification.filter([new sap.ui.model.Filter("recipient_ID", "EQ", sUserID)]);
 
             })
@@ -969,29 +993,29 @@ sap.ui.define([
             const bIsArchived = oBindingData.getProperty("isArchived");
 
             var sSetStatus;
-            
+
             if (bIsArchived) {
                 oBindingData.setProperty("isArchived", false);
                 oBindingData.setProperty("archivedAt", null);
                 sSetStatus = "Restored";
-                
+
             } else {
                 MessageToast.show("Notification already Restored");
                 return;
             }
-            
 
-            
+
+
             oBindingData.getBinding().getModel().submitBatch("$auto").then(() => {
                 this._refreshAllNotifications();
                 this._updateNotificationCount();
                 this.byId("archivedNotificationsList").getBinding("items").refresh();
-                
+
                 MessageToast.show(sSetStatus);
             }).catch((oError) => {
-            MessageToast.show("Failed to restore notification");
-           
-        });
+                MessageToast.show("Failed to restore notification");
+
+            });
 
 
         },
@@ -1033,7 +1057,7 @@ sap.ui.define([
                     oNotificationCount.highPriority = aHighPriority.length;
                     oNotificationCount.archived = aArchived.length;
 
-                   
+
 
 
                     this.getView().setModel(new JSONModel(oNotificationCount), "notificationCount");

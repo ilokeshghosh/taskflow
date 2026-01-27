@@ -2,45 +2,47 @@ const cds = require('@sap/cds');
 const { v4: uuid } = require('uuid');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const { exists } = require('@sap/cds/lib/utils/cds-utils');
+const { SELECT } = require('@sap/cds/lib/ql/cds-ql');
 
-const provisioning=async(userSchema,user)=>{
+const provisioning = async (userSchema, user) => {
     try {
         const existingUser = await cds.run(
-            SELECT.one.from(userSchema).where({email:user.id})
+            SELECT.one.from(userSchema).where({ email: user.id })
         )
-        console.log("user exists",Object.keys(user.roles)[0])
-        if(!existingUser){
+        console.log("user exists", Object.keys(user.roles)[0])
+        if (!existingUser) {
             throw Error("User Does Not Exists in DB");
-        } 
+        }
 
-        const userProfile={
-            ID:existingUser.ID,
-            email:existingUser.email,
-            firstname:existingUser.firstname,
-            lastname:existingUser.lastname,
-            phone:existingUser.phone,
-            avatarUrl:existingUser.avatarUrl,
-            isActive:existingUser.isActive,
-            designation:existingUser.role,
+        const userProfile = {
+            ID: existingUser.ID,
+            email: existingUser.email,
+            firstname: existingUser.firstname,
+            lastname: existingUser.lastname,
+            phone: existingUser.phone,
+            avatarUrl: existingUser.avatarUrl,
+            isActive: existingUser.isActive,
+            designation: existingUser.role,
             roles: Object.keys(user?.roles),
-            attributes:user.attributes
+            attributes: user.attributes
         }
 
         // console.log("userProfile",userProfile);
         return userProfile;
     } catch (error) {
-        console.error(400,error?.message);
+        console.error(400, error?.message);
     }
 
 
 }
 
 module.exports = cds.service.impl(async function () {
-    const { Users, AuditLog,UserSettings } = this.entities;
-    this.before("*",async(req)=>{
-        const userProfile = await provisioning(Users,req?.user);
+    const { Users, AuditLog, UserSettings,Projects,User_Project } = this.entities;
+    this.before("*", async (req) => {
+        const userProfile = await provisioning(Users, req?.user);
 
-        req.user= userProfile;
+        req.user = userProfile;
 
     })
 
@@ -119,11 +121,61 @@ module.exports = cds.service.impl(async function () {
         }
     })
 
-    this.on('CREATE','Projects',async(req,next)=>{
-        console.log("how are you");
-        next();
+    this.before('READ', 'Projects', async (req) => {
+        const userInfo = await this.getcurrentUser();
+        const userId = userInfo?.ID;
+        // console.log("user",await this.getcurrentUser());
+        
+        // next();
+        req.query.where(
+            {ID:{in : 
+                SELECT.from(User_Project).columns('project_ID').where({user_ID:userId})
+            }}
+        )
     })
 
+    // this.on('READ', 'Projects', async (req,next) => {
+    //     console.log("final query", req.user);
+    //     const currentUserId = req.user.ID;
+
+    //     if(!currentUserId){
+    //         req.Error("User Not Found");
+    //     }
+
+
+        
+        // const data = await SELECT.from(Projects).where(`'members.user.ID'= ${currentUserId}`).columns('ID','name','members.ID','members.user.email','members.user.ID');
+        // console.log("data", data);
+        // return await cds.run(req.query);
+        // return next();
+    // });
+
+    // this.after("READ",'Projects',async(res,data)=>{
+    //     console.log('res',data.results);
+    // })
+
+
+    this.before('READ','Tasks',async(req)=>{
+        // console.log("req",req)
+        const userInfo = await this.getcurrentUser();
+        const userId = userInfo?.ID
+        // console.log('curret',await this.getcurrentUser().ID);
+        if(!userId){
+            req.error(400,"Invalid User");
+        }
+        console.log(userId)
+        req.query.where({
+            project_ID:{
+                in: SELECT.from(User_Project).columns("project_ID").where({user_ID:userId})
+            }}
+        )
+        //task = current user is member of x project, all tasks of x projects
+    })
+
+
+    this.after('READ','Tasks',async(req,res)=>{
+        console.log("ress",res)
+    })
     // Authentication Logics
     // this.on("login", async (req, res) => {
     //     const { email, password } = req.data;
@@ -131,11 +183,11 @@ module.exports = cds.service.impl(async function () {
     //     if (!email || !password) {
     //         return req.error("Email & Password are required");
     //     }
-        
+
     //     try {
     //         const user = await SELECT.one.from(Users).where({ email });
     //         console.log("Debug",user);
-            
+
 
     //         if (!user) {
     //             return req.error("User Not Found");
@@ -206,7 +258,7 @@ module.exports = cds.service.impl(async function () {
     //     // next();
     //     return next();
     // })
-    
+
 
 
     async function logAuditEvent(userId, action, details) {
@@ -223,26 +275,27 @@ module.exports = cds.service.impl(async function () {
         })
     };
 
-    this.on("getcurrentUser",async(req)=>{
-         try {
+    this.on("getcurrentUser", async (req) => {
+        try {
             return req?.user;
         } catch (error) {
-            console.error(400,error?.message);
+            console.error(400, error?.message);
         }
     })
 
-    this.on("getcurrentUserSettings",async(req)=>{
-        console.log("req",req.user);
+    this.on("getcurrentUserSettings", async (req) => {
+        console.log("req", req.user);
         try {
-            const userSettings = await SELECT.one.from(UserSettings).where({ user_ID:req.user.ID });
+            const userSettings = await SELECT.one.from(UserSettings).where({ user_ID: req.user.ID });
 
-            console.log("userSettings",userSettings);
+            console.log("userSettings", userSettings);
             return userSettings;
         } catch (error) {
-            console.error(400,error?.message);
+            console.error(400, error?.message);
         }
     })
-   
 
-    
+
+
 })
+

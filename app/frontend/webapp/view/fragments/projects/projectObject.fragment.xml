@@ -114,9 +114,9 @@
                             >
                                 <f:items>
                                     <f:AvatarGroupItem
-                                        src="{selectedProject>avatarUrl}"
+                                        src="{selectedProject>user/avatarUrl}"
                                         initials="asdf"
-                                        tooltip="{selectedProject>firstname} {selectedProject>lastname}"
+                                        tooltip="{selectedProject>user/firstname} {selectedProject>user/lastname}"
                                     />
                                 </f:items>
                             </f:AvatarGroup>
@@ -414,13 +414,13 @@
                                             >
                                                  <cells>
                                                         <ObjectIdentifier
-                                                            title="{selectedProject>firstname} {selectedProject>lastname}"
-                                                            text="{selectedProject>email}"
+                                                            title="{selectedProject>user/firstname} {selectedProject>user/lastname}"
+                                                            text="{selectedProject>user/email}"
                                                             
                                                         />
 
                                                         <Button
-                                                            text="{selectedProject>role}"
+                                                            text="{selectedProject>user/role}"
                                                         />
 
                                                         <Text
@@ -430,8 +430,8 @@
 
                                                         <ObjectStatus
                                                             inverted="true"
-                                                            text="{= ${selectedProject>isActive}===true ? 'Online' : 'Offline'}"
-                                                            state="{= ${selectedProject>isActive}===true ? 'Success' : 'Warning'}"
+                                                            text="{= ${selectedProject>user/isActive}===true ? 'Online' : 'Offline'}"
+                                                            state="{= ${selectedProject>user/isActive}===true ? 'Success' : 'Warning'}"
                                                         />
 
                                                         <OverflowToolbar>
