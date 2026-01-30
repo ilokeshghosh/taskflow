@@ -57,22 +57,22 @@
                     />
 
                     <!-- Select Members -->
-                    <Label text="Members" />
+                    <Label text="Members" visible="false"/>
                     <MultiComboBox
+                    visible="false"
                         selectedKeys="{createProjectModel>/members}"
                         width="350px"
                          items="{
                         path:'/Users',
                             filters:[
-                            {path:'type',operator:'NE',value1:'clientUser'},
-                            {path:'project_ID',operator:'EQ',value1:null}
+                            {path:'type',operator:'NE',value1:'clientUser'}
                             ]
                         }"
                     >
                         <items> 
                             <core:Item
                                 key="{ID}"
-                                text="{firstname}"
+                                text="{firstname} {lastname}"
                                 
                             />
 
@@ -84,12 +84,14 @@
                     <Label
                         text="Manager"
                         required="true"
+                        visible="false"
                     />
                     <Input
                         type="Text"
                         value="Your Name"
                         editable="false"
                         enabled="false"
+                        visible="false"
                     />
 
                     <!-- Start Date -->

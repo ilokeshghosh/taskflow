@@ -1,15 +1,18 @@
-const cds = require('@sap/cds');
-const { v4: uuid } = require('uuid');
-const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
-const { exists } = require('@sap/cds/lib/utils/cds-utils');
-const { SELECT } = require('@sap/cds/lib/ql/cds-ql');
+const cds = require("@sap/cds");
+const { v4: uuid } = require("uuid");
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
+const { SELECT, INSERT } = require("@sap/cds/lib/ql/cds-ql");
+const crypto = require("crypto");
+
+
+
 
 const provisioning = async (userSchema, user) => {
     try {
         const existingUser = await cds.run(
-            SELECT.one.from(userSchema).where({ email: user.id })
-        )
+            SELECT.one.from(userSchema).where({ email: user.id }),
+        );
 
         if (!existingUser) {
             throw Error("User Does Not Exists in DB");
@@ -25,53 +28,55 @@ const provisioning = async (userSchema, user) => {
             isActive: existingUser.isActive,
             designation: existingUser.role,
             roles: Object.keys(user?.roles),
-            attributes: user.attributes
-        }
+            attributes: user.attributes,
+        };
 
         // console.log("userProfile",userProfile);
         return userProfile;
     } catch (error) {
         console.error(400, error?.message);
     }
-
-
-}
+};
 
 module.exports = cds.service.impl(async function () {
-    const { Users, AuditLog, UserSettings,Projects,User_Project } = this.entities;
+    const {
+        Users,
+        AuditLog,
+        UserSettings,
+        Projects,
+        User_Project,
+        Notifications,
+        Tasks,
+    } = this.entities;
     this.before("*", async (req) => {
         const userProfile = await provisioning(Users, req?.user);
 
         req.user = userProfile;
+    });
 
-    })
-
-    this.before('CREATE', 'Users', async (req) => {
+    this.before("CREATE", "Users", async (req) => {
         const { Users } = this.entities;
-        const { email, firstname, lastname, phone, password, role, type } = req.data;
+        const { email, firstname, lastname, phone, password, role, type } =
+            req.data;
         if (!role || !type) {
             return req.error(400, "Role and Type are required");
         }
 
         if (!email || !firstname || !lastname || !password) {
-            return req.error(400, 'Email, firstName, lastName and password are required');
+            return req.error(
+                400,
+                "Email, firstName, lastName and password are required",
+            );
         }
-       
-        const existingUser = await cds.run(
-            SELECT.one.from(Users).where({ email })
-        )
+
+        const existingUser = await cds.run(SELECT.one.from(Users).where({ email }));
 
         if (existingUser) {
             return req.error(409, `User with ${email} is already exists`);
-
         }
-
-        // const hashedPassword = await hashPassword(password);
-        // req.data.hashedPassword = hashedPassword;
-        // req.data.ID = "USER" + Date.now().toString().slice(-4);
     });
 
-    this.on('CREATE', 'Users', async (req) => {
+    this.on("CREATE", "Users", async (req) => {
         const newUser = {
             ID: "USER" + Date.now().toString().slice(-2),
             email: req.data.email,
@@ -81,8 +86,8 @@ module.exports = cds.service.impl(async function () {
             phone: req.data.phone,
             isActive: true,
             role: req.data.role,
-            type: req.data.type
-        }
+            type: req.data.type,
+        };
         const userData = req.data;
 
         try {
@@ -97,14 +102,14 @@ module.exports = cds.service.impl(async function () {
                 role: userData.role,
                 type: userData.type,
                 createdBy: userData.ID,
-                modifiedBy: userData.ID
+                modifiedBy: userData.ID,
             });
 
-
-            await logAuditEvent(userData.ID,
+            await logAuditEvent(
+                userData.ID,
                 "user.created",
-                `user created with email ${userData.email}`
-            )
+                `user created with email ${userData.email}`,
+            );
 
             return {
                 status: 200,
@@ -113,167 +118,176 @@ module.exports = cds.service.impl(async function () {
                 email: newUser.email,
                 message: "User Created",
                 password: req.data.password,
-            }
-
+            };
         } catch (error) {
             console.error("Error creating user", error?.message ?? error);
             return req.error(500, "Failed to Create User");
         }
-    })
+    });
 
-    this.before('READ', 'Projects', async (req) => {
+    this.before("READ", "Projects", async (req) => {
         const userInfo = await this.getcurrentUser();
         const userId = userInfo?.ID;
-        // console.log("user",await this.getcurrentUser());
-        
-        // next();
-        req.query.where(
-            {ID:{in : 
-                SELECT.from(User_Project).columns('project_ID').where({user_ID:userId})
-            }}
-        )
-    })
-
-    // this.on('READ', 'Projects', async (req,next) => {
-    //     console.log("final query", req.user);
-    //     const currentUserId = req.user.ID;
-
-    //     if(!currentUserId){
-    //         req.Error("User Not Found");
-    //     }
-
-
-        
-        // const data = await SELECT.from(Projects).where(`'members.user.ID'= ${currentUserId}`).columns('ID','name','members.ID','members.user.email','members.user.ID');
-        // console.log("data", data);
-        // return await cds.run(req.query);
-        // return next();
-    // });
-
-    // this.after("READ",'Projects',async(res,data)=>{
-    //     console.log('res',data.results);
-    // })
-
-
-    this.before('READ','Tasks',async(req)=>{
-        // console.log("req",req)
-        const userInfo = await this.getcurrentUser();
-        const userId = userInfo?.ID
-        // console.log('curret',await this.getcurrentUser().ID);
-        if(!userId){
-            req.error(400,"Invalid User");
-        }
-        
         req.query.where({
-            project_ID:{
-                in: SELECT.from(User_Project).columns("project_ID").where({user_ID:userId})
-            }}
-        )
-        //task = current user is member of x project, all tasks of x projects
+            ID: {
+                in: SELECT.from(User_Project)
+                    .columns("project_ID")
+                    .where({ user_ID: userId }),
+            },
+        });
+    });
+
+    this.before("READ", "Tasks", async (req) => {
+
+        const userInfo = await this.getcurrentUser();
+        const userId = userInfo?.ID;
+
+        if (!userId) {
+            req.error(400, "Invalid User");
+        }
+
+        req.query.where({
+            project_ID: {
+                in: SELECT.from(User_Project)
+                    .columns("project_ID")
+                    .where({ user_ID: userId }),
+            },
+        });
+
+    });
+
+
+
+    this.after("CREATE", "Tasks", async (req, res) => {
+
+        const userInfo = await this.getcurrentUser();
+        const userName = `${userInfo?.firstname} ${userInfo?.lastname}`;
+        const taskData = res.results;
+
+        const projectId = taskData.project_ID;
+        const project = await SELECT.one.from(Projects).where({ ID: projectId });
+
+        // admin info
+        const adminId = project?.manager_ID;
+        const adminData = await SELECT.one.from(Users).where({ ID: adminId });
+        const adminName = `${adminData?.firstname} ${adminData?.lastname}`;
+
+
+        // assigned to info
+        const assignedToId = taskData.assignedTo_ID;
+        const assignedToData = await SELECT.one
+            .from(Users)
+            .where({ ID: assignedToId });
+        const assignedToName = `${assignedToData?.firstname} ${assignedToData?.lastname}`;
+
+        const data = {
+            action: "TASK.CREATE",
+            userId_ID: userInfo.ID,
+            taskId_ID: taskData.ID,
+            projectId_ID: projectId,
+            adminId_ID: adminId,
+            details: `'${taskData.title}' task is created by '${userName}' in '${project.name}' project, which is managed by '${adminName}' and the task assigned to '${assignedToName}'`,
+            logType: "Information",
+        };
+
+        await logAuditEvent(data);
+
+        // Notification Logic can be added here
+        const notificationMessage = `Hello ${assignedToName}, A new task '${taskData.title}' has been assigned to you in the project '${project.name}'. Please check your task list for more details.`;
+        const notificationData = {
+            recipient_ID: assignedToId,
+            title: "New Task Assigned",
+            message: notificationMessage,
+            priority: taskData.priority.toUpperCase(),
+            project_ID: projectId,
+            task_ID: taskData.ID,
+            actor_ID: userInfo.ID,
+            createdBy: userInfo.ID,
+            modifiedBy: userInfo.ID,
+        };
+
+
+        // console.log("data", notificationHandler);
+
+        await notificationHandler(Notifications, notificationData);
+    });
+
+
+    // audit log and notification on project creation can be added here
+    this.after("CREATE", "Projects", async (req, res) => {
+
+        const userInfo = await this.getcurrentUser();
+        const userName = `${userInfo?.firstname} ${userInfo?.lastname}`;
+        const projectData = res.results;
+        const assignedToId = projectData.manager_ID;
+        const assignedToData = await SELECT.one
+            .from(Users)
+            .where({ ID: assignedToId });
+        const assignedToName = `${userInfo?.firstname} ${userInfo?.lastname}`;
+
+        const data = {
+            action: "PROJECT.CREATE",
+            userId_ID: userInfo.ID,
+            projectId_ID: projectData.ID,
+            details: `Project '${projectData.name}' is created by '${userName}'`,
+            logType: "Information",
+        };
+
+        await logAuditEvent(data);
+
+        // Notification Logic can be added here
+        const notificationMessage = `Hello ${assignedToName}, A new project '${projectData.name}' has been created by '${userName}'. Please check your project list for more details.`;
+        // const notificationData = {
+        //     recipient_ID: userInfo.ID, // can be added to notify specific users
+        //     title: "New Project Created",
+        //     message: notificationMessage,
+        //     priority: projectData.priority,
+        //     project_ID: projectData.ID,
+        //     actor_ID: userInfo.ID,
+        //     createdBy: userInfo.ID,
+        //     modifiedBy: userInfo.ID,
+        // };
+        // console.log("Notification Message:", notificationData);
+
+        // console.log("data", notificationHandler);
+
+        // await notificationHandler(Notifications, notificationData);
+    });
+
+    this.after("CREATE", "User_Project", async (req, res) => {
+        const actorInfo = await this.getcurrentUser();
+        const userResponseInfo = res.results;
+        const userData = await SELECT.one.from(Users).where({ ID: userResponseInfo.user_ID });
+        const userName = `${userData?.firstname} ${userData?.lastname}`;
+        const actorName = `${actorInfo?.firstname} ${actorInfo?.lastname}`;
+        const projectData = await SELECT.one.from(Projects).where({ ID: userResponseInfo.project_ID });
+
+        const data = {
+            action: "PROJECT.ASSIGNED",
+            adminId_ID: actorInfo.ID,
+            userId_ID: userResponseInfo.user_ID,
+            projectId_ID: userResponseInfo.project_ID,
+            details: `User '${userName}'(${userData?.ID}) is assigned to project '${projectData.name}'(${projectData.ID}) by '${actorName}'(${actorInfo?.ID})`,
+            logType: "warning",
+        }
+        await logAuditEvent(data);
+
+        const notificationMessage = `Hi ${userName}, You have been assigned to a new project '${projectData.name}' by '${actorName}'. Please connect with '${actorName}' for more details`;
+
+
+        const notificationData = {
+            recipient_ID: userResponseInfo.user_ID,
+            title: "New Project Assignment",
+            message: notificationMessage,
+            priority: projectData.priority.toUpperCase(),
+            project_ID: userResponseInfo.project_ID,
+            actor_ID: actorInfo.ID,
+            createdBy: actorInfo.ID,
+            modifiedBy: actorInfo.ID,
+        };
+
+        await notificationHandler(Notifications, notificationData);
     })
-
-
-    // this.after('READ','Tasks',async(req,res)=>{
-    //     console.log("ress",res)
-    // })
-    // Authentication Logics
-    // this.on("login", async (req, res) => {
-    //     const { email, password } = req.data;
-
-    //     if (!email || !password) {
-    //         return req.error("Email & Password are required");
-    //     }
-
-    //     try {
-    //         const user = await SELECT.one.from(Users).where({ email });
-    //         console.log("Debug",user);
-
-
-    //         if (!user) {
-    //             return req.error("User Not Found");
-    //         }
-
-    //         const isPasswordValid = await verifyPassword(password, user.password);
-
-    //         if (!isPasswordValid) {
-    //             return req.error(402, "Password not Matched");
-    //         }
-
-    //         // console.log("is password valid", isPasswordValid);
-    //         const token = await generateJWT({
-    //             userId: user.ID,
-    //             email: user.email,
-    //             firstname: user.firstname,
-    //             lastname: user.lastname,
-    //             role: user.role,
-    //             type: user.type
-    //         });
-
-    //         await logAuditEvent(user.ID, "user.login", `${user.email} logged in`);
-    //         return {
-    //             status: 200,
-    //             success: true,
-    //             token: token,
-    //             user: {
-    //                 ID: user.ID,
-    //                 email: user.email,
-    //                 firstname: user.firstname,
-    //                 lastname: user.lastname,
-    //                 role: user.role,
-    //                 type: user.type
-    //             },
-    //             expiresIn: 86400  // 24 hours in seconds
-    //         }
-    //     } catch (error) {
-    //         console.error("Failed to Login ", error?.message);
-    //         return req.error("Failed to login");
-    //     }
-
-
-    // })
-
-    // verifyToken / login without credential
-    // this.on('verifyToken', async (req) => {
-    //     const secret = process.env.JWT_SECRET;
-    //     const token = req.headers.authorization.split("Bearer ")[1];
-    //     if (!token) {
-    //         return req.error(400, "Token is required");
-    //     }
-    //     try {
-    //         const decoded = jwt.verify(token, secret);
-
-    //         return {
-    //             valid: true,
-    //             user: decoded
-    //         }
-    //     } catch (error) {
-    //         console.error(error?.message ?? "Invalid or expired Token, Relogin")
-    //         return req.error(401, error?.message ?? "Invalid or expired Token, Relogin");
-    //     }
-    // })
-
-
-    // this.on("READ","Tasks",(req,next)=>{
-    //     console.log("user data on read",req?.user);
-    //     // next();
-    //     return next();
-    // })
-
-
-
-    async function logAuditEvent(userId, action, details) {
-
-
-
-        await INSERT.into(AuditLog).entries({
-            ID: "LOG" + Date.now().toString().slice(-6),
-            userId_ID: userId,
-            action,
-            details,
-            createdBy: userId,
-            modifiedBy: userId
-        })
-    };
 
     this.on("getcurrentUser", async (req) => {
         try {
@@ -281,21 +295,52 @@ module.exports = cds.service.impl(async function () {
         } catch (error) {
             console.error(400, error?.message);
         }
-    })
+    });
 
     this.on("getcurrentUserSettings", async (req) => {
-        // console.log("req", req.user);
         try {
-            const userSettings = await SELECT.one.from(UserSettings).where({ user_ID: req.user.ID });
+            const userSettings = await SELECT.one
+                .from(UserSettings)
+                .where({ user_ID: req.user.ID });
 
-            // console.log("userSettings", userSettings);
+
             return userSettings;
         } catch (error) {
             console.error(400, error?.message);
         }
-    })
+    });
+
+});
+
+async function logAuditEvent(data) {
+    const { AuditLog } = cds.entities;
+
+    await INSERT.into(AuditLog).entries({
+        ID: randomString(10),
+        ...data,
+        createdBy: data.userId,
+        modifiedBy: data.userId,
+    });
+}
+
+async function notificationHandler(Notifications, notificationData) {
 
 
+    try {
+        await INSERT.into(Notifications).entries({
+            ID: randomString(10),
+            ...notificationData,
+        });
 
-})
 
+    } catch (error) {
+        console.error("Notification Error:", error?.message ?? error);
+    }
+}
+
+function randomString(length = 10) {
+    return crypto
+        .randomBytes(length)
+        .toString("base64url")
+        .slice(0, length);
+}

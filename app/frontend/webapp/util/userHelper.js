@@ -476,23 +476,36 @@ sap.ui.define(["sap/ui/core/Fragment", "sap/m/MessageBox", "sap/ui/model/json/JS
 
         _onBoardMember() {
             const data = _oController.getView().getModel("selectedProject").getData();
+            var oModel2 = _oController.getView().getModel();
             var oMemberList = _oController.getView().byId("memberList");
+            const oUserProject = _oController.getView().getModel().bindList("/User_Project");
             var aSelectedMembers = oMemberList.getSelectedItems();
             // var oUserBinding = oView.getModel().bindList("/Users");
 
             // important code
             aSelectedMembers.forEach(member => {
                 var oContext = member.getBindingContext();
-                oContext.setProperty("project_ID", data.ID);
+                // oContext.setProperty("project_ID", data.ID);
                 oContext.setProperty("freepool", false);
+                // console.log("member project context",oContext.getProperty("project_ID"));
+                oUserProject.create({
+                    ID: "UP" + Date.now().toString().slice(-6),
+                    user_ID: member.getBindingContext().getObject().ID,
+                    project_ID: data.ID
+                    
+                })
+
+                // oUserProject.submitBatch("$auto").then(() => {    
+                //     console.log("user project model updated after onboarding");
+                // });
 
             })
             var oModel = aSelectedMembers[0].getBindingContext().getBinding().getModel();
 
 
-
-            oModel.submitBatch("$auto").then(() => {
-
+            console.log("user project model", oUserProject);
+            oModel2.submitBatch("$auto").then(() => {
+                console.log("user model updated after onboarding");
                 this._fetchUpdatedProjectData(data.name);
             })
         },
@@ -569,14 +582,14 @@ sap.ui.define(["sap/ui/core/Fragment", "sap/m/MessageBox", "sap/ui/model/json/JS
                 null,
                 [new sap.ui.model.Filter("name", "EQ", sProjectName)],
                 {
-                    $expand: "members($count=true),client,tasks($count=true),manager"
+                    $expand: "members($count=true;$expand=user),client,tasks($count=true),manager"
                 }
             );
 
             oBinding.requestContexts().then(function (aContexts) {
                 if (aContexts.length > 0) {
                     var oProjectData = aContexts[0].getObject();
-
+                    console.log("updated project data", oProjectData);
                     _oController.getView().setModel(new JSONModel(oProjectData), "selectedProject");
                     _oController.getView().setModel(new JSONModel(oProjectData), "DialogSelectedProject");
 

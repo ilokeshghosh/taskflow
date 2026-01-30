@@ -142,6 +142,7 @@
                             wrap="Wrap"
                             items="{/Projects}"
                             gap="1rem"
+                            id="projectOverviewFlexBox"
                         >
                             <!-- Project Card -->
                             <items>

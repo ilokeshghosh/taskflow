@@ -119,7 +119,7 @@
                             <StandardListItem
                                 class="sapUiTinyMarginBottom"
                                 title="{currentUser>/firstname} {currentUser>/lastname}"
-                                info="v0.0.1"
+                                info="{= 'V' + ${/SystemInfo('SYSTEM')/version}}"
                                 infoState="Information"
                                 infoStateInverted="true"
                                 description="{currentUser>/email}"

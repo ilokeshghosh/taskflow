@@ -72,7 +72,7 @@
                         <items>
                             <core:Item
                                 key="{ID}"
-                                text="{name}"
+                                text="{firstname} {lastname}"
                             />
                         </items>
                     </Select>

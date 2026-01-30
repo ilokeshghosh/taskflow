@@ -86,7 +86,7 @@ entity Project : managed {
 }
 
 entity User_Project  {
-    key ID: Integer;
+    key ID: String(10);
     user : Association to User;
     project : Association to Project;
 }

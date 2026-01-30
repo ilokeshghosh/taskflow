@@ -45,6 +45,12 @@ sap.ui.define([
             // }))
             this._bIsOpen = false;
 
+
+                
+            //  _oController.getView().getModel("/Projects")
+            // console.log("Projects Model",_oController.getView().getModel("/Projects"))
+            // console.log("loaded project helper");
+
         },
         // open create project dialog to handle project creation
         handleCreateProject() {
@@ -68,32 +74,66 @@ sap.ui.define([
         // function to handle project creation after submitting the form
         onCreateProjectSubmit() {
             var oModel = _oController.getView().getModel();
-            var oBindingList = oModel.bindList("/Projects");
+            var oBindingProject = oModel.bindList("/Projects");
             var oUserBindingList = oModel.bindList("/Users");
+            var oUserProjectBindingList = oModel.bindList("/User_Project");
             // var oUserList = oUserBindingList.getContexts();
             var oInputProjectData = _oController.getView().getModel("createProjectModel").getData();
-
+            const oCurrentUser = _oController.getView().getModel("currentUser").getData();
+            console.log("oCurrentUser", oCurrentUser);
             var sProjectCreateClientInput = _oController.byId("projectCreateClientInput")
+
+            const oProjectOverviewFlexBox = _oController.byId("projectOverviewFlexBox");
             // create project (Odata V4 syntax)
-            // oBindingList.create({ ...oInputProjectData, client: sProjectCreateClientInput.getSelectedItem().getKey() });
+            // oBindingProject.create({ ...oInputProjectData, client_ID: sProjectCreateClientInput.getSelectedItem().getKey() });
 
             // console.log("oUserList",oUserList[0].getObject());
 
-            oUserBindingList.requestContexts().then((aContext)=>{
-                console.log("aContext",aContext);
-                aContext.forEach(item=>{
-                    console.log("item",item.getObject());
+            oUserBindingList.requestContexts().then((aContext) => {
+                console.log("aContext", aContext);
+                aContext.forEach(item => {
+                    console.log("item", item.getObject());
                 })
             })
 
+            console.log("oInputProjectData", oInputProjectData);
+            oBindingProject.create({
+                ID: oInputProjectData.ID,
+                name: oInputProjectData.name,
+                description: oInputProjectData.description,
+                deadline: oInputProjectData.deadline,
+                startDate: oInputProjectData.startDate,
+                client_ID: sProjectCreateClientInput.getSelectedItem().getKey(),
+                budget: oInputProjectData.budget,
+                progress: oInputProjectData.progress,
+                priority: oInputProjectData.priority,
+                status: oInputProjectData.status
+            });
+
+            oUserProjectBindingList.create({
+                ID: "UP" + Date.now().toString().slice(-6),
+                project_ID: oInputProjectData.ID,
+                user_ID: oCurrentUser.ID
+            });
+
             // submit all changes (batch update)
-            // oModel.submitBatch("$auto").then(function () {   
-            //     MessageBox.success("Project Created Successfully")
-            //     this._closeCreatProjectDialog();
-            // })
+            oModel.submitBatch("$auto").then(function () {
+            // oBindingProject.refresh();
+            // oUserProjectBindingList.refresh();
+            // console.log("project create data",data); 
+            console.log("Project Created Successfully");
+            // _oController.getView().getModel("/Projects").refresh();
+            // oProjectOverviewFlexBox.refresh();
+            MessageBox.success("Project Created Successfully");
+
+            this.onCancelCreateProject();
+            }.bind(this));
+
+           
         },
         // function for closing create project dialog
         _closeCreatProjectDialog() {
+            // console.log("close dialog called", _oController.byId("createProjectDialog"));
             _oController.byId("createProjectDialog").close();
         },
         // function for closing create project dialog ( when pressed cancel button )
@@ -353,7 +393,7 @@ sap.ui.define([
                     controller: this
                 }).then(oDialog => {
                     oView.addDependent(oDialog);
-                    
+
                     return oDialog;
                 })
             }
@@ -368,46 +408,46 @@ sap.ui.define([
         },
         onUpdateStatus() {
             var oView = _oController.getView();
-           
+
             var oList = oView.byId("statusChangeList");
 
             var sSelectedStatus = oList.getSelectedItem().getId().split("Home--")[1];
             // console.log("sSelectedStatus",sSelectedStatus);
             this._changeProjectStatus(sSelectedStatus);
 
-            
 
-            
+
+
         },
         onUpdateStatusCancel() {
             console.log("update status canel");
             _oController.getView().byId("changeProjectStatusDialog").close();
         },
-        _changeProjectStatus(sStatus){
-              var oView = _oController.getView();
-           
-            
+        _changeProjectStatus(sStatus) {
+            var oView = _oController.getView();
+
+
 
             var oContextBinding = oView.getModel().bindContext(`/Projects('${this._sSelectedProjectId}')`);
             var oContext = oContextBinding.getBoundContext();
-            oContext.setProperty("status",sStatus);
-            oView.getModel().submitBatch("$auto").then(()=>{
-                MessageToast.show("Project Status Changed to "+sStatus);
+            oContext.setProperty("status", sStatus);
+            oView.getModel().submitBatch("$auto").then(() => {
+                MessageToast.show("Project Status Changed to " + sStatus);
                 oView.getModel().refresh();
-                if(this._dialogInstance){
+                if (this._dialogInstance) {
                     this._dialogInstance.close();
                 }
-                    
+
             })
         },
-        handleProjectMarkedAsCompleted(){
+        handleProjectMarkedAsCompleted() {
             var oView = _oController.getView();
 
             this._sSelectedProjectId = oView.getModel("DialogSelectedProject").getData().ID;
             this._changeProjectStatus("completed");
         },
-        handleProjectPutonHold(){
-             var oView = _oController.getView();
+        handleProjectPutonHold() {
+            var oView = _oController.getView();
 
             this._sSelectedProjectId = oView.getModel("DialogSelectedProject").getData().ID;
             this._changeProjectStatus("hold");

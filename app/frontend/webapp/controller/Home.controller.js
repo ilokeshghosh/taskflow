@@ -163,7 +163,7 @@ sap.ui.define([
                     this._setFilterSelectProjectTasks()
 
                 } else {
-                    MessageBox.error("No Tasks Found")
+                    // MessageBox.error("No Tasks Found")
                 }
             }.bind(this));
         },
@@ -498,6 +498,7 @@ sap.ui.define([
             // submit the batch for save all changes
             this.getView().getModel().submitBatch("$auto").then(() => {
                 MessageBox.success("Task Updated");
+                console.log("but when i have been called");
                 this.getView().getModel().refresh(); // refresh the model to reload all the data after changes
                 this.getView().setBusy(false);
                 this.getView().byId("EditTaskDialog").close(); //close the dialog after saving the updated task data
