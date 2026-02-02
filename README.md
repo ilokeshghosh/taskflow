@@ -1,9 +1,7 @@
----
+
 # 🚀 TaskFlow
 
 **TaskFlow** is a modern task and project management application built for structured team collaboration. It helps teams plan projects, manage tasks, onboard members, track activity, and maintain a complete audit trail — all within a clean, intuitive interface.
-
----
 
 ## 📌 Overview
 
